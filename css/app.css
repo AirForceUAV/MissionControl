@@ -1,0 +1,326 @@
+.header{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+}
+#allmap{
+	margin-top: 60px;
+}
+.footer-left{
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	width: 140px;
+	height: 140px;
+	background:rgba(0,0,0,0.8);
+	border-radius:150px;
+	padding: 0;
+}
+.header-top{
+	height: 60px;
+	border-bottom: solid 1px;
+	border-color: #444;
+	background:rgba(0,0,0,0.8);
+}
+.header-right{
+	float: right;
+	padding: 15px;
+	width: 60px;
+	height: 60px;
+	border-left: solid 1px;
+	border-color: #444;
+}
+.glyphicon{
+	font-size: 30px;
+	color: white;
+}
+.glyphicon-th-list{
+	margin-right: 10px;
+	top: 0px;
+}
+.logo{
+	float: left;
+	width: 200px;
+	height: 60px;
+	border: solid 1px;
+	border-color: #444;
+	font-size: 30px;
+	color: #fff;
+	padding-left: 30px;
+}
+.battery{
+	width: 150px;
+	float: right;
+	margin-top: 10px;
+	padding-right: 10px;
+	opacity: 1;
+}
+.battery-number{
+	color: green;
+	font-size: 20px;
+	padding: 2px;
+}
+.battery-level{
+	background-color: green;
+	font-size: 16px;
+	color: white;
+	padding: 2px;
+}
+.signal{
+	float: right;
+	margin-right: 30px;
+	padding: 10px;
+}
+.progress{
+	margin-right: 60px;
+	height: 3px;
+}
+.progress-bar{
+	height: 100%;
+}
+.footer-left-bar{
+	position: absolute;
+	left: 85px;
+	bottom: 10px;
+	height: 90px;
+	width: 270px;
+	background-color: rgba(0,0,0,0.8);
+	border-radius:5px;
+}
+.height-distance{
+	width: 170px;
+	height: 30px;
+	margin-left: 80px;
+	border-bottom: solid 1px;
+	border-color: #666;
+	padding-top: 5px;
+}
+.text{
+	color: #fff;
+}
+.dis-title{
+	margin-left: 10px;
+}
+.vs-hs{
+	width: 200px;
+	height: 50px;
+	margin-left: 75px;
+	padding-top: 15px;
+}
+.y-title{
+	margin-left: 10px;
+}
+.take-off{
+	position: absolute;
+	padding: 8px;
+	top: 25%;
+	left: 60px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(0,0,0,0.6);
+	display: none;
+}
+/*.cancel{
+	position: absolute;
+	padding: 10px;
+	top: 60%;
+	left: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(255,0,0,0.7);
+	display: none;
+}*/
+.control{
+	position: absolute;
+	padding: 10px;
+	top: 40%;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(0,0,0,0.6);
+	display: none;
+}
+.nav-list{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 500px;
+	height: 100%;
+	background: rgba(0,0,0,0.8);
+	display: none;
+}
+.nav{
+	float: left;
+	width: 100px;
+}
+.nav-content{
+	float: right;
+	width: 380px;
+}
+.overlay{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0);
+	display: none;
+}
+.nav-title{
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	font-size: 25px;
+	color: #fff;
+}
+.t{
+	color: #fff;
+	font-size: 30px;
+}
+.footer-controller{
+	position: absolute;
+	bottom: 200px;
+	left: 10px;
+	width: 170px;
+	height: 165px;
+}
+.turn-up,.turn-down,.turn-left,.turn-right,.brake{
+	padding: 10px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(0,0,0,0.6);
+}
+.turn-left{
+	float: left;
+	margin-top: 60px;
+}
+.turn-right{
+	float: right;
+	margin-top: 60px;
+}
+.brake{
+	float: left;
+	margin-top: 60px;
+	margin-left: 10px;
+}
+.turn-up{
+	position: absolute;
+	top: 0;
+	left: 60px;
+}
+.turn-down{
+	position: absolute;
+	left: 60px;
+	bottom: 0;
+}
+.roll-controller{
+	position: absolute;
+	bottom: 200px;
+	right: 10px;
+	width: 170px;
+	height: 165px;
+}
+.roll-up,.roll-down,.roll-left,.roll-right,.cancel{
+	padding: 10px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(0,0,0,0.6);
+}
+.roll-left{
+	float: left;
+	margin-top: 60px;
+}
+.roll-right{
+	float: right;
+	margin-top: 60px;
+}
+.cancel{
+	float: left;
+	margin-top: 60px;
+	margin-left: 10px;
+	background: rgba(255,0,0,0.7);
+}
+.roll-up{
+	position: absolute;
+	top: 0;
+	left: 60px;
+}
+.roll-down{
+	position: absolute;
+	left: 60px;
+	bottom: 0;
+}
+#win{
+	position: absolute;
+	top: 25%;
+	left: 30%;
+	width: 370px;
+	height: 310px;
+	display: none;
+	background: rgba(0,0,0,0.6);
+	border-radius: 6px;
+	padding: 10px;
+}
+.win_text{
+	float: left;
+	color: white;
+	margin: 10px;
+}
+.win_input{
+	float: left;
+	margin: 10px;
+	width: 20%;
+	border-radius: 5px;
+}
+.submit_button{
+	float: left;
+	margin: 10px;
+	border-radius: 5px;
+}
+.dn-de-group, .heading-forward-group, .gear-group{
+	height: 50px;
+	border-bottom: lightgray solid 1px;
+}
+.button_text_group{
+	float: left;
+	width: 70px;
+	height: 70px;
+	padding: 10px;
+	margin-left: 10px;
+}
+.group_text{
+	color: white;
+	text-align: center;
+}
+.l-button, .m-button, .h-button{
+	width: 60px;
+}
+.glyphicon-sound-dolby{
+	color: rgba(0,0,0,0);
+}
+.change{
+	position: absolute;
+	right: 30px;
+	top:150px;
+	padding: 10px;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: rgba(0,0,0,0.6);
+}
+#container{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+.BMap_omCtrl{
+	display: none;
+}
+

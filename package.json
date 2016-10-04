@@ -1,0 +1,8 @@
+{
+  "name": "electron-prebuilt",
+  "version": "1.3.5",
+  "author": {
+    "name": "Ning xuran"
+  },
+  "main": "index.js"
+}
