@@ -6,7 +6,6 @@
 
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
-  <script type="text/javascript" src="./dist/vue.min.js"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <style type="text/css">
@@ -88,14 +87,6 @@
 
   <div class="nav-content">
     <ul class="nav nav-pills nav-stacked">
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
-    <li class="t">Test</li>
     <li class="t">Test</li>
   </ul>
   </div>
@@ -192,18 +183,18 @@
 <div id="win">
   <div class="dn-de-group">
     <span class="win_text">DN</span>
-    <input class="win_input dn_text" type="text" value=""/>
+    <input class="win_input dn_text" id="dn_text" type="text" value=""/>
     <span class="win_text">DE</span>
-    <input class="win_input de_text" type="text" value=""/>
+    <input class="win_input de_text" id="de_text" type="text" value=""/>
 <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
  -->    <button class="submit_button dn_de_submit" type="button" value="Submit">Submit</button>
   </div>
 
   <div class="heading-forward-group">
     <span class="win_text">HD</span>
-    <input class="win_input heading_text" type="text" value=""/>
+    <input class="win_input heading_text" id ="heading_text" type="text" value=""/>
     <span class="win_text">FW</span>
-    <input class="win_input forward_text" type="text" value=""/>
+    <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
 <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
  -->    <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
   </div>
@@ -246,14 +237,12 @@
 
 </body>
 <script type="text/javascript" src="js/app.js"></script>
-
-
+<script type="text/javascript" src="js/keyboard.js"></script>
 <script type="text/javascript">  
     var thePlayer;  //保存当前播放器以便操作  
     jwplayer.key="1ozt86XFzsul5V+4NEFejWH+vj/x5h/7/LyvmQ==";
     $(function() {  
         thePlayer = jwplayer('container').setup({  
-            // flashplayer: "http://video.airforceuav.com:8000/jwplayer.flash.swf",
             file: 'rtmp://video.airforceuav.com:1935/live/livestream', 
             // file: 'js/video.mov',  
             width: 250,  
@@ -263,42 +252,6 @@
             analytics: { enabled: false},
         });  
     });  
-    $(".change").on("click", function () {
-      var height = $(window).height() - 60;
-      var width = $(window).width();
-
-      console.log(thePlayer)
-        if(!$(this).hasClass("video_mode")){
-          thePlayer.resize(width, height);
-          $('#allmap').css({
-              "width":"250px",
-              "height":"150px",
-              "position":"absolute",
-              "right":"10px",
-              "bottom":"10px"
-            });
-          $(this).addClass("video_mode");
-          $("#container").css({
-            "right": "0",
-            "bottom": "0",
-            "z-index": "-1"
-          });
-        }else{
-          thePlayer.resize(250, 150);
-          $('#allmap').css({
-              "width":"100%",
-              "height":"100%",
-              "position":"relative",
-              "margin-top":"60px"
-            });
-          $("#container").css({
-            "right": "10px",
-            "bottom": "10px",
-            "z-index": "0"
-          });
-          $(this).removeClass("video_mode");
-        }
-    });
 </script>  
 
 </html>

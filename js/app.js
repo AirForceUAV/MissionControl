@@ -1,17 +1,9 @@
-// new Vue({
-//     el:'#app',
-//     data: {
-//         message:'hello vue.js.'
-//     }
-// });
-
 const net = require('net');
 const path = process.env.HOME + "/.UDS"+"_mc";
 const client = net.connect({ path: path});
 
 // init 
 var eChart = echarts.init(document.getElementById('e-attr'));
-var navList = document.getElementById("nav-list");
 var header = document.getElementById("header");
 var overlay = document.getElementById("overlay");
 var otherView = document.getElementById("other-view");
@@ -22,7 +14,6 @@ var disValue= document.getElementById("dis-value");
 var xValue = document.getElementById("x-value");
 var yValue = document.getElementById("y-value");
 var zValue = document.getElementById("z-value");
-
 
 var app = {};
 var data = [];
@@ -127,6 +118,8 @@ else {
 }        
 },{enableHighAccuracy: true})
 
+map.enableScrollWheelZoom();//滚轮放大缩小  
+
 
 
 client.on('data', (data) => {
@@ -153,7 +146,7 @@ client.on('data', (data) => {
     // Status = data.SystemStatus;
 
     // attitude
-    var attitude = data.Attitude.split(",");
+    var attitude = data.Gimbal.split(",");
 
     // x = document.getElementById("EKF");  //查找元素
     // x.innerHTML="EKF : " + EKF + " ";
@@ -174,7 +167,7 @@ client.on('data', (data) => {
     // distance
     var distance = data.DistanceFromHome;
 
-    var rpm = 100;
+    var rpm = data.RPM;
 
     // data
     batteryNumber.innerHTML= current + "%";      
@@ -214,16 +207,10 @@ client.on('data', (data) => {
 client.on('error', (error) => {
     console.log(error.toString());
 });
-//use this to send command
-client.write("Command goes here~~~~~~");
          
 if (option && typeof option === "object") {
 eChart.setOption(option, true);
 } 
-// fly control
-// $(".take-off").on("click", function () {
-//     $("#win").css("display", "block");
-// });
 
 $(".guide_fly").on("click", function () {
     alert("guided fly");
@@ -321,10 +308,7 @@ $(".cancel").on("click", function () {
     alert("cancel");
     client.write("Cancel");
 });
-// $(".change").on("click", function () {
-//     alert("click");
-//     console.log($('.video_container').css("width"));
-// });
+
 
 $(".glyphicon-th-list").on("click", function () {
     // set page
@@ -345,8 +329,47 @@ $(".glyphicon-th-list").on("click", function () {
         $("#win").css("display", "none");
     }
 });
+$(".change").on("click", function () {
+      var height = $(window).height() - 60;
+      var width = $(window).width();
 
-map.enableScrollWheelZoom();//滚轮放大缩小  
+      console.log(thePlayer)
+        if(!$(this).hasClass("video_mode")){
+          thePlayer.resize(width, height);
+          $('#allmap').css({
+              "width":"250px",
+              "height":"150px",
+              "position":"absolute",
+              "right":"10px",
+              "bottom":"10px"
+            });
+          $(this).addClass("video_mode");
+          $("#container").css({
+            "right": "0",
+            "bottom": "0",
+            "z-index": "-1"
+          });
+        }else{
+          thePlayer.resize(250, 150);
+          $('#allmap').css({
+              "width":"100%",
+              "height":"100%",
+              "position":"relative",
+              "margin-top":"60px"
+            });
+          $("#container").css({
+            "right": "10px",
+            "bottom": "10px",
+            "z-index": "0"
+          });
+          $(this).removeClass("video_mode");
+        }
+});
+
+$("#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
+    new KeyBoard($(this)[0]);
+});
+
   
 //添加线  
 function addLine(points){  
