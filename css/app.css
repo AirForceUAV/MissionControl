@@ -259,10 +259,10 @@
 }
 #win{
 	position: absolute;
-	top: 25%;
+	top: 15%;
 	left: 30%;
 	width: 370px;
-	height: 310px;
+	height: 360px;
 	display: none;
 	background: rgba(0,0,0,0.6);
 	border-radius: 6px;
@@ -284,7 +284,7 @@
 	margin: 10px;
 	border-radius: 5px;
 }
-.dn-de-group, .heading-forward-group, .gear-group{
+.dn-de-group, .heading-forward-group, .gear-group, .test-function-group{
 	height: 50px;
 	border-bottom: lightgray solid 1px;
 }
@@ -322,5 +322,8 @@
 }
 .BMap_omCtrl{
 	display: none;
+}
+.test_text{
+	width: 194px;
 }
 

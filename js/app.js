@@ -4,19 +4,6 @@ const client = net.connect({ path: path});
 
 // init 
 var eChart = echarts.init(document.getElementById('e-attr'));
-var header = document.getElementById("header");
-var overlay = document.getElementById("overlay");
-var otherView = document.getElementById("other-view");
-var batteryNumber = document.getElementById("battery-number");  
-var batteryLevel = document.getElementById("battery-level");  
-var heightValue = document.getElementById("height-value");
-var disValue= document.getElementById("dis-value"); 
-var xValue = document.getElementById("x-value");
-var yValue = document.getElementById("y-value");
-var zValue = document.getElementById("z-value");
-
-var app = {};
-var data = [];
 
 // 地图数据准备,  
 var points = [];//原始点信息数组  
@@ -170,13 +157,13 @@ client.on('data', (data) => {
     var rpm = data.RPM;
 
     // data
-    batteryNumber.innerHTML= current + "%";      
-    batteryLevel.innerHTML= level + "V";
-    heightValue.innerHTML= height;
-    disValue.innerHTML= distance;
-    xValue.innerHTML= xv;
-    yValue.innerHTML= yv;
-    zValue.innerHTML = zv;
+    $("#battery-number")[0].innerText = current + "%";
+    $("#battery-level")[0].innerText = level + "V";
+    $("#dis-value")[0].innerText = distance;
+    $("#height-value")[0].innerText = height;
+    $("#x-value")[0].innerText = xv;
+    $("#y-value")[0].innerText = yv;
+    $("#z-value")[0].innerText = zv;
 
     // ecahrts
     option.series[0].data[0].value = rpm;
@@ -246,6 +233,11 @@ $(".dn_de_submit").on("click", function () {
     var mes = "vehicle.set_target("+ dn_text + "," + de_text + ")";
     client.write(mes);
 });
+$(".test_function_submit").on("click", function () {
+    var test_text= $(".test_text").val();
+    var mes = test_text;
+    client.write(mes);
+});
 $(".hd_fw_submit").on("click", function () {
     var hd_text = $(".heading_text").val();
     var fw_text = $(".forward_text").val();
@@ -308,7 +300,6 @@ $(".cancel").on("click", function () {
     alert("cancel");
     client.write("Cancel");
 });
-
 
 $(".glyphicon-th-list").on("click", function () {
     // set page
