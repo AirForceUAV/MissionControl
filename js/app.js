@@ -153,6 +153,12 @@ client.on('data', (data) => {
     var height = location[2];
     // distance
     var distance = data.DistanceFromHome;
+    // GPS
+    var GPS = data.GPS;
+
+    var mode = data.Mode;
+
+    var gear = data.Gear;
 
     var rpm = data.RPM;
 
@@ -164,6 +170,15 @@ client.on('data', (data) => {
     $("#x-value")[0].innerText = xv;
     $("#y-value")[0].innerText = yv;
     $("#z-value")[0].innerText = zv;
+    $("#gps_level")[0].innerText = GPS;
+    $("#mode_value")[0].innerText = mode;
+    if(gear == 1){
+        $("#gear_level")[0].innerText = "L";
+    }else if(gear == 2){
+        $("#gear_level")[0].innerText = "M";
+    }else if(gear == 3){
+        $("#gear_level")[0].innerText = "H";
+    }
 
     // ecahrts
     option.series[0].data[0].value = rpm;
@@ -302,18 +317,6 @@ $(".cancel").on("click", function () {
 });
 
 $(".glyphicon-th-list").on("click", function () {
-    // set page
-    // // header.style.display = "none";
-    // otherView.style.display = "none";
-    // overlay.style.display = "block";
-    // navList.style.display = "block";
-
-    // $(".overlay").on("click", function () {
-    //     navList.style.display = "none";
-    //     overlay.style.display = "none";
-    //     // header.style.display = "block";
-    //     otherView.style.display = "block";
-    // });
     if($("#win").css("display") == "none"){
         $("#win").css("display", "block");
     }else{
@@ -360,7 +363,6 @@ $(".change").on("click", function () {
 $("#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
     new KeyBoard($(this)[0]);
 });
-
   
 //添加线  
 function addLine(points){  

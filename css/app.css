@@ -51,7 +51,7 @@
 	padding-left: 30px;
 }
 .battery{
-	width: 150px;
+	width: 120px;
 	float: right;
 	margin-top: 10px;
 	padding-right: 10px;
@@ -325,5 +325,9 @@
 }
 .test_text{
 	width: 194px;
+}
+.gps_level, .gps_text, .gear_text, .gear_level, .mode_text, .mode_value{
+	font-size: 20px;
+	color: white;
 }
 

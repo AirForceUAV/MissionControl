@@ -32,9 +32,20 @@
       <div class="header-left">
         <p class="logo">UAV</p>
         <div class="battery"> 
-          <span class="glyphicon glyphicon-sound-dolby"></span> 
           <span id="battery-number" class="battery-number">100%</span> 
           <span id="battery-level" class="battery-level">0.0V</span>
+        </div>
+        <div class="battery"> 
+          <span id="mode_text" class="mode_text">Mode:</span> 
+          <span id="mode_value" class="mode_value">NA</span>
+        </div>
+        <div class="battery"> 
+          <span id="gps_text" class="gps_text">GPS:</span> 
+          <span id="gps_level" class="gps_level">NA</span>
+        </div>
+        <div class="battery"> 
+          <span id="gear_text" class="gear_text">Gear:</span> 
+          <span id="gear_level" class="gear_level">NA</span>
         </div>
       </div>
     </div>
@@ -157,7 +168,9 @@
 <div class="change">
   <span class="glyphicon glyphicon-random"></span> 
 </div>
-<div id="container" class="video_container"></div>  
+<div class="video_wrapper">
+  <div id="container" class="video_container"></div>  
+</div>
 
 <div id="win">
   <div class="test-function-group">
@@ -235,7 +248,7 @@
             autostart: true,
             controls:false,
             analytics: { enabled: false},
-        });  
+        }); 
     });  
 </script>  
 
