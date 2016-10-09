@@ -234,6 +234,25 @@ $(".hovering").on("click", function () {
     alert("hovering");
     client.write("vehicle.set_channels_mid()");
 });
+$(".change_video_url").on("click", function () {
+    var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
+    if($(this).hasClass("shen")){
+        fileName = "";
+        $(this).removeClass("shen");
+        $(".change_video_text")[0].innerText = "Jiang";
+    }else{
+        $(this).addClass("shen");
+        $(".change_video_text")[0].innerText = "Shen";
+    }
+    thePlayer = jwplayer('container').setup({  
+        file: fileName, 
+        width: 250,  
+        height: 150,  
+        autostart: true,
+        controls:false,
+        analytics: { enabled: false},
+    });
+});
 $(".back-home").on("click", function () {
     alert("back home");
     client.write("vehicle.RTL()");
