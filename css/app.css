@@ -33,8 +33,11 @@
 	border-color: #444;
 }
 .glyphicon{
-	font-size: 30px;
+	font-size: 40px;
 	color: white;
+}
+.small_g,.group_button{
+	font-size: 30px;
 }
 .glyphicon-th-list{
 	margin-right: 10px;
@@ -115,7 +118,7 @@
 .take-off{
 	position: absolute;
 	padding: 8px;
-	top: 25%;
+	top: 150px;
 	left: 60px;
 	width: 50px;
 	height: 50px;
@@ -186,76 +189,86 @@
 	position: absolute;
 	bottom: 200px;
 	left: 10px;
-	width: 170px;
-	height: 165px;
+	width: 200px;
+	height: 195px;
 }
 .turn-up,.turn-down,.turn-left,.turn-right,.brake{
 	padding: 10px;
-	width: 50px;
-	height: 50px;
-	border-radius: 25px;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
 	background: rgba(0,0,0,0.6);
 }
 .turn-left{
 	float: left;
-	margin-top: 60px;
+	margin-top: 70px;
 }
 .turn-right{
 	float: right;
-	margin-top: 60px;
+	margin-top: 70px;
 }
 .brake{
 	float: left;
-	margin-top: 60px;
+	margin-top: 70px;
 	margin-left: 10px;
 }
 .turn-up{
 	position: absolute;
 	top: 0;
-	left: 60px;
+	left: 70px;
 }
 .turn-down{
 	position: absolute;
-	left: 60px;
+	left: 70px;
 	bottom: 0;
 }
 .roll-controller{
 	position: absolute;
 	bottom: 200px;
 	right: 10px;
-	width: 170px;
-	height: 165px;
+	width: 200px;
+	height: 195px;
 }
 .roll-up,.roll-down,.roll-left,.roll-right,.cancel{
 	padding: 10px;
-	width: 50px;
-	height: 50px;
-	border-radius: 25px;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
 	background: rgba(0,0,0,0.6);
 }
 .roll-left{
 	float: left;
-	margin-top: 60px;
+	margin-top: 70px;
 }
 .roll-right{
 	float: right;
-	margin-top: 60px;
+	margin-top: 70px;
 }
 .cancel{
 	float: left;
-	margin-top: 60px;
+	margin-top: 70px;
 	margin-left: 10px;
 	background: rgba(255,0,0,0.7);
 }
 .roll-up{
 	position: absolute;
 	top: 0;
-	left: 60px;
+	left: 70px;
 }
 .roll-down{
 	position: absolute;
-	left: 60px;
+	left: 70px;
 	bottom: 0;
+}
+.location{
+	position: absolute;
+	left: 15px;
+	bottom: 150px;
+	width: 40px;
+	height: 40px;
+	padding: 5px;
+	background: rgba(0,0,0,0.7);
+	border-radius: 20px;
 }
 #win{
 	position: absolute;
@@ -290,7 +303,7 @@
 }
 .button_text_group{
 	float: left;
-	width: 70px;
+	width: 60px;
 	height: 70px;
 	padding: 10px;
 	margin-left: 10px;

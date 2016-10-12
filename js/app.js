@@ -4,10 +4,13 @@ const client = net.connect({ path: path});
 
 // init 
 var eChart = echarts.init(document.getElementById('e-attr'));
+var map = new BMap.Map("allmap");
 
 // 地图数据准备,  
 var points = [];//原始点信息数组  
-var bPoints = [];//百度化坐标数组。用于更新显示范围。  
+var path_points = [];
+var bPoints = [];//百度化坐标数组。用于更新显示范围  
+var marker;
   
 option = {
     backgroundColor: '#1b1b1b',
@@ -88,17 +91,15 @@ option = {
 eChart.setOption(option);
 
 // 百度地图API功能
-var map = new BMap.Map("allmap");
 var point = new BMap.Point(116.331398,39.897445);
-map.centerAndZoom(point,12);
+map.centerAndZoom(point,17);
+
 
 var geolocation = new BMap.Geolocation();
 geolocation.getCurrentPosition(function(r){
 if(this.getStatus() == BMAP_STATUS_SUCCESS){
-  var mk = new BMap.Marker(r.point);
-  map.addOverlay(mk);
-  map.panTo(r.point);
-  console.log('您的位置：'+r.point.lng+','+r.point.lat);
+    markLocation(r.point.lng, r.point.lat);
+    console.log(r.point.lat)
 }
 else {
   alert('failed'+this.getStatus());
@@ -106,7 +107,6 @@ else {
 },{enableHighAccuracy: true})
 
 map.enableScrollWheelZoom();//滚轮放大缩小  
-
 
 
 client.on('data', (data) => {
@@ -184,7 +184,26 @@ client.on('data', (data) => {
     option.series[0].data[0].value = rpm;
     eChart.setOption(option,true);
 
-    dynamicLine(longtitude, latitude);
+    markLocation(longtitude, latitude);
+    // 2 for plane
+    dynamicLine(longtitude, latitude, 2);
+    bPoints.push(new BMap.Point(longtitude,latitude)); 
+
+    $(".location").on("click", function () {  
+        setZoom(bPoints);
+    }); 
+
+    if (typeof data.AllWp !== "undefined") {
+        var path_locations = data.AllWp.split(",");
+        var len = data.length;
+        for (var i =0 ; i<len; i++){
+            var path_location = path_locations.split("+");
+            var lng = path_location[1];
+            var lat = path_location[0];
+            // 3 for path
+            dynamicLine(lng, lat, 3);
+        } 
+    }
 
     // battery
     if (current > 30) {
@@ -257,9 +276,30 @@ $(".back-home").on("click", function () {
     alert("back home");
     client.write("vehicle.RTL()");
 });
-
-$(".glyphicon-cloud-upload").on("click", function () {
-    $("#win").css("display", "block");
+$(".download_path").on("click", function () {
+    client.write("vehicle.download()");
+});
+$(".auto_path").on("click", function () {
+    client.write("vehicle.AUTO()");
+});
+$(".route_path").on("click", function () {
+    var mes = "Route(\"";
+    map.addEventListener("click", generate_message);
+    $("#win").css("display", "none");
+    $(".take-off").css("display", "block");
+    $(".take-off").on("click", function (){
+        mes= mes.substring(0,mes.length-1)
+        mes += "\")";
+        console.log(mes);
+        client.write(mes);
+        $(".take-off").css("display", "none");
+        map.removeEventListener("click", generate_message);
+    })
+    function generate_message(e){
+        mes += (e.point.lat + "+" + e.point.lng + ",");
+        console.log(mes);
+        dynamicLine(e.point.lng, e.point.lat, 3);
+    }
 });
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
@@ -332,6 +372,8 @@ $(".roll-right").on("click", function () {
 }); 
 $(".cancel").on("click", function () {
     alert("cancel");
+    // var test = ['1','2','3'];
+    // client.write(test);
     client.write("Cancel");
 });
 
@@ -384,7 +426,7 @@ $("#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
 });
   
 //添加线  
-function addLine(points){  
+function addLine(points, flag){  
   
     var linePoints = [],pointsLen = points.length,i,polyline;  
     if(pointsLen == 0){
@@ -394,30 +436,39 @@ function addLine(points){
     for(i = 0;i <pointsLen;i++){  
         linePoints.push(new BMap.Point(points[i].lng,points[i].lat));  
     }  
-  
-    polyline = new BMap.Polyline(linePoints, {strokeColor:"red", strokeWeight:5, strokeOpacity:0.5});   //创建折线  
+
+    if(flag == 2){
+        polyline = new BMap.Polyline(linePoints, {strokeColor:"red", strokeWeight:5, strokeOpacity:1});   //创建折线  
+    }else if(flag == 3){
+        polyline = new BMap.Polyline(linePoints, {strokeColor:"green", strokeWeight:5, strokeOpacity:0.5});   //创建折线  
+    }
     map.addOverlay(polyline);   //增加折线  
 }  
 
 //新的点，加入到轨迹中。  
-function dynamicLine(lng, lat){  
+function dynamicLine(lng, lat, flag){  
     var lng = lng;
     var lat = lat;
     var id = getRandom(1000);  
     var point = {"lng":lng,"lat":lat,"status":1,"id":id}  
-    var makerPoints = [];  
+    // var makerPoints = [];  
     var newLinePoints = [];  
     var len;  
   
-    makerPoints.push(point);              
+    // makerPoints.push(point);              
     // addMarker(makerPoints);//增加对应该的轨迹点  
-    points.push(point);  
-    bPoints.push(new BMap.Point(lng,lat));  
-    len = points.length;  
-    newLinePoints = points.slice(len-2, len);//最后两个点用来画线。  
-  
-    addLine(newLinePoints);//增加轨迹线  
-    setZoom(bPoints);  
+    if(flag == 2){
+        points.push(point); 
+        len = points.length;  
+        newLinePoints = points.slice(len-2, len);//最后两个点用来画线。
+    }else if(flag == 3){
+        path_points.push(point);
+        len = path_points.length;  
+        newLinePoints = path_points.slice(len-2, len);//最后两个点用来画线。
+    }
+    // bPoints.push(new BMap.Point(lng,lat));  
+    addLine(newLinePoints, flag);//增加轨迹线  
+    // setZoom(bPoints);  
 }  
 
 // 获取随机数  
@@ -430,12 +481,26 @@ function setZoom(bPoints){
     var view = map.getViewport(eval(bPoints));  
     var mapZoom = view.zoom;   
     var centerPoint = view.center;   
-    map.centerAndZoom(centerPoint,mapZoom);  
+    map.centerAndZoom(centerPoint, mapZoom);  
 } 
+
+function markLocation(lng, lat){
+    // add icon
+    // var pt = new BMap.Point(lng, lat);
+    // var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif");
+    // var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+    // map.addOverlay(marker2); 
+
+    // map.clearOverlays(); 
+    map.removeOverlay(marker);
+    var new_point = new BMap.Point(lng, lat);
+    marker = new BMap.Marker(new_point);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    map.panTo(new_point);      
+}
 
 var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});
 var mapType2 = new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_LEFT});
-
 var overView = new BMap.OverviewMapControl();
 var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
 
@@ -448,5 +513,3 @@ function add_control(){
     map.addControl(overViewOpen);      //右下角，打开
 }
 add_control();
-
-
