@@ -1,26 +1,37 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+const ipc = require('electron').ipcMain;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+let terminal
 let pluginName
 
-switch (process.platform) {
-  case 'win32':
-    pluginName = 'pepflashplayer.dll'
-    break
-  case 'darwin':
-    pluginName = 'PepperFlashPlayer.plugin'
-    break
-  case 'linux':
-    pluginName = 'libpepflashplayer.so'
-    break
-}
+// switch (process.platform) {
+//   case 'win32':
+//     pluginName = 'pepflashplayer.dll'
+//     break
+//   case 'darwin':
+//     pluginName = 'PepperFlashPlayer.plugin'
+//     break
+//   case 'linux':
+//     pluginName = 'libpepflashplayer.so'
+//     break
+// }
 
-app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
+// app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
 
 function createWindow () {
+
+  // terminal = new BrowserWindow({
+  //   width: 800, 
+  //   height: 600,
+  //   webPreferences: {
+  //     plugins: true
+  //   }
+  // })
+  // terminal.loadURL(`http://localhost:8000/terminal.html`)
 
   // Create the browser window.
   win = new BrowserWindow({
