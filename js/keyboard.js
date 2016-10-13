@@ -58,7 +58,7 @@
 			var ev = e || window.event;
 			var clickEl = ev.element || ev.target;
 			var value = clickEl.textContent || clickEl.innerText;
-			if(clickEl.tagName.toLocaleLowerCase() === 'td' && value !== "delete"){
+			if(clickEl.tagName.toLocaleLowerCase() === 'td' && value !== "Delete"){
 				if(self.input){
 					self.input.value += value;
 				}

@@ -421,7 +421,7 @@ $(".change").on("click", function () {
         }
 });
 
-$("#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
+$("#test_text,#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
     new KeyBoard($(this)[0]);
 });
   
