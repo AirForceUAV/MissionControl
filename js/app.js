@@ -11,6 +11,7 @@ var points = [];//原始点信息数组
 var path_points = [];
 var bPoints = [];//百度化坐标数组。用于更新显示范围  
 var marker;
+var locationCurrent = [];
   
 option = {
     backgroundColor: '#1b1b1b',
@@ -144,13 +145,13 @@ client.on('data', (data) => {
     // z = document.getElementById("Status");  //查找元素
     // z.innerHTML="System Status : " + Status + " ";
 
-    var location = data.LocationGlobal.split(",");
+    locationCurrent = data.LocationGlobal.split(",");
     // 纬度
-    var latitude = location[0];
+    var latitude = locationCurrent[0];
     // 经度
-    var longtitude = location[1];
+    var longtitude = locationCurrent[1];
     // 高度
-    var height = location[2];
+    var height = locationCurrent[2];
     // distance
     var distance = data.DistanceFromHome;
     // GPS
@@ -196,6 +197,7 @@ client.on('data', (data) => {
     if (typeof data.AllWp !== "undefined") {
         var path_locations = data.AllWp.split(",");
         var len = data.length;
+        dynamicLine(longtitude, latitude, 3);
         for (var i =0 ; i<len; i++){
             var path_location = path_locations.split("+");
             var lng = path_location[1];
@@ -234,26 +236,27 @@ eChart.setOption(option, true);
 } 
 
 $(".guide_fly").on("click", function () {
-    alert("guided fly");
+    hideWin();
     client.write("vehicle.Guided()");
 });
 $(".avoid_fly").on("click", function () {
-    alert("back home");
+    hideWin();
     client.write("lidar.Guided_Avoid()");
 });
 $(".radio_d").on("click", function () {
-    alert("radio");
+    hideWin();
     client.write("vehicle.radio()");
 });
 $(".gcs").on("click", function () {
-    alert("gcs");
+    hideWin();
     client.write("vehicle.GCS()");
 });
 $(".hovering").on("click", function () {
-    alert("hovering");
+    hideWin();
     client.write("vehicle.set_channels_mid()");
 });
 $(".change_video_url").on("click", function () {
+    hideWin();
     var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
     if($(this).hasClass("shen")){
         fileName = "";
@@ -273,19 +276,24 @@ $(".change_video_url").on("click", function () {
     });
 });
 $(".back-home").on("click", function () {
-    alert("back home");
+    hideWin();
     client.write("vehicle.RTL()");
 });
 $(".download_path").on("click", function () {
+    hideWin();
+    clearPath();
     client.write("vehicle.download()");
 });
 $(".auto_path").on("click", function () {
+    hideWin();
     client.write("vehicle.AUTO()");
 });
 $(".route_path").on("click", function () {
+    hideWin();
+    clearPath();
     var mes = "Route(\"";
     map.addEventListener("click", generate_message);
-    $("#win").css("display", "none");
+    hideWin();
     $(".take-off").css("display", "block");
     $(".take-off").on("click", function (){
         mes= mes.substring(0,mes.length-1)
@@ -338,40 +346,31 @@ $(".brake").on("click", function () {
     client.write("vehicle.brake()");
 });
 $(".turn-up").on("click", function () {
-    alert("turn up");
     client.write("vehicle.up_brake()");
 });
 $(".turn-down").on("click", function () {
-    alert("turn down");
     client.write("vehicle.down_brake()");
 });
 $(".turn-left").on("click", function () {
-    alert("turn left");
     client.write("vehicle.yaw_left_brake()");
 });
 $(".turn-right").on("click", function () {
-    alert("turn right");
     client.write("vehicle.yaw_right_brake()");
 }); 
 
 $(".roll-up").on("click", function () {
-    alert("turn up");
     client.write("vehicle.forward_brake()");
 });
 $(".roll-down").on("click", function () {
-    alert("turn down");
     client.write("vehicle.backward_brake()");
 });
 $(".roll-left").on("click", function () {
-    alert("turn left");
     client.write("vehicle.roll_left_brake()");
 });
 $(".roll-right").on("click", function () {
-    alert("turn right");
     client.write("vehicle.roll_right_brake()");
 }); 
 $(".cancel").on("click", function () {
-    alert("cancel");
     // var test = ['1','2','3'];
     // client.write(test);
     client.write("Cancel");
@@ -381,7 +380,7 @@ $(".glyphicon-th-list").on("click", function () {
     if($("#win").css("display") == "none"){
         $("#win").css("display", "block");
     }else{
-        $("#win").css("display", "none");
+        hideWin();
     }
 });
 $(".change").on("click", function () {
@@ -497,6 +496,13 @@ function markLocation(lng, lat){
     marker = new BMap.Marker(new_point);  // 创建标注
     map.addOverlay(marker);              // 将标注添加到地图中
     map.panTo(new_point);      
+}
+function clearPath(){
+    path_points = [];
+    map.clearOverlays(); 
+}
+function hideWin(){
+    $("#win").css("display", "none");
 }
 
 var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});

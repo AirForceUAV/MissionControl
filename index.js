@@ -8,19 +8,19 @@ let win
 let terminal
 let pluginName
 
-// switch (process.platform) {
-//   case 'win32':
-//     pluginName = 'pepflashplayer.dll'
-//     break
-//   case 'darwin':
-//     pluginName = 'PepperFlashPlayer.plugin'
-//     break
-//   case 'linux':
-//     pluginName = 'libpepflashplayer.so'
-//     break
-// }
+switch (process.platform) {
+  case 'win32':
+    pluginName = 'pepflashplayer.dll'
+    break
+  case 'darwin':
+    pluginName = 'PepperFlashPlayer.plugin'
+    break
+  case 'linux':
+    pluginName = 'libpepflashplayer.so'
+    break
+}
 
-// app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
 
 function createWindow () {
 
