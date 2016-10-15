@@ -259,21 +259,17 @@ $(".change_video_url").on("click", function () {
     hideWin();
     var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
     if($(this).hasClass("shen")){
-        fileName = "";
+        fileName = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
         $(this).removeClass("shen");
         $(".change_video_text")[0].innerText = "Jiang";
     }else{
         $(this).addClass("shen");
         $(".change_video_text")[0].innerText = "Shen";
     }
-    thePlayer = jwplayer('container').setup({  
-        file: fileName, 
-        width: 250,  
-        height: 150,  
-        autostart: true,
-        controls:false,
-        analytics: { enabled: false},
-    });
+    flashvars = {
+        src: fileName
+    };
+    swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs); 
 });
 $(".back-home").on("click", function () {
     hideWin();
@@ -387,9 +383,8 @@ $(".change").on("click", function () {
       var height = $(window).height() - 60;
       var width = $(window).width();
 
-      console.log(thePlayer)
         if(!$(this).hasClass("video_mode")){
-          thePlayer.resize(width, height);
+          swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
           $('#allmap').css({
               "width":"250px",
               "height":"150px",
@@ -398,20 +393,20 @@ $(".change").on("click", function () {
               "bottom":"10px"
             });
           $(this).addClass("video_mode");
-          $("#container").css({
+          $("#player").css({
             "right": "0",
             "bottom": "0",
             "z-index": "-1"
           });
         }else{
-          thePlayer.resize(250, 150);
-          $('#allmap').css({
+            swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs);           
+            $('#allmap').css({
               "width":"100%",
               "height":"100%",
               "position":"relative",
               "margin-top":"60px"
             });
-          $("#container").css({
+          $("#player").css({
             "right": "10px",
             "bottom": "10px",
             "z-index": "0"
