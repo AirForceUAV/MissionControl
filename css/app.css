@@ -343,4 +343,12 @@
 	font-size: 20px;
 	color: white;
 }
+#myAlert{
+	position: absolute;
+	top: 80px;
+    left: 40%;
+    width: 200px;
+    text-align: center;
+    display: none;
+}
 

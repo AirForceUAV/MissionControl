@@ -91,25 +91,6 @@ option = {
 };
 eChart.setOption(option);
 
-// 百度地图API功能
-var point = new BMap.Point(116.331398,39.897445);
-map.centerAndZoom(point,17);
-
-
-var geolocation = new BMap.Geolocation();
-geolocation.getCurrentPosition(function(r){
-if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    markLocation(r.point.lng, r.point.lat);
-    console.log(r.point.lat)
-}
-else {
-  alert('failed'+this.getStatus());
-}        
-},{enableHighAccuracy: true})
-
-map.enableScrollWheelZoom();//滚轮放大缩小  
-
-
 client.on('data', (data) => {
     // console.log(data.de)
     //use this data to show
@@ -194,7 +175,8 @@ client.on('data', (data) => {
         setZoom(bPoints);
     }); 
 
-    if (typeof data.AllWp !== "undefined") {
+    if (typeof data.AllWp != null) {
+        console.log(data.AllWp);
         var path_locations = data.AllWp.split(",");
         var len = data.length;
         dynamicLine(longtitude, latitude, 3);
@@ -238,22 +220,27 @@ eChart.setOption(option, true);
 $(".guide_fly").on("click", function () {
     hideWin();
     client.write("vehicle.Guided()");
+    showTips("Guided!");
 });
 $(".avoid_fly").on("click", function () {
     hideWin();
     client.write("lidar.Guided_Avoid()");
+    showTips("Guided Avoid!");
 });
 $(".radio_d").on("click", function () {
     hideWin();
     client.write("vehicle.radio()");
+    showTips("Radio!");
 });
 $(".gcs").on("click", function () {
     hideWin();
     client.write("vehicle.GCS()");
+    showTips("Mission Control!");
 });
 $(".hovering").on("click", function () {
     hideWin();
     client.write("vehicle.set_channels_mid()");
+    showTips("Set Channels Mid!");
 });
 $(".change_video_url").on("click", function () {
     hideWin();
@@ -274,22 +261,25 @@ $(".change_video_url").on("click", function () {
 $(".back-home").on("click", function () {
     hideWin();
     client.write("vehicle.RTL()");
+    showTips("Back Home!");
 });
 $(".download_path").on("click", function () {
     hideWin();
     clearPath();
     client.write("vehicle.download()");
+    showTips("Download!");
 });
 $(".auto_path").on("click", function () {
     hideWin();
     client.write("vehicle.AUTO()");
+    showTips("AUTO!");
 });
 $(".route_path").on("click", function () {
     hideWin();
     clearPath();
+    dynamicLine(locationCurrent[1], locationCurrent[0], 3);
     var mes = "Route(\"";
     map.addEventListener("click", generate_message);
-    hideWin();
     $(".take-off").css("display", "block");
     $(".take-off").on("click", function (){
         mes= mes.substring(0,mes.length-1)
@@ -304,6 +294,7 @@ $(".route_path").on("click", function () {
         console.log(mes);
         dynamicLine(e.point.lng, e.point.lat, 3);
     }
+    showTips("Route!");
 });
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
@@ -340,36 +331,46 @@ $(".h-button").on("click", function () {
 });
 $(".brake").on("click", function () {
     client.write("vehicle.brake()");
+    showTips("Brake!");
 });
 $(".turn-up").on("click", function () {
     client.write("vehicle.up_brake()");
+    showTips("Turn up");
 });
 $(".turn-down").on("click", function () {
     client.write("vehicle.down_brake()");
+    showTips("Turn down");
 });
 $(".turn-left").on("click", function () {
     client.write("vehicle.yaw_left_brake()");
+    showTips("Turn left");
 });
 $(".turn-right").on("click", function () {
     client.write("vehicle.yaw_right_brake()");
+    showTips("Turn right");
 }); 
 
 $(".roll-up").on("click", function () {
     client.write("vehicle.forward_brake()");
+    showTips("Roll up");
 });
 $(".roll-down").on("click", function () {
     client.write("vehicle.backward_brake()");
+    showTips("Roll down");
 });
 $(".roll-left").on("click", function () {
     client.write("vehicle.roll_left_brake()");
+    showTips("Roll left");
 });
 $(".roll-right").on("click", function () {
     client.write("vehicle.roll_right_brake()");
+    showTips("Roll right");
 }); 
 $(".cancel").on("click", function () {
     // var test = ['1','2','3'];
     // client.write(test);
     client.write("Cancel");
+    showTips("Cancel");
 });
 
 $(".glyphicon-th-list").on("click", function () {
@@ -499,6 +500,29 @@ function clearPath(){
 function hideWin(){
     $("#win").css("display", "none");
 }
+function showTips(mes){
+    $(".tip_mes").text(mes);
+    $("#myAlert").show();
+    $("#myAlert").fadeOut(1500);
+}
+
+// 百度地图API功能
+var point = new BMap.Point(116.331398,39.897445);
+map.centerAndZoom(point,17);
+
+
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+if(this.getStatus() == BMAP_STATUS_SUCCESS){
+    markLocation(r.point.lng, r.point.lat);
+    console.log(r.point.lat)
+}
+else {
+  alert('failed'+this.getStatus());
+}        
+},{enableHighAccuracy: true})
+
+map.enableScrollWheelZoom();//滚轮放大缩小 
 
 var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});
 var mapType2 = new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_LEFT});
