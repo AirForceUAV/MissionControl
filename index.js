@@ -2,6 +2,10 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const ipc = require('electron').ipcMain;
 
+// const net = require('net');
+// const path_test = process.env.HOME + "/.UDS"+"_mc";
+// const client = net.connect({ path: path_test});
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -80,5 +84,8 @@ app.on('activate', () => {
   }
 })
 
+// client.on('data', (data) => {
+//   console.log("test");
+// });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

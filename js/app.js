@@ -1,6 +1,6 @@
 const net = require('net');
 const path = process.env.HOME + "/.UDS"+"_mc";
-const client = net.connect({ path: path});
+var client = net.connect({ path: path});
 
 // init 
 var eChart = echarts.init(document.getElementById('e-attr'));
@@ -92,6 +92,10 @@ option = {
 eChart.setOption(option);
 
 client.on('data', (data) => {
+    // if(bPoints.length > 2){
+    //     bPoints = [];
+    // }
+
     // console.log(data.de)
     //use this data to show
     console.log("Mission Control got: " + data.toString());
@@ -175,7 +179,7 @@ client.on('data', (data) => {
         setZoom(bPoints);
     }); 
 
-    if (typeof data.AllWp != null) {
+    if (data.AllWp != null) {
         console.log(data.AllWp);
         var path_locations = data.AllWp.split(",");
         var len = data.length;
@@ -208,6 +212,21 @@ client.on('data', (data) => {
         $(".progress-bar-danger").css("width", width);
     }
 
+});
+client.on('end', () => {
+  console.log('disconnected from server');
+});
+client.on('connect', () => {
+  console.log('connect');
+});
+client.on('drain', () => {
+  console.log('drain');
+});
+client.on('close', () => {
+  console.log('close');
+});
+client.on('timeout', () => {
+  console.log('timeout');
 });
 client.on('error', (error) => {
     console.log(error.toString());
@@ -455,14 +474,16 @@ function dynamicLine(lng, lat, flag){
     if(flag == 2){
         points.push(point); 
         len = points.length;  
-        newLinePoints = points.slice(len-2, len);//最后两个点用来画线。
+        points = points.slice(len-2, len);//最后两个点用来画线。
+        addLine(points, flag);//增加轨迹线 
     }else if(flag == 3){
         path_points.push(point);
         len = path_points.length;  
-        newLinePoints = path_points.slice(len-2, len);//最后两个点用来画线。
+        path_points = path_points.slice(len-2, len);//最后两个点用来画线。
+        addLine(path_points, flag);//增加轨迹线 
     }
     // bPoints.push(new BMap.Point(lng,lat));  
-    addLine(newLinePoints, flag);//增加轨迹线  
+    // addLine(points, flag);//增加轨迹线  
     // setZoom(bPoints);  
 }  
 
@@ -538,3 +559,8 @@ function add_control(){
     map.addControl(overViewOpen);      //右下角，打开
 }
 add_control();
+
+
+// window.setInterval(function(){
+//     client.write("Cancel");
+// },1000)
