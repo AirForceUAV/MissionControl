@@ -35,7 +35,7 @@
           <span id="battery-number" class="battery-number">100%</span> 
           <span id="battery-level" class="battery-level">0.0V</span>
         </div>
-        <div class="battery"> 
+        <div class="battery mode_text"> 
           <span id="mode_text" class="mode_text">Mode:</span> 
           <span id="mode_value" class="mode_value">NA</span>
         </div>
@@ -118,14 +118,14 @@
 </div>
 <div class="vs-hs">
   <span class="x-title text">X:</span>
-  <span id="x-value" class="vs-value text">0.0</span>
-  <span class="x-unit text">M/S</span>
+  <span id="x-value" class="vs-value text">00.00</span>
+  <span class="x-unit text"></span>
   <span class="y-title text">Y:</span>
-  <span id="y-value" class="hs-value text">0.0</span>
-  <span class="y-unit text">M/S</span>
+  <span id="y-value" class="hs-value text">00.00</span>
+  <span class="y-unit text"></span>
   <span class="z-title text">Z:</span>
-  <span id="z-value" class="vs-value text">0.0</span>
-  <span class="z-unit text">M/S</span>
+  <span id="z-value" class="vs-value text">00.00</span>
+  <span class="z-unit text">(M/S)</span>
 </div>
 </div>
 <div class="footer-left" id="e-attr"></div>
@@ -214,6 +214,18 @@
   </div>
 
   <div class="fly_control_group">
+      <div class="button_text_group gcs">
+      <span class="glyphicon glyphicon-phone group_button"></span> 
+      <span class="group_text">GCS</span>
+    </div>
+    <div class="button_text_group radio_d">
+      <span class="glyphicon glyphicon-registration-mark group_button"></span> 
+      <span class="group_text">ARC</span>
+    </div>
+    <div class="button_text_group hovering">
+      <span class="glyphicon glyphicon-plane group_button"></span> 
+      <span class="group_text">Loiter</span>
+    </div>
     <div class="button_text_group guide_fly">
       <span class="glyphicon glyphicon-send group_button"></span> 
       <span class="group_text">Guided</span>
@@ -221,18 +233,6 @@
     <div class="button_text_group avoid_fly">
       <span class="glyphicon glyphicon-indent-left group_button"></span> 
       <span class="group_text">Avoid</span>
-    </div>
-    <div class="button_text_group radio_d">
-      <span class="glyphicon glyphicon-registration-mark group_button"></span> 
-      <span class="group_text">ARC</span>
-    </div>
-    <div class="button_text_group gcs">
-      <span class="glyphicon glyphicon-phone group_button"></span> 
-      <span class="group_text">GCS</span>
-    </div>
-    <div class="button_text_group hovering">
-      <span class="glyphicon glyphicon-plane group_button"></span> 
-      <span class="group_text">Loiter</span>
     </div>
     <div class="button_text_group change_video_url shen">
       <span class="glyphicon glyphicon-facetime-video group_button"></span> 
@@ -279,7 +279,7 @@
         name: "player"
     };
 
-    swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs); 
+    swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
 </script>  
 
 </html>

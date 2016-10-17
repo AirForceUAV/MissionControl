@@ -26,7 +26,7 @@ option = {
             name:'速度',
             type:'gauge',
             min:0,
-            max:3000,
+            max:30,
             splitNumber:5,
             radius: '90%',
             axisLine: {            // 坐标轴线
@@ -70,7 +70,7 @@ option = {
             title : {
                 textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                     fontWeight: 'bolder',
-                    fontSize: 5,
+                    fontSize: 12,
                     fontStyle: 'italic',
                     color: '#fff',
                     shadowColor : '#fff', //默认透明
@@ -85,7 +85,7 @@ option = {
                     fontSize: 25
                 }
             },
-            data:[{value: 40, name: 'km/h'}]
+            data:[{value: 40, name: 'x100'}]
         }
     ]
 };
@@ -130,15 +130,16 @@ client.on('data', (data) => {
     // z = document.getElementById("Status");  //查找元素
     // z.innerHTML="System Status : " + Status + " ";
 
-    locationCurrent = data.LocationGlobal.split(",");
+    // locationCurrent = data.LocationGlobal.split(",");
+    locationCurrent = data.LocationGlobal;
     // 纬度
     var latitude = locationCurrent[0];
     // 经度
     var longtitude = locationCurrent[1];
     // 高度
-    var height = locationCurrent[2];
+    var height = Number(locationCurrent[2]).toFixed(2);
     // distance
-    var distance = data.DistanceFromHome;
+    var distance = Number(data.DistanceFromHome).toFixed(2);
     // GPS
     var GPS = data.GPS;
 
@@ -146,7 +147,7 @@ client.on('data', (data) => {
 
     var gear = data.Gear;
 
-    var rpm = data.RPM;
+    var rpm = (Number(data.RPM)/100).toFixed(2);
 
     // data
     $("#battery-number")[0].innerText = current + "%";
@@ -275,7 +276,7 @@ $(".change_video_url").on("click", function () {
     flashvars = {
         src: fileName
     };
-    swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs); 
+    swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
 });
 $(".back-home").on("click", function () {
     hideWin();
@@ -293,38 +294,44 @@ $(".auto_path").on("click", function () {
     client.write("vehicle.AUTO()");
     showTips("AUTO!");
 });
+var mes;
 $(".route_path").on("click", function () {
     hideWin();
     clearPath();
     dynamicLine(locationCurrent[1], locationCurrent[0], 3);
-    var mes = "Route(\"";
+    mes = "Route(\"";
     map.addEventListener("click", generate_message);
-    $(".take-off").css("display", "block");
-    $(".take-off").on("click", function (){
-        mes= mes.substring(0,mes.length-1)
-        mes += "\")";
-        console.log(mes);
-        client.write(mes);
-        $(".take-off").css("display", "none");
-        map.removeEventListener("click", generate_message);
-    })
-    function generate_message(e){
-        mes += (e.point.lat + "+" + e.point.lng + ",");
-        console.log(mes);
-        dynamicLine(e.point.lng, e.point.lat, 3);
-    }
+    $(".take-off").css("display", "block");  
     showTips("Route!");
 });
+$(".take-off").on("click", function (){
+    mes= mes.substring(0,mes.length-1)
+    mes += "\")";
+    console.log(mes);
+    client.write(mes);
+    $(".take-off").css("display", "none");
+    map.removeEventListener("click", generate_message);
+})
+function generate_message(e){
+    mes += (e.point.lat + "+" + e.point.lng + ",");
+    console.log(mes);
+    dynamicLine(e.point.lng, e.point.lat, 3);
+}
+
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
     var de_text = $(".de_text").val();
     var mes = "vehicle.set_target("+ dn_text + "," + de_text + ")";
     client.write(mes);
+    showTips("DN:" + dn_text + " " + "DE:" + de_text);
+    hideWin();
 });
 $(".test_function_submit").on("click", function () {
     var test_text= $(".test_text").val();
     var mes = test_text;
     client.write(mes);
+    showTips(test_text);
+    hideWin();
 });
 $(".hd_fw_submit").on("click", function () {
     var hd_text = $(".heading_text").val();
@@ -332,21 +339,31 @@ $(".hd_fw_submit").on("click", function () {
     if(hd_text){
         var mes = 'vehicle.condition_yaw('+ hd_text +')';
         client.write(mes);
+        showTips("heading:" + hd_text + "°");
+        hideWin();
     }
     if(fw_text){
         var mes = 'vehicle.forward('+ fw_text +')';
         client.write(mes);
+        showTips("forword:" + fw_text + "s");
+        hideWin();
     }
     
 });
 $(".l-button").on("click", function () {
+    hideWin();
     client.write("vehicle.set_gear(1)");
+    showTips("Set gear low!");
 });
 $(".m-button").on("click", function () {
+    hideWin();
     client.write("vehicle.set_gear(2)");
+    showTips("Set gear mid!");
 });
 $(".h-button").on("click", function () {
+    hideWin();
     client.write("vehicle.set_gear(3)");
+    showTips("Set gear high!");
 });
 $(".brake").on("click", function () {
     client.write("vehicle.brake()");
@@ -394,7 +411,7 @@ $(".cancel").on("click", function () {
 
 $(".glyphicon-th-list").on("click", function () {
     if($("#win").css("display") == "none"){
-        $("#win").css("display", "block");
+        $("#win").show();
     }else{
         hideWin();
     }
@@ -406,8 +423,8 @@ $(".change").on("click", function () {
         if(!$(this).hasClass("video_mode")){
           swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
           $('#allmap').css({
-              "width":"250px",
-              "height":"150px",
+              "width":"270px",
+              "height":"170px",
               "position":"absolute",
               "right":"10px",
               "bottom":"10px"
@@ -419,11 +436,12 @@ $(".change").on("click", function () {
             "z-index": "-1"
           });
         }else{
-            swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs);           
+            swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs);           
             $('#allmap').css({
               "width":"100%",
               "height":"100%",
               "position":"relative",
+              "right":"0",
               "margin-top":"60px"
             });
           $("#player").css({
@@ -519,7 +537,10 @@ function clearPath(){
     map.clearOverlays(); 
 }
 function hideWin(){
-    $("#win").css("display", "none");
+    $("#win").hide();
+    $("input").each(function(){
+        $(this)[0].value = "";
+    });
 }
 function showTips(mes){
     $(".tip_mes").text(mes);

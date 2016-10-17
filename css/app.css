@@ -12,8 +12,8 @@
 	position: absolute;
 	bottom: 10px;
 	left: 10px;
-	width: 140px;
-	height: 140px;
+	width: 160px;
+	height: 160px;
 	background:rgba(0,0,0,0.8);
 	border-radius:150px;
 	padding: 0;
@@ -33,6 +33,7 @@
 	border-color: #444;
 }
 .glyphicon{
+	top: 0;
 	font-size: 40px;
 	color: white;
 }
@@ -45,6 +46,7 @@
 }
 .logo{
 	float: left;
+	margin-top: 5px;
 	width: 200px;
 	height: 60px;
 	border: solid 1px;
@@ -56,9 +58,12 @@
 .battery{
 	width: 120px;
 	float: right;
-	margin-top: 10px;
+	margin-top: 15px;
 	padding-right: 10px;
 	opacity: 1;
+}
+.mode_text{
+	width: 170px;
 }
 .battery-number{
 	color: green;
@@ -85,20 +90,20 @@
 }
 .footer-left-bar{
 	position: absolute;
-	left: 85px;
+	left: 95px;
 	bottom: 10px;
-	height: 90px;
-	width: 270px;
+	height: 100px;
+	width: 300px;
 	background-color: rgba(0,0,0,0.8);
 	border-radius:5px;
 }
 .height-distance{
-	width: 170px;
-	height: 30px;
-	margin-left: 80px;
+	width: 190px;
+	height: 40px;
+	margin-left: 90px;
 	border-bottom: solid 1px;
 	border-color: #666;
-	padding-top: 5px;
+	padding-top: 10px;
 }
 .text{
 	color: #fff;
@@ -107,13 +112,13 @@
 	margin-left: 10px;
 }
 .vs-hs{
-	width: 200px;
+	width: 240px;
 	height: 50px;
 	margin-left: 75px;
 	padding-top: 15px;
 }
-.y-title{
-	margin-left: 10px;
+.y-title, .z-title{
+	margin-left: 3px;
 }
 .take-off{
 	position: absolute;
@@ -187,7 +192,7 @@
 }
 .footer-controller{
 	position: absolute;
-	bottom: 200px;
+	bottom: 230px;
 	left: 10px;
 	width: 200px;
 	height: 195px;
@@ -224,7 +229,7 @@
 }
 .roll-controller{
 	position: absolute;
-	bottom: 200px;
+	bottom: 230px;
 	right: 10px;
 	width: 200px;
 	height: 195px;
@@ -263,7 +268,7 @@
 .location{
 	position: absolute;
 	left: 15px;
-	bottom: 150px;
+	bottom: 180px;
 	width: 40px;
 	height: 40px;
 	padding: 5px;
@@ -272,10 +277,10 @@
 }
 #win{
 	position: absolute;
-	top: 15%;
-	left: 30%;
-	width: 370px;
-	height: 360px;
+	top: 20%;
+	left: 35%;
+	width: 390px;
+	height: 380px;
 	display: none;
 	background: rgba(0,0,0,0.6);
 	border-radius: 6px;
@@ -298,7 +303,7 @@
 	border-radius: 5px;
 }
 .dn-de-group, .heading-forward-group, .gear-group, .test-function-group{
-	height: 50px;
+	height: 53px;
 	border-bottom: lightgray solid 1px;
 }
 .button_text_group{
@@ -337,7 +342,7 @@
 	display: none;
 }
 .test_text{
-	width: 194px;
+	width: 205px;
 }
 .gps_level, .gps_text, .gear_text, .gear_level, .mode_text, .mode_value{
 	font-size: 20px;
