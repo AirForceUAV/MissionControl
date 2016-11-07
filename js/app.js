@@ -269,6 +269,7 @@ $(".hovering").on("click", function () {
     showTips("Set Channels Mid!");
 });
 $(".change_video_url").on("click", function () {
+    var player = document.getElementById("player");
     hideWin();
     var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
     if($(this).hasClass("shen")){
@@ -279,10 +280,7 @@ $(".change_video_url").on("click", function () {
         $(this).addClass("shen");
         $(".change_video_text")[0].innerText = "Shen";
     }
-    flashvars = {
-        src: fileName
-    };
-    swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
+    player.setMediaResourceURL(fileName)
 });
 $(".back-home").on("click", function () {
     hideWin();
