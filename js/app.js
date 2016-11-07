@@ -4,7 +4,7 @@ var client = net.connect({ path: path});
 
 // init 
 var eChart = echarts.init(document.getElementById('e-attr'));
-var map = new BMap.Map("allmap");
+var map = new BMap.Map("allmap",{enableMapClick:false});
 
 // 地图数据准备,  
 var points = [];//原始点信息数组  
@@ -92,6 +92,7 @@ option = {
 eChart.setOption(option);
 
 client.on('data', (data) => {
+    $(".f_status").text("√");
     // if(bPoints.length > 2){
     //     bPoints = [];
     // }
@@ -137,7 +138,7 @@ client.on('data', (data) => {
     // 经度
     var longtitude = locationCurrent[1];
     // 高度
-    var height = Number(locationCurrent[2]).toFixed(2);
+    var height = Number(locationCurrent[2]).gied(2);
     // distance
     var distance = Number(data.DistanceFromHome).toFixed(2);
     // GPS
@@ -171,7 +172,7 @@ client.on('data', (data) => {
     option.series[0].data[0].value = rpm;
     eChart.setOption(option,true);
 
-    markLocation(longtitude, latitude);
+    markPlane(longtitude, latitude, 0);
     // 2 for plane
     dynamicLine(longtitude, latitude, 2);
     bPoints.push(new BMap.Point(longtitude,latitude)); 
@@ -218,15 +219,20 @@ client.on('end', () => {
   console.log('disconnected from server');
 });
 client.on('connect', () => {
+  $(".cloud_status").text("√");
   console.log('connect');
 });
 client.on('drain', () => {
   console.log('drain');
 });
 client.on('close', () => {
+    $(".cloud_status").text("X");
+    $(".f_status").text("X");
   console.log('close');
 });
-client.on('timeout', () => {
+client.on('timeout', () => { 
+    $(".cloud_status").text("X");
+    $(".f_status").text("X");
   console.log('timeout');
 });
 client.on('error', (error) => {
@@ -528,9 +534,27 @@ function markLocation(lng, lat){
     // map.clearOverlays(); 
     map.removeOverlay(marker);
     var new_point = new BMap.Point(lng, lat);
+    // var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif");
     marker = new BMap.Marker(new_point);  // 创建标注
+    // marker = new BMap.Marker(new_point,{icon:myIcon});  // 创建标注
     map.addOverlay(marker);              // 将标注添加到地图中
-    map.panTo(new_point);      
+    map.panTo(new_point);     //让地图平滑移动至新中心点
+}
+function markPlane(lng, lat, head){
+    map.removeOverlay(marker);
+    var new_point = new BMap.Point(lng, lat);
+    marker = new BMap.Marker(new BMap.Point(new_point.lng,new_point.lat), {
+      // 初始化小飞机Symbol
+      icon: new BMap.Symbol(BMap_Symbol_SHAPE_PLANE, {
+        scale: 2.5,
+        rotation: head,
+        strokeOpacity: 0.7,
+        fillOpacity: 0.9,
+        fillColor: "#f00"
+      })
+    });
+    map.addOverlay(marker);
+    map.panTo(new_point);     //让地图平滑移动至新中心点
 }
 function clearPath(){
     path_points = [];
@@ -552,11 +576,10 @@ function showTips(mes){
 var point = new BMap.Point(116.331398,39.897445);
 map.centerAndZoom(point,17);
 
-
 var geolocation = new BMap.Geolocation();
 geolocation.getCurrentPosition(function(r){
 if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    markLocation(r.point.lng, r.point.lat);
+    markPlane(r.point.lng, r.point.lat);
     console.log(r.point.lat)
 }
 else {

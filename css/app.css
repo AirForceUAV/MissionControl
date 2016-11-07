@@ -37,7 +37,7 @@
 	font-size: 40px;
 	color: white;
 }
-.small_g,.group_button{
+.small_g{
 	font-size: 30px;
 }
 .glyphicon-th-list{
@@ -46,7 +46,7 @@
 }
 .logo{
 	float: left;
-	margin-top: 5px;
+	padding-top: 5px;
 	width: 200px;
 	height: 60px;
 	border: solid 1px;
@@ -54,6 +54,15 @@
 	font-size: 30px;
 	color: #fff;
 	padding-left: 30px;
+}
+.connect_status{
+	float: left;
+	padding: 5px;
+	font-size: 15px;
+	color: #fff;
+}
+.status_flag{
+	color: red;
 }
 .battery{
 	width: 120px;
@@ -278,47 +287,49 @@
 #win{
 	position: absolute;
 	top: 20%;
-	left: 35%;
-	width: 390px;
-	height: 380px;
+	left: 30%;
+	width: 450px;
+	height: 450px;
 	display: none;
 	background: rgba(0,0,0,0.6);
 	border-radius: 6px;
 	padding: 10px;
+	font-size: 17px;
 }
 .win_text{
 	float: left;
 	color: white;
-	margin: 10px;
+	margin: 12px;
 }
 .win_input{
 	float: left;
-	margin: 10px;
-	width: 20%;
+	margin: 12px;
+	width: 95px;
 	border-radius: 5px;
 }
 .submit_button{
 	float: left;
-	margin: 10px;
+	margin: 12px;
 	border-radius: 5px;
 }
 .dn-de-group, .heading-forward-group, .gear-group, .test-function-group{
-	height: 53px;
+	height: 58px;
 	border-bottom: lightgray solid 1px;
 }
 .button_text_group{
 	float: left;
-	width: 60px;
-	height: 70px;
+	width: 75px;
+	height: 80px;
 	padding: 10px;
 	margin-left: 10px;
+	margin-top: 5px;
 }
 .group_text{
 	color: white;
 	text-align: center;
 }
 .l-button, .m-button, .h-button{
-	width: 60px;
+	width: 70px;
 }
 .glyphicon-sound-dolby{
 	color: rgba(0,0,0,0);
@@ -342,7 +353,7 @@
 	display: none;
 }
 .test_text{
-	width: 205px;
+	width: 255px;
 }
 .gps_level, .gps_text, .gear_text, .gear_level, .mode_text, .mode_value{
 	font-size: 20px;
