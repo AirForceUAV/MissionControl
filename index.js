@@ -44,7 +44,8 @@ function createWindow () {
     webPreferences: {
       plugins: true
     },
-    fullscreen: true
+    fullscreen: true,
+    autoHideMenuBar: true
   })
 
   // and load the index.html of the app.
