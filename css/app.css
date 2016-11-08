@@ -380,3 +380,9 @@ span.glyphicon.glyphicon-random.small_g{
 .gear_level{
 	margin-right: 5px;
 }
+ul.dropdown-menu{
+	font-size: 20px;
+}
+.gear_group .dropdown-menu>li>a{
+	width: 155px;
+}
