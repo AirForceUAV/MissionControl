@@ -105,7 +105,7 @@ eChart.setOption(option);
 // 监听数据
 client.on('data', (data) => {
     //  connect to plane
-    $(".f_status").text("√");
+    $(".f_status").css("color","red");
 
     //use this data to show
     console.log("Mission Control got: " + data.toString());
@@ -220,20 +220,20 @@ client.on('end', () => {
   console.log('disconnected from server');
 });
 client.on('connect', () => {
-  $(".cloud_status").text("√");
+  $(".cloud_status").css("color","red");
   console.log('connect');
 });
 client.on('drain', () => {
   console.log('drain');
 });
 client.on('close', () => {
-    $(".cloud_status").text("X");
-    $(".f_status").text("X");
+    $(".cloud_status").css("color","#4A4A4A");
+    $(".f_status").css("color","#4A4A4A");
   console.log('close');
 });
 client.on('timeout', () => { 
-    $(".cloud_status").text("X");
-    $(".f_status").text("X");
+    $(".cloud_status").css("color","#4A4A4A");
+    $(".f_status").css("color","#4A4A4A");
   console.log('timeout');
 });
 client.on('error', (error) => {
@@ -593,7 +593,7 @@ function hideWin(){
 function showTips(mes){
     $(".tip_mes").text(mes);
     $("#myAlert").show();
-    $("#myAlert").fadeOut(1500);
+    $("#myAlert").fadeOut(2000);
 }
 
 if(locationCurrent.length == 0){
