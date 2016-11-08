@@ -43,7 +43,8 @@ function createWindow () {
     height: 800,
     webPreferences: {
       plugins: true
-    }
+    },
+    fullscreen: true
   })
 
   // and load the index.html of the app.

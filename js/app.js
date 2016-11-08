@@ -6,6 +6,9 @@ var client = net.connect({ path: path});
 var eChart = echarts.init(document.getElementById('e-attr'));
 // init baidu map
 var map = new BMap.Map("allmap",{enableMapClick:false});
+// 设置位置
+var point = new BMap.Point(116.331398,39.897445);
+map.centerAndZoom(point,17);
 
 // 地图数据
 // 原始点信息数组  
@@ -143,6 +146,8 @@ client.on('data', (data) => {
 
     var rpm = (Number(data.RPM)/100).toFixed(2);
 
+    var heading = data.Heading;
+
     // data set
     $("#battery-number")[0].innerText = current + "%";
     $("#battery-level")[0].innerText = level + "V";
@@ -166,7 +171,7 @@ client.on('data', (data) => {
     eChart.setOption(option,true);
 
     // mark当前位置
-    markPlane(longtitude, latitude, attitude[0]);
+    markPlane(longtitude, latitude, attitude[1]);
     // 飞行路线
     dynamicLine(longtitude, latitude, 2);
     bPoints.push(new BMap.Point(longtitude,latitude)); 
@@ -298,11 +303,11 @@ var mes;
 $(".route_path").on("click", function () {
     hideWin();
     clearPath();
-    $(".change")[0].disabled = true;
     dynamicLine(locationCurrent[1], locationCurrent[0], 3);
+    map.removeEventListener("click", generate_message);
     mes = "Route(\"";
     map.addEventListener("click", generate_message);
-    $(".take-off").css("display", "block");  
+    $(".take-off").css("display", "block"); 
     showTips("Route!");
 });
 $(".take-off").on("click", function (){
@@ -559,7 +564,7 @@ function markPlane(lng, lat, head){
       // 初始化小飞机Symbol
       icon: new BMap.Symbol(BMap_Symbol_SHAPE_PLANE, {
         scale: 2.5,
-        rotation: head * 360,
+        rotation: head,
         strokeOpacity: 0.7,
         fillOpacity: 1,
         fillColor: "#f00"
@@ -591,21 +596,18 @@ function showTips(mes){
     $("#myAlert").fadeOut(1500);
 }
 
-// 设置位置
-var point = new BMap.Point(116.331398,39.897445);
-map.centerAndZoom(point,17);
-
-// 初始定位使用浏览器位置
-var geolocation = new BMap.Geolocation();
-geolocation.getCurrentPosition(function(r){
-if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    markPlane(r.point.lng, r.point.lat, 0);
-    console.log(r.point.lat)
-}else {
-  alert('failed'+this.getStatus());
-}        
-},{enableHighAccuracy: true})
-
+if(locationCurrent.length == 0){
+    // 初始定位使用浏览器位置
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        markPlane(r.point.lng, r.point.lat, 0);
+        console.log(r.point.lat)
+    }else {
+      alert('failed'+this.getStatus());
+    }        
+    },{enableHighAccuracy: true})
+}
 map.enableScrollWheelZoom();//滚轮放大缩小 
 add_control();
 
