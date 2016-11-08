@@ -166,7 +166,7 @@ client.on('data', (data) => {
     eChart.setOption(option,true);
 
     // mark当前位置
-    markPlane(longtitude, latitude, 0);
+    markPlane(longtitude, latitude, attitude[0]);
     // 飞行路线
     dynamicLine(longtitude, latitude, 2);
     bPoints.push(new BMap.Point(longtitude,latitude)); 
@@ -559,7 +559,7 @@ function markPlane(lng, lat, head){
       // 初始化小飞机Symbol
       icon: new BMap.Symbol(BMap_Symbol_SHAPE_PLANE, {
         scale: 2.5,
-        rotation: head,
+        rotation: head * 360,
         strokeOpacity: 0.7,
         fillOpacity: 1,
         fillColor: "#f00"
@@ -599,7 +599,7 @@ map.centerAndZoom(point,17);
 var geolocation = new BMap.Geolocation();
 geolocation.getCurrentPosition(function(r){
 if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    markPlane(r.point.lng, r.point.lat);
+    markPlane(r.point.lng, r.point.lat, 0);
     console.log(r.point.lat)
 }else {
   alert('failed'+this.getStatus());
