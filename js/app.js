@@ -2,17 +2,24 @@ const net = require('net');
 const path = process.env.HOME + "/.UDS"+"_mc";
 var client = net.connect({ path: path});
 
-// init 
+// init echarts
 var eChart = echarts.init(document.getElementById('e-attr'));
+// init baidu map
 var map = new BMap.Map("allmap",{enableMapClick:false});
 
-// 地图数据准备,  
-var points = [];//原始点信息数组  
-var path_points = [];
-var bPoints = [];//百度化坐标数组。用于更新显示范围  
+// 地图数据
+// 原始点信息数组  
+var points = [];
+// 路径数据
+var path_points = []; 
+//百度化坐标数组。用于更新显示范围
+var bPoints = [];  
+// 当前位置在地图上的标注
 var marker;
+// 当前位置记录
 var locationCurrent = [];
   
+// echarts data
 option = {
     backgroundColor: '#1b1b1b',
     tooltip : {
@@ -89,15 +96,14 @@ option = {
         }
     ]
 };
+// set
 eChart.setOption(option);
 
+// 监听数据
 client.on('data', (data) => {
+    //  connect to plane
     $(".f_status").text("√");
-    // if(bPoints.length > 2){
-    //     bPoints = [];
-    // }
 
-    // console.log(data.de)
     //use this data to show
     console.log("Mission Control got: " + data.toString());
     var data = eval('(' + data.toString() + ')');
@@ -108,31 +114,18 @@ client.on('data', (data) => {
     var level = battery[1];
     var current = battery[2];
 
-
     // velocity
     var velocity = data.Velocity.split(",");
     var xv = velocity[0];
     var yv = velocity[1];
     var zv = velocity[2];
 
-    // EKF = data.EKF;
-    // Mode = data.Mode;
-    // Status = data.SystemStatus;
-
     // attitude
     var attitude = data.Gimbal.split(",");
 
-    // x = document.getElementById("EKF");  //查找元素
-    // x.innerHTML="EKF : " + EKF + " ";
-
-    // y = document.getElementById("Mode");  //查找元素
-    // y.innerHTML="Mode : " + Mode + " ";
-
-    // z = document.getElementById("Status");  //查找元素
-    // z.innerHTML="System Status : " + Status + " ";
-
     // locationCurrent = data.LocationGlobal.split(",");
     locationCurrent = data.LocationGlobal;
+
     // 纬度
     var latitude = locationCurrent[0];
     // 经度
@@ -150,7 +143,7 @@ client.on('data', (data) => {
 
     var rpm = (Number(data.RPM)/100).toFixed(2);
 
-    // data
+    // data set
     $("#battery-number")[0].innerText = current + "%";
     $("#battery-level")[0].innerText = level + "V";
     $("#dis-value")[0].innerText = distance;
@@ -168,19 +161,17 @@ client.on('data', (data) => {
         $("#gear_level")[0].innerText = "H";
     }
 
-    // ecahrts
+    // ecahrts set
     option.series[0].data[0].value = rpm;
     eChart.setOption(option,true);
 
+    // mark当前位置
     markPlane(longtitude, latitude, 0);
-    // 2 for plane
+    // 飞行路线
     dynamicLine(longtitude, latitude, 2);
     bPoints.push(new BMap.Point(longtitude,latitude)); 
 
-    $(".location").on("click", function () {  
-        setZoom(bPoints);
-    }); 
-
+    // download the path 
     if (data.AllWp != null) {
         console.log(data.AllWp);
         var path_locations = data.AllWp.split(",");
@@ -195,7 +186,7 @@ client.on('data', (data) => {
         } 
     }
 
-    // battery
+    // battery progress
     if (current > 30) {
         var tmp = current - 30;
         var width = tmp.toString() + '%';
@@ -215,6 +206,11 @@ client.on('data', (data) => {
     }
 
 });
+if (option && typeof option === "object") {
+eChart.setOption(option, true);
+} 
+
+// listener
 client.on('end', () => {
   console.log('disconnected from server');
 });
@@ -239,10 +235,10 @@ client.on('error', (error) => {
     console.log(error.toString());
 });
          
-if (option && typeof option === "object") {
-eChart.setOption(option, true);
-} 
-
+// order
+$(".location").on("click", function () {  
+    setZoom(bPoints);
+}); 
 $(".guide_fly").on("click", function () {
     hideWin();
     client.write("vehicle.Guided()");
@@ -302,6 +298,7 @@ var mes;
 $(".route_path").on("click", function () {
     hideWin();
     clearPath();
+    $(".change")[0].disabled = true;
     dynamicLine(locationCurrent[1], locationCurrent[0], 3);
     mes = "Route(\"";
     map.addEventListener("click", generate_message);
@@ -316,12 +313,6 @@ $(".take-off").on("click", function (){
     $(".take-off").css("display", "none");
     map.removeEventListener("click", generate_message);
 })
-function generate_message(e){
-    mes += (e.point.lat + "+" + e.point.lng + ",");
-    console.log(mes);
-    dynamicLine(e.point.lng, e.point.lat, 3);
-}
-
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
     var de_text = $(".de_text").val();
@@ -407,8 +398,6 @@ $(".roll-right").on("click", function () {
     showTips("Roll right");
 }); 
 $(".cancel").on("click", function () {
-    // var test = ['1','2','3'];
-    // client.write(test);
     client.write("Cancel");
     showTips("Cancel");
 });
@@ -460,8 +449,19 @@ $(".change").on("click", function () {
 $("#test_text,#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
     new KeyBoard($(this)[0]);
 });
+
+// for router
+function generate_message(e){
+    mes += (e.point.lat + "+" + e.point.lng + ",");
+    console.log(mes);
+    dynamicLine(e.point.lng, e.point.lat, 3);
+}
   
-//添加线  
+/*
+* add line
+* points: {"lng":lng,"lat":lat,"status":1,"id":id} 
+* flag: 2 for plane, 3 for path
+*/
 function addLine(points, flag){  
   
     var linePoints = [],pointsLen = points.length,i,polyline;  
@@ -481,18 +481,20 @@ function addLine(points, flag){
     map.addOverlay(polyline);   //增加折线  
 }  
 
-//新的点，加入到轨迹中。  
+/*
+* add new point
+* lng: 经度
+* lat: 纬度
+* flag: 2 for plane, 3 for path
+*/  
 function dynamicLine(lng, lat, flag){  
     var lng = lng;
     var lat = lat;
     var id = getRandom(1000);  
     var point = {"lng":lng,"lat":lat,"status":1,"id":id}  
-    // var makerPoints = [];  
     var newLinePoints = [];  
     var len;  
   
-    // makerPoints.push(point);              
-    // addMarker(makerPoints);//增加对应该的轨迹点  
     if(flag == 2){
         points.push(point); 
         len = points.length;  
@@ -504,24 +506,30 @@ function dynamicLine(lng, lat, flag){
         path_points = path_points.slice(len-2, len);//最后两个点用来画线。
         addLine(path_points, flag);//增加轨迹线 
     }
-    // bPoints.push(new BMap.Point(lng,lat));  
-    // addLine(points, flag);//增加轨迹线  
-    // setZoom(bPoints);  
 }  
 
-// 获取随机数  
+/*
+* get random data
+* n : 
+*/  
 function getRandom(n){  
     return Math.floor(Math.random()*n+1)  
 }  
-
-//根据点信息实时更新地图显示范围，让轨迹完整显示。设置新的中心点和显示级别  
+/*
+* 根据点信息实时更新地图显示范围，让轨迹完整显示。设置新的中心点和显示级别
+* bPoints : bPoints.push(new BMap.Point(longtitude,latitude)); 
+*/  
 function setZoom(bPoints){  
     var view = map.getViewport(eval(bPoints));  
     var mapZoom = view.zoom;   
     var centerPoint = view.center;   
     map.centerAndZoom(centerPoint, mapZoom);  
 } 
-
+/*
+* mark the location
+* lng: 经度
+* lat: 纬度
+*/  
 function markLocation(lng, lat){
     // add icon
     // var pt = new BMap.Point(lng, lat);
@@ -538,6 +546,12 @@ function markLocation(lng, lat){
     map.addOverlay(marker);              // 将标注添加到地图中
     map.panTo(new_point);     //让地图平滑移动至新中心点
 }
+/*
+* mark the location use plane Symbol
+* lng: 经度
+* lat: 纬度
+* head: 顺时针旋转角度（eg:90）
+*/ 
 function markPlane(lng, lat, head){
     map.removeOverlay(marker);
     var new_point = new BMap.Point(lng, lat);
@@ -547,62 +561,65 @@ function markPlane(lng, lat, head){
         scale: 2.5,
         rotation: head,
         strokeOpacity: 0.7,
-        fillOpacity: 0.9,
+        fillOpacity: 1,
         fillColor: "#f00"
       })
     });
     map.addOverlay(marker);
     map.panTo(new_point);     //让地图平滑移动至新中心点
 }
+// clear the path
 function clearPath(){
     path_points = [];
     map.clearOverlays(); 
 }
+// hide the modal
 function hideWin(){
     $("#win").hide();
     $("input").each(function(){
         $(this)[0].value = "";
     });
 }
+
+/*
+* show alert
+* mes : String
+*/
 function showTips(mes){
     $(".tip_mes").text(mes);
     $("#myAlert").show();
     $("#myAlert").fadeOut(1500);
 }
 
-// 百度地图API功能
+// 设置位置
 var point = new BMap.Point(116.331398,39.897445);
 map.centerAndZoom(point,17);
 
+// 初始定位使用浏览器位置
 var geolocation = new BMap.Geolocation();
 geolocation.getCurrentPosition(function(r){
 if(this.getStatus() == BMAP_STATUS_SUCCESS){
     markPlane(r.point.lng, r.point.lat);
     console.log(r.point.lat)
-}
-else {
+}else {
   alert('failed'+this.getStatus());
 }        
 },{enableHighAccuracy: true})
 
 map.enableScrollWheelZoom();//滚轮放大缩小 
-
-var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});
-var mapType2 = new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_LEFT});
-var overView = new BMap.OverviewMapControl();
-var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
+add_control();
 
 //添加地图类型和缩略图
 function add_control(){
+    var mapType1 = new BMap.MapTypeControl({mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP]});
+    var mapType2 = new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_LEFT});
+    var overView = new BMap.OverviewMapControl();
+    var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
     map.addControl(mapType1);          //2D图，卫星图
     map.addControl(mapType2);          //左上角，默认地图控件
     map.setCurrentCity("北京");        //由于有3D图，需要设置城市哦
     map.addControl(overView);          //添加默认缩略地图控件
     map.addControl(overViewOpen);      //右下角，打开
 }
-add_control();
 
 
-// window.setInterval(function(){
-//     client.write("Cancel");
-// },1000)
