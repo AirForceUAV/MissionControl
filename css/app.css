@@ -26,7 +26,7 @@
 }
 .header-right{
 	float: left;
-	padding: 15px;
+	padding: 13px;
 	width: 60px;
 	height: 60px;
 	border-left: solid 1px;
@@ -56,7 +56,7 @@
 .logo_text{
 	float: left;
 	margin-right: 5px;
-	font-size: 30px;
+	font-size: 34px;
 	color: #fff;
 }
 .connect_status{
@@ -73,7 +73,7 @@
 .battery{
 	width: 120px;
 	float: right;
-	margin-top: 15px;
+	margin-top: 13px;
 	padding-right: 2px;
 	opacity: 1;
 }
@@ -287,25 +287,25 @@
 }
 #win{
 	position: absolute;
-	top: 20%;
+	top: 25%;
 	left: 30%;
 	width: 450px;
-	height: 400px;
+	height: 260px;
 	display: none;
 	background: rgba(0,0,0,0.6);
 	border-radius: 6px;
 	padding: 10px;
-	font-size: 17px;
+	font-size: 20px;
 }
 .win_text{
 	float: left;
 	color: white;
-	margin: 12px;
+	margin: 17px 12px 0 12px;
 }
 .win_input{
 	float: left;
-	margin: 12px;
-	width: 95px;
+	margin: 17px 12px 0 12px;
+	width: 75px;
 	border-radius: 5px;
 }
 .submit_button{
@@ -314,23 +314,12 @@
 	border-radius: 5px;
 }
 .dn-de-group, .heading-forward-group, .gear-group, .test-function-group{
-	height: 58px;
+	height: 70px;
 	border-bottom: lightgray solid 1px;
-}
-.button_text_group{
-	float: left;
-	width: 75px;
-	height: 80px;
-	padding: 10px;
-	margin-left: 10px;
-	margin-top: 5px;
 }
 .group_text{
 	color: white;
 	text-align: center;
-}
-.l-button, .m-button, .h-button{
-	width: 70px;
 }
 .glyphicon-sound-dolby{
 	color: rgba(0,0,0,0);
@@ -357,10 +346,10 @@ span.glyphicon.glyphicon-random.small_g{
 	display: none;
 }
 .test_text{
-	width: 255px;
+	width: 220px;
 }
 .gps_level, .gps_text, .gear_text, .gear_level, .mode_text, .mode_value{
-	font-size: 20px;
+	font-size: 24px;
 	color: white;
 }
 #myAlert{
@@ -374,12 +363,13 @@ span.glyphicon.glyphicon-random.small_g{
     font-size: 30px;
 }
 ul.dropdown-menu{
-	margin-top: 9px;
-	font-size: 22px;
+	width: 170px;
+	margin-top: 4px;
+	font-size: 24px;
 	background-color: rgba(0,0,0,0.8);
 }
-.logo ul.dropdown-menu{
-	margin-top: 4px; 
+ul.dropdown-menu li{
+    height: 55px;
 }
 .caret{
 	display: inline-table;
@@ -399,7 +389,7 @@ ul.dropdown-menu{
 }
 .gear_button, .mode_button{
 	float:right;
-	margin-top: -5px;
+	margin-top: -9px;
 	background: rgba(0,0,0,0);
 	border: none;
 }
@@ -407,16 +397,22 @@ ul.dropdown-menu{
 	margin-right: 5px;
 }
 .dropdown-menu>li>a{
-	width: 155px;
 	color: rgba(255,255,255,0.9);
 }
 .group_button{
 	/*float: left;*/
-	margin: 8px; 
+	margin: 10px; 
 	color: rgba(255,255,255,0.9);
-	font-size: 22px;
+	font-size: 24px;
 }
 .down_group_text{
 	/*float: left;*/
 	color: rgba(255,255,255,0.9);
+}
+.open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover, 
+.btn-default:focus, .btn-default:hover, .btn-default:active,
+.open>.dropdown-toggle.btn-default:active,.btn-default.active.focus, 
+.btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus,
+.btn-default:active, .open>.dropdown-toggle.btn-default:active{
+    background-color: rgba(0,0,0,0);
 }
