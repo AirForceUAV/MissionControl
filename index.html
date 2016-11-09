@@ -28,25 +28,45 @@
       <div class="header-right">
         <span class="glyphicon glyphicon-th-list small_g"></span> 
       </div>
+
       <div class="header-left">
-        <p class="logo">UAV</p>
+        <div class="logo">
+          <div class="btn-group gear_group">
+            <button type="button" class="btn btn-default dropdown-toggle gear_button" data-toggle="dropdown">
+              <span id="logo_text" class="logo_text">UAV</span><span class="caret logo_caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li class="gcs">
+                <span class="glyphicon glyphicon-phone group_button"></span> 
+                <span class="down_group_text">GCS</span>
+              </li>
+              <li class="radio_d">
+                <span class="glyphicon glyphicon-registration-mark group_button"></span> 
+                <span class="down_group_text">ARC</span>
+              </li>
+              <li class="hovering">
+                <span class="glyphicon glyphicon-plane group_button"></span> 
+                <span class="down_group_text">Loiter</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        </div>
+        
         <div class="connect_status">
           <div class="connect_to_cloud">Cloud&nbsp;&nbsp;&nbsp;<span class="status_flag cloud_status glyphicon glyphicon-signal"></span></div>
           <div class="connect_to_f">Flight&nbsp;&nbsp;&nbsp;<span class="status_flag f_status glyphicon glyphicon-signal"></span></div>
-     </div>
+        </div>
         <div class="battery"> 
           <span id="battery-number" class="battery-number">100%</span> 
           <span id="battery-level" class="battery-level">0.0V</span>
         </div>
-        <div class="battery mode_text"> 
-          <span id="mode_text" class="mode_text">Mode:</span> 
-          <span id="mode_value" class="mode_value">NA</span>
-        </div>
+        
         <div class="battery"> 
           <span id="gps_text" class="gps_text">GPS:</span> 
           <span id="gps_level" class="gps_level">NA</span>
         </div>
-        <div class="battery"> 
+        <div class="battery gear_battery"> 
           <span id="gear_text" class="gear_text">Gear:</span> 
           <!-- Single button -->
           <div class="btn-group gear_group">
@@ -57,6 +77,41 @@
               <li class="l-button"><a href="#">Low</a></li>
               <li class="m-button"><a href="#">Middle</a></li>
               <li class="h-button"><a href="#">High</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="battery mode_battery"> 
+          <span id="mode_text" class="mode_text">Mode:</span>
+          <!-- Single button -->
+          <div class="btn-group mode_group">
+            <button type="button" class="btn btn-default dropdown-toggle mode_button" data-toggle="dropdown">
+              <span id="mode_value" class="mode_value">NAAAAAA</span><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li class="guide_fly">
+                <span class="glyphicon glyphicon-send group_button"></span> 
+                <span class="down_group_text">Guided</span>
+              </li>
+              <li class="avoid_fly">
+                <span class="glyphicon glyphicon-indent-left group_button"></span> 
+                <span class="down_group_text">Avoid</span>
+              </li>
+              <li class="download_path">
+                <span class="glyphicon glyphicon-cloud-download group_button"></span> 
+                <span class="down_group_text">Download</span>
+              </li>
+              <li class="auto_path">
+                <span class="glyphicon glyphicon-eye-open group_button"></span> 
+                <span class="down_group_text">Auto</span>
+              </li>
+              <li class="route_path">
+                <span class="glyphicon glyphicon-upload group_button"></span> 
+                <span class="down_group_text">Route</span>
+              </li>
+              <li class="back-home">
+                <span class="glyphicon glyphicon-home group_button"></span> 
+                <span class="down_group_text">Home</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -217,7 +272,7 @@
 <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
  -->    <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
   </div>
-  <div class="fly_control_group">
+  <!-- <div class="fly_control_group">
       <div class="button_text_group gcs">
       <span class="glyphicon glyphicon-phone group_button"></span> 
       <span class="group_text">GCS</span>
@@ -258,7 +313,7 @@
       <span class="glyphicon glyphicon-home group_button"></span> 
       <span class="group_text">Home</span>
     </div>
-  </div>
+  </div> -->
 </div>
 
 
