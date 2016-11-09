@@ -364,9 +364,12 @@ span.glyphicon.glyphicon-random.small_g{
 }
 ul.dropdown-menu{
 	width: 170px;
-	margin-top: 4px;
+	margin-top: 3px;
 	font-size: 24px;
 	background-color: rgba(0,0,0,0.8);
+}
+.logo ul.dropdown-menu{
+	margin-top: -3px;
 }
 ul.dropdown-menu li{
     height: 55px;
@@ -389,7 +392,7 @@ ul.dropdown-menu li{
 }
 .gear_button, .mode_button{
 	float:right;
-	margin-top: -9px;
+	margin-top: -3px;
 	background: rgba(0,0,0,0);
 	border: none;
 }
