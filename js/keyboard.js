@@ -14,8 +14,8 @@
 		var self = this;
 		var zIndex = options && options.zIndex || 1000;
 		var width = options && options.width || '100%';
-		var height = options && options.height || '193px';
-		var fontSize = options && options.fontSize || '15px';
+		var height = options && options.height || '240px';
+		var fontSize = options && options.fontSize || '19px';
 		var backgroundColor = options && options.backgroundColor || '#fff';
 		var TABLE_ID = options && options.table_id || 'table_0909099';
 		var mobile = typeof orientation !== 'undefined';
@@ -32,25 +32,25 @@
 		
 		//样式
 		var cssStr = '<style type="text/css">';
-		cssStr += '#' + TABLE_ID + '{text-align:center;width:100%;height:160px;border-top:1px solid #CECDCE;background-color:#FFF;}';
+		cssStr += '#' + TABLE_ID + '{text-align:center;width:100%;height:192px;border-top:1px solid #CECDCE;background-color:#FFF;font-size:24px;}';
 		cssStr += '#' + TABLE_ID + ' td{width:33%;border:1px solid #ddd;border-right:0;border-top:0;}';
 		if(!mobile){
-			cssStr += '#' + TABLE_ID + ' td:hover{background-color:#D3D9DF;color:#FFF;}';
+			cssStr += '#' + TABLE_ID + ' td:hover{background-color:rgba(0,0,0,0.7);color:#FFF;}';
 		}
 		cssStr += '</style>';
 		
 		//Button
-		var btnStr = '<div style="width:90px;height:28px;background-color:#969696;';
-		btnStr += 'float:right;margin-right:5px;text-align:center;color:#fff;';
-		btnStr += 'line-height:28px;border-radius:3px;margin-bottom:5px;cursor:pointer;">Complete</div>';
+		var btnStr = '<div style="width:100px;height:42px;background-color:rgba(0,0,0,0.7);margin:3px;';
+		btnStr += 'float:right;margin-right:5px;text-align:center;color:#fff;font-size:17px;';
+		btnStr += 'line-height:42px;border-radius:3px;margin-bottom:5px;cursor:pointer;">Complete</div>';
 		
 		//table
 		var tableStr = '<table id="' + TABLE_ID + '" border="0" cellspacing="0" cellpadding="0">';
 			tableStr += '<tr><td>1</td><td>2</td><td>3</td></tr>';
 			tableStr += '<tr><td>4</td><td>5</td><td>6</td></tr>';
 			tableStr += '<tr><td>7</td><td>8</td><td>9</td></tr>';
-			tableStr += '<tr><td style="background-color:#D3D9DF;">.</td><td>0</td>';
-			tableStr += '<td style="background-color:#D3D9DF;">Delete</td></tr>';
+			tableStr += '<tr><td style="background-color:rgba(0,0,0,0.7);color:#fff;">.</td><td>0</td>';
+			tableStr += '<td style="background-color:rgba(0,0,0,0.7);color:#fff;">Delete</td></tr>';
 			tableStr += '</table>';
 		this.el.innerHTML = cssStr + btnStr + tableStr;
 		
@@ -64,6 +64,7 @@
 				}
 			}else if(clickEl.tagName.toLocaleLowerCase() === 'div' && value === "Complete"){
 				body.removeChild(self.el);
+				console.log(self.el);
 			}else if(clickEl.tagName.toLocaleLowerCase() === 'td' && value === "Delete"){
 				var num = self.input.value;
 				if(num){
