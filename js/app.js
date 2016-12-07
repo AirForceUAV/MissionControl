@@ -299,22 +299,22 @@ $(".auto_path").on("click", function () {
     client.write("vehicle.AUTO()");
     showTips("AUTO!");
 });
-var mes;
+var route_mes;
 $(".route_path").on("click", function () {
     hideWin();
     clearPath();
     dynamicLine(locationCurrent[1], locationCurrent[0], 3);
     map.removeEventListener("click", generate_message);
-    mes = "Route(\"";
+    route_mes = "Route(\"";
     map.addEventListener("click", generate_message);
     $(".take-off").css("display", "block"); 
     showTips("Route!");
 });
 $(".take-off").on("click", function (){
-    mes= mes.substring(0,mes.length-1)
-    mes += "\")";
-    console.log(mes);
-    client.write(mes);
+    route_mes= route_mes.substring(0,route_mes.length-1)
+    route_mes += "\")";
+    console.log(route_mes);
+    client.write(route_mes);
     $(".take-off").css("display", "none");
     map.removeEventListener("click", generate_message);
 })
@@ -334,6 +334,7 @@ $(".test_function_submit").on("click", function () {
     hideWin();
 });
 $(".hd_fw_submit").on("click", function () {
+    console.log($(".heading_text"));
     var hd_text = $(".heading_text").val();
     var fw_text = $(".forward_text").val();
     if(hd_text){
@@ -403,16 +404,20 @@ $(".roll-right").on("click", function () {
     showTips("Roll right");
 }); 
 $(".cancel").on("click", function () {
-    client.write("Cancel");
-    showTips("Cancel");
-});
-
-$(".glyphicon-th-list").on("click", function () {
-    if($("#win").css("display") == "none"){
-        $("#win").show();
-    }else{
-        hideWin();
-    }
+    $('#ConfirmModal').modal('show');
+    // slide 初始化
+    var slider = new SliderUnlock(".slideunlock-slider", {
+        labelTip: "Confirm To Cancel",
+        successLabelTip: "Cancel",
+        duration: 200   // 动画效果执行时间，默认200ms
+    }, function(){
+        $('#ConfirmModal').modal('hide');
+        client.write("Cancel");
+        showTips("Cancel");
+        slider.reset();
+    }, function(){
+    });
+    slider.init();  
 });
 $(".change").on("click", function () {
       var height = $(window).height() - 60;
@@ -451,14 +456,20 @@ $(".change").on("click", function () {
         }
 });
 
-$("#test_text,#dn_text, #de_text, #heading_text, #forward_text").on("click", function () {
+// long press
+$('.turn-up, .turn-left, .turn-right, .turn-down').longPress(function(){
+    $('#longPressModal').modal('show');
+});
+
+// keyboard
+$("#test_text,#dn_text, #de_text, #heading_text, #forward_text, #dis_text, #vs_text").on("click", function () {
     new KeyBoard($(this)[0]);
 });
 
 // for router
 function generate_message(e){
-    mes += (e.point.lat + "+" + e.point.lng + ",");
-    console.log(mes);
+    route_mes += (e.point.lat + "+" + e.point.lng + ",");
+    console.log(route_mes);
     dynamicLine(e.point.lng, e.point.lat, 3);
 }
   
@@ -580,12 +591,19 @@ function clearPath(){
 }
 // hide the modal
 function hideWin(){
-    $("#win").hide();
+    $('#win').modal('hide');
+    
+}
+// modal hide 时触发
+$('.modal').on('hide.bs.modal', function (e) {
+    $("#__w_l_h_v_c_z_e_r_o_divid").remove();
+})
+// modal hide 后触发
+$('.modal').on('hidden.bs.modal', function (e) {
     $("input").each(function(){
         $(this)[0].value = "";
     });
-    $("#__w_l_h_v_c_z_e_r_o_divid").remove();
-}
+})
 
 /*
 * show alert
@@ -626,20 +644,20 @@ function add_control(){
 }
 
 
-$.fn.longPress = function(fn) {
-    var timeout = undefined;
-    var $this = this;
-    for(var i = 0;i<$this.length;i++){
-        $this[i].addEventListener('touchstart', function(event) {
-            timeout = setTimeout(fn, 1000);  //长按时间超过800ms，则执行传入的方法
-            }, false);
-        $this[i].addEventListener('touchend', function(event) {
-            clearTimeout(timeout);  //长按时间少于800ms，不会执行传入的方法
-            }, false);
-    }
-}
-$('.cancel').longPress(function(){
-    alert("long press");
-});
+    // function getLocation(){
+    //     if (navigator.geolocation){
+    //         var position = navigator.geolocation.getCurrentPosition(showPosition);
+    //         console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
+
+
+    //     }else{
+    //         console.log("Geolocation is not supported by this browser.")
+    //     }
+    // }
+    // function showPosition(position){
+    //     console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
+    // }
+
+    // getLocation();
 
 

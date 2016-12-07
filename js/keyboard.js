@@ -12,7 +12,7 @@
 		this.el = document.createElement('div');
 		
 		var self = this;
-		var zIndex = options && options.zIndex || 1000;
+		var zIndex = options && options.zIndex || 1050;
 		var width = options && options.width || '100%';
 		var height = options && options.height || '240px';
 		var fontSize = options && options.fontSize || '19px';
@@ -64,7 +64,6 @@
 				}
 			}else if(clickEl.tagName.toLocaleLowerCase() === 'div' && value === "Complete"){
 				body.removeChild(self.el);
-				console.log(self.el);
 			}else if(clickEl.tagName.toLocaleLowerCase() === 'td' && value === "Delete"){
 				var num = self.input.value;
 				if(num){
