@@ -18,7 +18,11 @@ var path_points = [];
 //百度化坐标数组。用于更新显示范围
 var bPoints = [];  
 // 当前位置在地图上的标注
-var marker;
+var plane_marker;
+// 路径标注
+var path_marker;
+// 路径num
+var path_num = 1;
 // 当前位置记录
 var locationCurrent = [];
   
@@ -136,7 +140,7 @@ client.on('data', (data) => {
     // 高度
     var height = Number(locationCurrent[2]).gied(2);
     // distance
-    var distance = Number(data.DistanceFromHome).toFixed(2);
+    var distance = Number(data.DistanceFromHome).toFixed(0);
     // GPS
     var GPS = data.GPS;
 
@@ -144,7 +148,7 @@ client.on('data', (data) => {
 
     var gear = data.Gear;
 
-    var rpm = (Number(data.RPM)/100).toFixed(2);
+    var rpm = (Number(data.RPM)/100).toFixed(1);
 
     var heading = data.Heading;
 
@@ -458,7 +462,7 @@ $(".change").on("click", function () {
 
 // long press
 $('.turn-up, .turn-left, .turn-right, .turn-down').longPress(function(){
-    $('#longPressModal').modal('show');
+    
 });
 
 // keyboard
@@ -492,7 +496,7 @@ function addLine(points, flag){
     if(flag == 2){
         polyline = new BMap.Polyline(linePoints, {strokeColor:"red", strokeWeight:5, strokeOpacity:1});   //创建折线  
     }else if(flag == 3){
-        polyline = new BMap.Polyline(linePoints, {strokeColor:"green", strokeWeight:5, strokeOpacity:0.5});   //创建折线  
+        polyline = new BMap.Polyline(linePoints, {strokeColor:"green", strokeWeight:5, strokeOpacity:0.6});   //创建折线  
     }
     map.addOverlay(polyline);   //增加折线  
 }  
@@ -507,8 +511,7 @@ function dynamicLine(lng, lat, flag){
     var lng = lng;
     var lat = lat;
     var id = getRandom(1000);  
-    var point = {"lng":lng,"lat":lat,"status":1,"id":id}  
-    var newLinePoints = [];  
+    var point = {"lng":lng,"lat":lat,"status":1,"id":id}
     var len;  
   
     if(flag == 2){
@@ -518,8 +521,18 @@ function dynamicLine(lng, lat, flag){
         addLine(points, flag);//增加轨迹线 
     }else if(flag == 3){
         path_points.push(point);
-        len = path_points.length;  
+        len = path_points.length; 
         path_points = path_points.slice(len-2, len);//最后两个点用来画线。
+        var point_1 = new BMap.Point(lng, lat); 
+        var point_2 = new BMap.Point(path_points[0].lng, path_points[0].lat); 
+        if(len > 1){
+            var dis = map.getDistance(point_1, point_2).toFixed(0);
+            path_num ++;
+            markPath(point_1, path_num, dis);
+            markLocation(point_1);
+        }else{
+            markPath(point_1, 1, 0);
+        }
         addLine(path_points, flag);//增加轨迹线 
     }
 }  
@@ -540,13 +553,14 @@ function setZoom(bPoints){
     var mapZoom = view.zoom;   
     var centerPoint = view.center;   
     map.centerAndZoom(centerPoint, mapZoom);  
-} 
+}
+
 /*
 * mark the location
 * lng: 经度
 * lat: 纬度
 */  
-function markLocation(lng, lat){
+function markLocation(new_point){
     // add icon
     // var pt = new BMap.Point(lng, lat);
     // var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif");
@@ -554,14 +568,40 @@ function markLocation(lng, lat){
     // map.addOverlay(marker2); 
 
     // map.clearOverlays(); 
-    map.removeOverlay(marker);
-    var new_point = new BMap.Point(lng, lat);
+    // 去掉之前标注的点
+    map.removeOverlay(path_marker);
     // var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif");
-    marker = new BMap.Marker(new_point);  // 创建标注
+    path_marker = new BMap.Marker(new_point);  // 创建标注
     // marker = new BMap.Marker(new_point,{icon:myIcon});  // 创建标注
-    map.addOverlay(marker);              // 将标注添加到地图中
-    map.panTo(new_point);     //让地图平滑移动至新中心点
+    map.addOverlay(path_marker);              // 将标注添加到地图中
+    // map.panTo(new_point);     //让地图平滑移动至新中心点
 }
+
+/*
+* mark the path point
+* lng: 经度
+* lat: 纬度
+*/  
+function markPath(new_point, num, dis){
+    var title = "NO." + String(num) + " : " + String(dis) + "m";
+    var opts = {
+        position : new_point,
+        offset   : new BMap.Size(0, 0)    //设置文本偏移量
+    }
+    var label = new BMap.Label(title, opts);  // 创建文本标注对象
+        label.setStyle({
+             color : "red",
+             fontSize : "20px",
+             height : "30px",
+             padding : "2px 120px 2px 1px",
+             lineHeight : "30px",
+             fontFamily:"微软雅黑",
+             'border-radius' : "3px",
+             background : "rgba(255,255,255,0.8)"
+         });
+    map.addOverlay(label);              // 将标注添加到地图中
+}
+
 /*
 * mark the location use plane Symbol
 * lng: 经度
@@ -569,9 +609,9 @@ function markLocation(lng, lat){
 * head: 顺时针旋转角度（eg:90）
 */ 
 function markPlane(lng, lat, head){
-    map.removeOverlay(marker);
+    map.removeOverlay(plane_marker);
     var new_point = new BMap.Point(lng, lat);
-    marker = new BMap.Marker(new BMap.Point(new_point.lng,new_point.lat), {
+    plane_marker = new BMap.Marker(new BMap.Point(new_point.lng,new_point.lat), {
       // 初始化小飞机Symbol
       icon: new BMap.Symbol(BMap_Symbol_SHAPE_PLANE, {
         scale: 2.5,
@@ -581,7 +621,7 @@ function markPlane(lng, lat, head){
         fillColor: "#f00"
       })
     });
-    map.addOverlay(marker);
+    map.addOverlay(plane_marker);
     map.panTo(new_point);     //让地图平滑移动至新中心点
 }
 // clear the path
@@ -621,7 +661,10 @@ if(locationCurrent.length == 0){
     geolocation.getCurrentPosition(function(r){
     if(this.getStatus() == BMAP_STATUS_SUCCESS){
         markPlane(r.point.lng, r.point.lat, 0);
-        console.log(r.point.lat)
+        console.log(r.point.lng + "," +r.point.lat);
+        locationCurrent[0] = r.point.lat;
+        locationCurrent[1] = r.point.lng;
+
     }else {
       alert('failed'+this.getStatus());
     }        
@@ -644,20 +687,5 @@ function add_control(){
 }
 
 
-    // function getLocation(){
-    //     if (navigator.geolocation){
-    //         var position = navigator.geolocation.getCurrentPosition(showPosition);
-    //         console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
-
-
-    //     }else{
-    //         console.log("Geolocation is not supported by this browser.")
-    //     }
-    // }
-    // function showPosition(position){
-    //     console.log("Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude);
-    // }
-
-    // getLocation();
 
 

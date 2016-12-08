@@ -14,11 +14,13 @@
   <script type="text/javascript" src="js/swfobject.min.js"></script>
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="css/app.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/echarts.min.js"></script>
-  <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
   <script>if (window.module) module = window.module;</script>
+  <style>
+  .webchimeras {
+  float: left;
+  width: 270px;
+  height: 170px;
+}</style>
 </head>
 <body>
 
@@ -26,7 +28,7 @@
   <div class="header" id="header">
     <div class="header-top">
       <div class="header-right">
-        <span class="glyphicon glyphicon-th-list small_g"></span> 
+        <span class="glyphicon glyphicon-th-list small_g" data-toggle="modal" data-target="#win"></span> 
       </div>
 
       <div class="header-left">
@@ -35,6 +37,14 @@
             <button type="button" class="btn btn-default dropdown-toggle gear_button" data-toggle="dropdown">
               <span id="logo_text" class="logo_text">UAV</span><span class="caret logo_caret"></span>
             </button>
+            <!-- <h1>Hello World!</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>. -->
+           <!--  <video controls>
+              <source src="rtsp://192.168.1.28:8554/test">
+              <p>Your browser does not support H.264/MP4.</p>
+            </video> -->
             <ul class="dropdown-menu" role="menu">
               <li class="gcs">
                 <span class="glyphicon glyphicon-phone group_button"></span> 
@@ -178,9 +188,10 @@
 <div class="height-distance">
   <span class="height-title text">H:</span>
   <span id ="height-value" class="height-value text">95.1</span>
-  <span class="height-unit text">M</span>
   <span class="dis-title text">D:</span>
   <span id="dis-value" class="dis-value text">95.1</span>
+  <span class="dis-title text">D(H):</span>
+  <span id="dis-value" class="dis-home-value text">95.1</span>
   <span class="dis-unit text">M</span>
 </div>
 <div class="vs-hs">
@@ -248,98 +259,123 @@
   <div id="player" class="video_container"></div>  
 </div>
 
-<div id="win">
-  <div class="test-function-group">
-    <span class="win_text">Test</span>
-    <input class="win_input test_text" id="test_text" type="text" value=""/>
-    <button class="submit_button test_function_submit" type="button" value="Submit">Submit</button>
-  </div>
+<div id="win" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="test-function-group">
+        <span class="win_text">Test</span>
+        <input class="win_input test_text" id="test_text" type="text" value=""/>
+        <button class="submit_button test_function_submit" type="button" value="Submit">Submit</button>
+      </div>
 
-  <div class="dn-de-group">
-    <span class="win_text">DN</span>
-    <input class="win_input dn_text" id="dn_text" type="text" value=""/>
-    <span class="win_text">DE</span>
-    <input class="win_input de_text" id="de_text" type="text" value=""/>
-<!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
- -->    <button class="submit_button dn_de_submit" type="button" value="Submit">Submit</button>
-  </div>
+      <div class="dn-de-group">
+        <span class="win_text">DN</span>
+        <input class="win_input dn_text" id="dn_text" type="text" value=""/>
+        <span class="win_text">DE</span>
+        <input class="win_input de_text" id="de_text" type="text" value=""/>
+    <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
+     -->    <button class="submit_button dn_de_submit" type="button" value="Submit">Submit</button>
+      </div>
 
-  <div class="heading-forward-group">
-    <span class="win_text">HD</span>
-    <input class="win_input heading_text" id ="heading_text" type="text" value=""/>
-    <span class="win_text">FW</span>
-    <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
-<!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
- -->    <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
+      <div class="heading-forward-group">
+        <span class="win_text">HD</span>
+        <input class="win_input heading_text" id ="heading_text" type="text" value=""/>
+        <span class="win_text">FW</span>
+        <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
+    <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
+     -->    <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
+      </div>
+    </div>
   </div>
-  <!-- <div class="fly_control_group">
-      <div class="button_text_group gcs">
-      <span class="glyphicon glyphicon-phone group_button"></span> 
-      <span class="group_text">GCS</span>
-    </div>
-    <div class="button_text_group radio_d">
-      <span class="glyphicon glyphicon-registration-mark group_button"></span> 
-      <span class="group_text">ARC</span>
-    </div>
-    <div class="button_text_group hovering">
-      <span class="glyphicon glyphicon-plane group_button"></span> 
-      <span class="group_text">Loiter</span>
-    </div>
-    <div class="button_text_group guide_fly">
-      <span class="glyphicon glyphicon-send group_button"></span> 
-      <span class="group_text">Guided</span>
-    </div>
-    <div class="button_text_group avoid_fly">
-      <span class="glyphicon glyphicon-indent-left group_button"></span> 
-      <span class="group_text">Avoid</span>
-    </div>
-    <div class="button_text_group change_video_url shen">
-      <span class="glyphicon glyphicon-facetime-video group_button"></span> 
-      <span class="group_text change_video_text">Shen</span>
-    </div>
-    <div class="button_text_group download_path">
-      <span class="glyphicon glyphicon-cloud-download group_button"></span> 
-      <span class="group_text download_path_text">Dload</span>
-    </div>
-    <div class="button_text_group auto_path">
-      <span class="glyphicon glyphicon-eye-open group_button"></span> 
-      <span class="group_text auto_path_text">Auto</span>
-    </div>
-    <div class="button_text_group route_path">
-      <span class="glyphicon glyphicon-upload group_button"></span> 
-      <span class="group_text auto_path_text">Route</span>
-    </div>
-    <div class="button_text_group back-home">
-      <span class="glyphicon glyphicon-home group_button"></span> 
-      <span class="group_text">Home</span>
-    </div>
-  </div> -->
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="longPressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Set Data</h4>
+      </div>
+      <div class="modal-body">
+        <div class="dis-vs-group">
+          <span class="win_text">DIS</span>
+          <input class="win_input dis_text" id="dis_text" type="text" value=""/>
+          <span class="win_unit win_text">m</span>
+          <span class="win_text">V/S</span>
+          <input class="win_input vs_text" id="vs_text" type="text" value=""/>
+          <span class="win_unit win_text">v/s</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary dis_vs_submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="slideunlock-wrapper">
+    <input type="hidden" value="" class="slideunlock-lockable"/>
+    <div class="slideunlock-slider">
+        <span class="slideunlock-label"><span class="glyphicon glyphicon-chevron-right"></span></span>
+        <span class="slideunlock-lable-tip"></span>
+    </div>
+</div>
+
+    </div>
+  </div>
+</div>
 
 <div id="myAlert" class="alert alert-success">
     <span class="tip_mes">Success!</span>
 </div>
  
 </body>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YeAptwx5UPYqVxFHWWCETOfQm40RfcbD"></script>
+<script type="text/javascript" src="js/longpress.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/keyboard.js"></script>
-<script type="text/javascript">  
-    var flashvars = {
-        src: "rtmp://video.airforceuav.com:1935/live/livestream"
-    };
-    var params = {
-        allowFullScreen: true
-        , allowScriptAccess: "always"
-        , bgcolor: "#000000"
-        ,controlBarAutoHide: true
-    };
-    var attrs = {
-        name: "player"
-    };
+<script type="text/javascript">
 
-    swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
+// var wjs = require("wcjs-player");
+
+// var player = new wjs("#player").addPlayer({
+//   autoplay: true,
+//   wcjs: require('wcjs-prebuilt'),
+//   vlcArgs: ["-vvv"]
+//   // OR
+//   // wcjs: require('webchimera.js')
+//   // OR
+//   // wcjs: require([path-to-Webchimera.js.node-file])
+// });
+
+// player.addPlaylist("rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp");
+// player.addPlaylist("rtsp://192.168.1.28:8554/test");
+
+    // var flashvars = {
+    //     src: "rtmp://video.airforceuav.com:1935/live/livestream"
+    // };
+    // var params = {
+    //     allowFullScreen: true
+    //     , allowScriptAccess: "always"
+    //     , bgcolor: "#000000"
+    //     ,controlBarAutoHide: true
+    // };
+    // var attrs = {
+    //     name: "player"
+    // };
+
+    // swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
 </script>  
-
+<!-- <script type="text/javascript" src="js/jquery.mobile.min.js"></script> -->
+<script type="text/javascript" src="js/jquery.slideunlock.min.js"></script>
+ 
 </html>
