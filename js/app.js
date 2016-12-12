@@ -273,20 +273,20 @@ $(".hovering").on("click", function () {
     client.write("vehicle.set_channels_mid()");
     showTips("Set Channels Mid!");
 });
-$(".change_video_url").on("click", function () {
-    var player = document.getElementById("player");
-    hideWin();
-    var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
-    if($(this).hasClass("shen")){
-        fileName = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
-        $(this).removeClass("shen");
-        $(".change_video_text")[0].innerText = "Jiang";
-    }else{
-        $(this).addClass("shen");
-        $(".change_video_text")[0].innerText = "Shen";
-    }
-    player.setMediaResourceURL(fileName)
-});
+// $(".change_video_url").on("click", function () {
+//     var player = document.getElementById("player");
+//     hideWin();
+//     var fileName = 'rtmp://video.airforceuav.com:1935/live/livestream';
+//     if($(this).hasClass("shen")){
+//         fileName = "rtmp://live.hkstv.hk.lxdns.com/live/hks";
+//         $(this).removeClass("shen");
+//         $(".change_video_text")[0].innerText = "Jiang";
+//     }else{
+//         $(this).addClass("shen");
+//         $(".change_video_text")[0].innerText = "Shen";
+//     }
+//     player.setMediaResourceURL(fileName)
+// });
 $(".back-home").on("click", function () {
     hideWin();
     client.write("vehicle.RTL()");
@@ -423,27 +423,64 @@ $(".cancel").on("click", function () {
     });
     slider.init();  
 });
+// $(".change").on("click", function () {
+//       var height = $(window).height() - 60;
+//       var width = $(window).width();
+
+//         if(!$(this).hasClass("video_mode")){
+//           swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
+//           $('#allmap').css({
+//               "width":"270px",
+//               "height":"170px",
+//               "position":"absolute",
+//               "right":"10px",
+//               "bottom":"10px"
+//             });
+//           $(this).addClass("video_mode");
+//           $("#player").css({
+//             "right": "0",
+//             "bottom": "0",
+//             "z-index": "-1"
+//           });
+//         }else{
+//             swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs);           
+//             $('#allmap').css({
+//               "width":"100%",
+//               "height":"100%",
+//               "position":"relative",
+//               "right":"0",
+//               "margin-top":"60px"
+//             });
+//           $("#player").css({
+//             "right": "10px",
+//             "bottom": "10px",
+//             "z-index": "0"
+//           });
+//           $(this).removeClass("video_mode");
+//         }
+// });
+
 $(".change").on("click", function () {
-      var height = $(window).height() - 60;
+      var height = $(window).height();
       var width = $(window).width();
 
         if(!$(this).hasClass("video_mode")){
-          swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
           $('#allmap').css({
-              "width":"270px",
-              "height":"170px",
+              "width":"288px",
+              "height":"180px",
               "position":"absolute",
               "right":"10px",
               "bottom":"10px"
             });
           $(this).addClass("video_mode");
-          $("#player").css({
+          $("#test_desktop").css({
+            "width":"100%",
+            "height":"100%",
+            "position":"relative",
             "right": "0",
-            "bottom": "0",
             "z-index": "-1"
           });
         }else{
-            swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs);           
             $('#allmap').css({
               "width":"100%",
               "height":"100%",
@@ -451,7 +488,10 @@ $(".change").on("click", function () {
               "right":"0",
               "margin-top":"60px"
             });
-          $("#player").css({
+          $("#test_desktop").css({
+            "position":"absolute",
+            "width":"288px",
+            "height":"180px",
             "right": "10px",
             "bottom": "10px",
             "z-index": "0"
@@ -656,19 +696,52 @@ function showTips(mes){
 }
 
 if(locationCurrent.length == 0){
+    // google 的
+    // if (!navigator.geolocation){
+    //     console.log("您的浏览器不支持地理位置");
+    // }
+
+    // navigator.geolocation.getCurrentPosition(success, error);
+    // function success(position) {
+    //     var latitude  = position.coords.latitude;
+    //     var longitude = position.coords.longitude;
+
+    //     markPlane(longitude, latitude, 0);
+    //     console.log(longitude + "," +latitude);
+    //     locationCurrent[0] = latitude;
+    //     locationCurrent[1] = longitude;
+    // };
+    // function error(err) {
+    //     console.log(err);
+    // };
+
     // 初始定位使用浏览器位置
     var geolocation = new BMap.Geolocation();
     geolocation.getCurrentPosition(function(r){
     if(this.getStatus() == BMAP_STATUS_SUCCESS){
         markPlane(r.point.lng, r.point.lat, 0);
-        console.log(r.point.lng + "," +r.point.lat);
-        locationCurrent[0] = r.point.lat;
-        locationCurrent[1] = r.point.lng;
+            locationCurrent[0] = r.point.lat;
+            locationCurrent[1] = r.point.lng;
 
     }else {
       alert('failed'+this.getStatus());
     }        
     },{enableHighAccuracy: true})
+
+
+    // 定位对象
+    // var geoc = new BMap.Geocoder();
+    // var geolocation = new BMap.Geolocation();
+    // geolocation.getCurrentPosition(function(r){
+    //     if(this.getStatus() == BMAP_STATUS_SUCCESS){
+    //         markPlane(r.point.lng, r.point.lat, 0);
+    //         locationCurrent[0] = r.point.lat;
+    //         locationCurrent[1] = r.point.lng;
+    //         // setLocation(r.point);
+    //     }else {
+    //     }
+    // },{enableHighAccuracy: true});
+
 }
 map.enableScrollWheelZoom();//滚轮放大缩小 
 add_control();

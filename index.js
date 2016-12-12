@@ -27,6 +27,7 @@ switch (process.platform) {
 app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
 
 function createWindow () {
+  // process.env.GOOGLE_API_KEY = 'AIzaSyCQtW87ztHqA2ecB3h9os-nvt480gbz2Wg';
 
   // terminal = new BrowserWindow({
   //   width: 800, 
@@ -44,13 +45,15 @@ function createWindow () {
     webPreferences: {
       plugins: true
     },
-    fullscreen: true,
+    // fullscreen: true,
     autoHideMenuBar: true
   })
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
+  // win.loadURL(`file://${__dirname}/template/pairing.html`)
+
 
   // Open the DevTools.
   // win.webContents.openDevTools()
@@ -86,8 +89,5 @@ app.on('activate', () => {
   }
 })
 
-// client.on('data', (data) => {
-//   console.log("test");
-// });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

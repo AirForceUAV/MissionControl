@@ -47,10 +47,8 @@
 .logo{
 	float: left;
 	padding-top: 5px;
-	width: 200px;
+	width: 160px;
 	height: 60px;
-	border: solid 1px;
-	border-color: #444;
 	padding-left: 30px;
 }
 .logo_text{
@@ -103,12 +101,12 @@
 	left: 95px;
 	bottom: 10px;
 	height: 100px;
-	width: 300px;
+	width: 310px;
 	background-color: rgba(0,0,0,0.8);
 	border-radius:5px;
 }
 .height-distance{
-	width: 190px;
+	width: 200px;
 	height: 40px;
 	margin-left: 90px;
 	border-bottom: solid 1px;
@@ -285,18 +283,6 @@
 	background: rgba(0,0,0,0.7);
 	border-radius: 20px;
 }
-#win{
-	position: absolute;
-	top: 25%;
-	left: 30%;
-	width: 450px;
-	height: 260px;
-	display: none;
-	background: rgba(0,0,0,0.6);
-	border-radius: 6px;
-	padding: 10px;
-	font-size: 20px;
-}
 .win_text{
 	float: left;
 	color: white;
@@ -313,9 +299,12 @@
 	margin: 12px;
 	border-radius: 5px;
 }
-.dn-de-group, .heading-forward-group, .gear-group, .test-function-group{
+.dn-de-group, .gear-group, .test-function-group{
 	height: 70px;
 	border-bottom: lightgray solid 1px;
+}
+.heading-forward-group,.dis-vs-group{
+	height: 70px;
 }
 .group_text{
 	color: white;
@@ -341,6 +330,13 @@ span.glyphicon.glyphicon-random.small_g{
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
+}
+#test_desktop{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 288px;
+	height: 180px;
 }
 .BMap_omCtrl{
 	display: none;
@@ -418,4 +414,59 @@ ul.dropdown-menu li{
 .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus,
 .btn-default:active, .open>.dropdown-toggle.btn-default:active{
     background-color: rgba(0,0,0,0);
+}
+.modal{
+	position: absolute;
+	top: 20%;
+	left: 30%;
+	width: 450px;
+	border-radius: 6px;
+}
+.close span, .modal-title{
+	color: white;
+}
+.modal-content{
+	width: 450px;
+	padding: 10px;
+	font-size: 20px;
+	background: rgba(0,0,0,0.6);
+}
+.win_unit{
+	margin-left: 0;
+}
+
+.slideunlock-wrapper{
+    width: 360px;
+    position: relative;
+    padding: 20px;
+    margin: 0 auto;
+}
+.slideunlock-slider{
+    padding:20px;
+    position: relative;
+    border-radius: 35px;
+    background-color: rgba(100,100,100,0.6);
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+.slideunlock-label{
+    width: 70px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    padding: 10px;
+    background: rgba(255,0,0,0.7);
+    z-index: 999;
+    border-radius: 35px;
+    cursor: pointer;
+}
+.slideunlock-label-tip{
+    z-index: 9;
+}
+@media screen and (max-width: 640px) {
+    .slideunlock-wrapper{
+        width: 64%;
+    }
 }

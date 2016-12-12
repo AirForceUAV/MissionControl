@@ -1,8 +1,13 @@
 {
-  "name": "electron-prebuilt",
-  "version": "1.3.5",
-  "author": {
-    "name": "Ning xuran"
+  "name": "your-app",
+  "version": "0.1.0",
+  "main": "index.js",
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.7",
+    "electron-rebuild": "^1.4.0"
   },
-  "main": "index.js"
+  "dependencies": {
+    "wcjs-player": "^6.0.1",
+    "wcjs-prebuilt": "^3.0.0"
+  }
 }
