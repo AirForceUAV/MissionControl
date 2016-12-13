@@ -1,3 +1,4 @@
+const {ipcRenderer} = require('electron')
 
 jQuery(document).ready(function() {
 	
@@ -14,7 +15,6 @@ jQuery(document).ready(function() {
     });
     
     $('.login-form').on('submit', function(e) {
-    	
     	$(this).find('input[type="text"], input[type="password"], textarea').each(function(){
     		if( $(this).val() == "" ) {
     			e.preventDefault();
@@ -24,8 +24,27 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
-    	
+        console.log($(this).find('.input-error').length);
+    	if($(this).find('.input-error').length == 0){
+            ipcRenderer.send('index_view', 'ping');
+        }
     });
     
     
 });
+
+
+function ReadFile(data) {
+    $("#form-username").attr("value",data);
+}        
+var xhr = new XMLHttpRequest();
+xhr.onload = function () {            
+    ReadFile(xhr.responseText);
+};
+try {
+    xhr.open("get", "../js/.UserCredential", true);
+    xhr.send();
+}
+catch (ex) {
+    ReadFile(ex.message);
+}        

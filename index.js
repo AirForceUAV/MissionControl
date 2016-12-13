@@ -52,7 +52,7 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
-  // win.loadURL(`file://${__dirname}/template/pairing.html`)
+  win.loadURL(`file://${__dirname}/template/pairing.html`)
 
 
   // Open the DevTools.
@@ -91,3 +91,21 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+const ipcMain = require('electron').ipcMain;
+
+ipcMain.on('pairing_view', function(event, arg) {
+  console.log(arg);  // prints "ping"
+  event.sender.send('pairing-reply', 'pong');
+});
+
+ipcMain.on('index_view', function(event, arg) {
+  console.log(arg);  // prints "ping"
+  event.sender.send('index-reply', 'pong');
+  win.loadURL(`file://${__dirname}/index.html`)
+});
+
+ipcMain.on('synchronous-message', function(event, arg) {
+  console.log(arg);  // prints "ping"
+  event.returnValue = 'pong';
+});
