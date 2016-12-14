@@ -341,18 +341,21 @@ $(".hd_fw_submit").on("click", function () {
     console.log($(".heading_text"));
     var hd_text = $(".heading_text").val();
     var fw_text = $(".forward_text").val();
+    var hd_fw_tip = "";
     if(hd_text){
         var mes = 'vehicle.condition_yaw('+ hd_text +')';
         client.write(mes);
+        hd_fw_tip += "heading:" + hd_text + "°" 
         showTips("heading:" + hd_text + "°");
         hideWin();
     }
     if(fw_text){
         var mes = 'vehicle.forward('+ fw_text +')';
         client.write(mes);
-        showTips("forword:" + fw_text + "s");
+        hd_fw_tip += "forword:" + fw_text + "s"
         hideWin();
     }
+    showTips(hd_fw_tip);
     
 });
 $(".l-button").on("click", function () {
@@ -716,31 +719,31 @@ if(locationCurrent.length == 0){
     // };
 
     // 初始定位使用浏览器位置
-    var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-    if(this.getStatus() == BMAP_STATUS_SUCCESS){
-        markPlane(r.point.lng, r.point.lat, 0);
-            locationCurrent[0] = r.point.lat;
-            locationCurrent[1] = r.point.lng;
-
-    }else {
-      alert('failed'+this.getStatus());
-    }        
-    },{enableHighAccuracy: true})
-
-
-    // 定位对象
-    // var geoc = new BMap.Geocoder();
     // var geolocation = new BMap.Geolocation();
     // geolocation.getCurrentPosition(function(r){
-    //     if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    //         markPlane(r.point.lng, r.point.lat, 0);
+    // if(this.getStatus() == BMAP_STATUS_SUCCESS){
+    //     markPlane(r.point.lng, r.point.lat, 0);
     //         locationCurrent[0] = r.point.lat;
     //         locationCurrent[1] = r.point.lng;
-    //         // setLocation(r.point);
-    //     }else {
-    //     }
-    // },{enableHighAccuracy: true});
+
+    // }else {
+    //   alert('failed'+this.getStatus());
+    // }        
+    // },{enableHighAccuracy: true})
+
+    // 定位对象
+    var geoc = new BMap.Geocoder();
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            markPlane(r.point.lng, r.point.lat, 0);
+            console.log(r.point);
+            locationCurrent[0] = r.point.lat;
+            locationCurrent[1] = r.point.lng;
+            // setLocation(r.point);
+        }else {
+        }
+    },{enableHighAccuracy: true});
 
 }
 map.enableScrollWheelZoom();//滚轮放大缩小 

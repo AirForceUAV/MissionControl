@@ -53,6 +53,8 @@ function createWindow () {
   win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
   win.loadURL(`file://${__dirname}/template/pairing.html`)
+  // win.loadURL(`http://127.0.0.1:8848/demo/index.html`)
+
 
 
   // Open the DevTools.
