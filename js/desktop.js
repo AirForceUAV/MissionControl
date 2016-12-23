@@ -44,13 +44,14 @@
 
 
 // In the renderer process.
-const {desktopCapturer} = require('electron')
+const {ipcRenderer, desktopCapturer} = require('electron')
 
 desktopCapturer.getSources({types: ['window','screen']}, (error, sources) => {
   if (error) throw error
   for (let i = 0; i < sources.length; ++i) {
     console.log(sources[i].name);
     if (sources[i].name === 'GStreamer Video Output') {
+     // navigator.mediaDevices.getUserMedia()
       navigator.webkitGetUserMedia({
         audio: false,
         video: {
@@ -59,8 +60,8 @@ desktopCapturer.getSources({types: ['window','screen']}, (error, sources) => {
             chromeMediaSourceId: sources[i].id,
             minWidth: 1280,
             maxWidth: 1280,
-            minHeight: 720,
-            maxHeight: 720
+            minHeight: 742,
+            maxHeight: 742
           }
         }
       }, handleStream, handleError)
@@ -71,6 +72,8 @@ desktopCapturer.getSources({types: ['window','screen']}, (error, sources) => {
 
 function handleStream (stream) {
   document.querySelector('video').src = URL.createObjectURL(stream)
+  console.log("handle stream");
+  ipcRenderer.send('full-screen', 'ping');
 }
 
 function handleError (e) {

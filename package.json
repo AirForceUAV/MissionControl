@@ -2,6 +2,9 @@
   "name": "your-app",
   "version": "0.1.0",
   "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
   "devDependencies": {
     "electron-prebuilt": "^1.4.7",
     "electron-rebuild": "^1.4.0"

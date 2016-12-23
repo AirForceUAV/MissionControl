@@ -1,7 +1,6 @@
 const net = require('net');
 const path = process.env.HOME + "/.UDS"+"_mc";
 var client = net.connect({ path: path});
-
 // init echarts
 var eChart = echarts.init(document.getElementById('e-attr'));
 // init baidu map
@@ -426,60 +425,30 @@ $(".cancel").on("click", function () {
     });
     slider.init();  
 });
-// $(".change").on("click", function () {
-//       var height = $(window).height() - 60;
-//       var width = $(window).width();
-
-//         if(!$(this).hasClass("video_mode")){
-//           swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
-//           $('#allmap').css({
-//               "width":"270px",
-//               "height":"170px",
-//               "position":"absolute",
-//               "right":"10px",
-//               "bottom":"10px"
-//             });
-//           $(this).addClass("video_mode");
-//           $("#player").css({
-//             "right": "0",
-//             "bottom": "0",
-//             "z-index": "-1"
-//           });
-//         }else{
-//             swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs);           
-//             $('#allmap').css({
-//               "width":"100%",
-//               "height":"100%",
-//               "position":"relative",
-//               "right":"0",
-//               "margin-top":"60px"
-//             });
-//           $("#player").css({
-//             "right": "10px",
-//             "bottom": "10px",
-//             "z-index": "0"
-//           });
-//           $(this).removeClass("video_mode");
-//         }
-// });
 
 $(".change").on("click", function () {
       var height = $(window).height();
       var width = $(window).width();
-
+      if(width >= height*1.7251){
+        height = width/1.7251;
+      }else{
+        width= height*1.7251;
+      }
+      console.log(height);
+      console.log(width);
         if(!$(this).hasClass("video_mode")){
           $('#allmap').css({
-              "width":"288px",
-              "height":"180px",
+              "width":"285px",
+              "height":"165px",
               "position":"absolute",
               "right":"10px",
               "bottom":"10px"
             });
           $(this).addClass("video_mode");
           $("#test_desktop").css({
-            "width":"100%",
-            "height":"100%",
-            "position":"relative",
+            "width":width,
+            "height":height,
+            "bottom":"0",
             "right": "0",
             "z-index": "-1"
           });
@@ -493,8 +462,8 @@ $(".change").on("click", function () {
             });
           $("#test_desktop").css({
             "position":"absolute",
-            "width":"288px",
-            "height":"180px",
+            "width":"285px",
+            "height":"165px",
             "right": "10px",
             "bottom": "10px",
             "z-index": "0"

@@ -38,6 +38,8 @@ function createWindow () {
   // })
   // terminal.loadURL(`http://localhost:8000/terminal.html`)
 
+
+
   // Create the browser window.
   win = new BrowserWindow({
     width: 1280, 
@@ -46,16 +48,15 @@ function createWindow () {
       plugins: true
     },
     // fullscreen: true,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    alwaysOnTop: true
   })
 
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/index.html`)
+  // win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
   win.loadURL(`file://${__dirname}/template/pairing.html`)
   // win.loadURL(`http://127.0.0.1:8848/demo/index.html`)
-
-
 
   // Open the DevTools.
   // win.webContents.openDevTools()
@@ -89,6 +90,7 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+
 })
 
 // In this file you can include the rest of your app's specific main process
@@ -104,10 +106,17 @@ ipcMain.on('pairing_view', function(event, arg) {
 ipcMain.on('index_view', function(event, arg) {
   console.log(arg);  // prints "ping"
   event.sender.send('index-reply', 'pong');
+  var gstreamer = require('gstreamer');
+
+  // gstreamer
+  gstreamer.start({
+    port: 5000,
+    quiet: false
+});
   win.loadURL(`file://${__dirname}/index.html`)
 });
 
-ipcMain.on('synchronous-message', function(event, arg) {
+ipcMain.on('full-screen', function(event, arg) {
   console.log(arg);  // prints "ping"
-  event.returnValue = 'pong';
+  win.setFullScreen(true);
 });
