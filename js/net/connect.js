@@ -3,7 +3,7 @@ const path = process.env.HOME + "/.UDS"+"_mc";
 
 var client = net.connect({ path: path});
 require("../tools/echarts_tool.js");
-var dynamicLine, markPlane = require("../map/dynamicLine.js");
+var dynamicLine, markPlane, markHome = require("../map/dynamicLine.js");
 
 console.log(locationCurrent);
 
@@ -46,21 +46,30 @@ var messages = require('./FlightLog_pb');
 // var cha = new messages.Channels();
 // var sen = new messages.sensors(1);
 // console.log(sen);
+
 // loc.setAltitude(3);
 // loc.setLatitude(1);
 // loc.setLongitude(2);
+// poi.setId(1);
+// poi.setLocation(loc);
+// way.addPoint(poi);
+// way.addPoint(poi);
+
+// way.addPoint(poi);
+
 // att.setPitch(4);
 // att.setRoll(5);
 // att.setYaw(6);
 // sen.setTarget(loc);
 // sen.setHome(loc);
 // sen.setAltitude(att)
+// sen.setWaypoint(way);
 // bytes = sen.serializeBinary();
 // console.log(bytes);
 
 // var message = messages.sensors.deserializeBinary(bytes);
 // console.log(message);
-// console.log(message.getTarget());
+// console.log(message.getWaypoint().getPointList()[0]);
 // console.log(message.getTarget().getLatitude());
 // console.log(message.getTarget().getLongitude());
 // console.log(message.getTarget().getAltitude());
@@ -109,13 +118,15 @@ function handle_data_protobuf(data){
     // 巡航线路
     var waypoint = message.getWayPoint();
     var waypoint_index = waypoint.getIndex();
-    var waypoint_point = waypoint.getPoint(); 
+    var waypoint_points = waypoint.getPointList(); 
 
     // 目标点
     var target = message.getTarget();
 
     // home
     var home = message.getHome();
+    var home_latitude = home.getLatitude();
+    var home_longitude = home.getLongitude();
 
 
     var distanceToTarget = message.getDistanceToTarget();
@@ -139,6 +150,21 @@ function handle_data_protobuf(data){
     // 飞行路线
     dynamicLine(longtitude, latitude, 2);
     bPoints.push(new BMap.Point(longtitude,latitude)); 
+
+    // home
+    markHome(home_longitude,home_latitude);
+
+    // download the path 
+    if (waypoint_points != null) {
+        var len = waypoint_points.length;
+        dynamicLine(longtitude, latitude, 3);
+        for (var i =0 ; i<len; i++){
+            var lng = waypoint_points[i].getLocation().getLongitude();
+            var lat = waypoint_points[i].getLocation().getLatitude();
+            // 3 for path
+            dynamicLine(lng, lat, 3);
+        } 
+    }
 }
 
 // 监听数据

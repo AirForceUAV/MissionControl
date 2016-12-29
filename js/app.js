@@ -13,6 +13,9 @@ global.plane_marker;
 // 路径标注
 global.path_marker;
 
+// home 标注
+global.home_marker
+
 // 地图数据
 // 原始点信息数组  
 global.points = [];
@@ -287,7 +290,7 @@ $('.modal').on('hidden.bs.modal', function (e) {
 function showTips(mes){
     $(".tip_mes").text(mes);
     $("#myAlert").show();
-    $("#myAlert").fadeOut(2000);
+    $("#myAlert").fadeOut(1500);
 }
 
 /*

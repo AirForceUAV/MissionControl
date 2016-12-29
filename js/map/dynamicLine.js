@@ -191,8 +191,8 @@ function markPlane(lng, lat, head){
 	if(typeof(plane_marker) != "undefined"){
 		map.removeOverlay(plane_marker);
 	}
-    var new_point = new BMap.Point(lng, lat);
-    plane_marker = new BMap.Marker(new BMap.Point(new_point.lng,new_point.lat), {
+    var new_point = new BMap.Point(lng,lat);
+    plane_marker = new BMap.Marker(new_point, {
       // 初始化小飞机Symbol
       icon: new BMap.Symbol(BMap_Symbol_SHAPE_PLANE, {
         scale: 2.5,
@@ -206,5 +206,29 @@ function markPlane(lng, lat, head){
     map.panTo(new_point);     //让地图平滑移动至新中心点
 }
 
+/*
+* mark the home
+* lng: 经度
+* lat: 纬度
+*/ 
+function markHome(lng, lat){
+    if(typeof(home_marker) != "undefined"){
+        map.removeOverlay(home_marker);
+    }
+    var new_point = new BMap.Point(lng,lat);
+    //设置marker图标为水滴
+    home_marker = new BMap.Marker(new_point, {
+      // 指定Marker的icon属性为Symbol
+      icon: new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+        scale: 2,//图标缩放大小
+        fillColor: "orange",//填充颜色
+        fillOpacity: 1//填充透明度
+      })
+    });
 
-module.exports = dynamicLine, markPlane;
+    map.addOverlay(home_marker);
+    map.panTo(new_point);     //让地图平滑移动至新中心点
+}
+
+
+module.exports = dynamicLine, markPlane, markHome;
