@@ -547,3 +547,9 @@ function gather(e) {
     volume.connect(processor);
     processor.connect(ctx.destination);
 }
+
+function showTips(mes){
+    $(".tip_mes").text(mes);
+    $("#myAlert").show();
+    $("#myAlert").fadeOut(2000);
+}

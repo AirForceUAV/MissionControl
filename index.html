@@ -51,15 +51,7 @@
           <div class="btn-group gear_group">
             <button type="button" class="btn btn-default dropdown-toggle gear_button" data-toggle="dropdown">
               <span id="logo_text" class="logo_text">UAV</span><span class="caret logo_caret"></span>
-            </button>
-            <!-- <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>. -->
-           <!--  <video controls>
-              <source src="rtsp://192.168.1.28:8554/test">
-              <p>Your browser does not support H.264/MP4.</p>
-            </video> -->
+            </button>  
             <ul class="dropdown-menu" role="menu">
               <li class="gcs">
                 <span class="glyphicon glyphicon-phone group_button"></span> 
@@ -206,9 +198,9 @@
   <span class="height-title text">H:</span>
   <span id ="height-value" class="height-value text">95.1</span>
   <span class="dis-title text">D:</span>
-  <span id="dis-value" class="dis-value text">95.1</span>
+  <span id="dis-target-value" class="dis-value text">95.1</span>
   <span class="dis-title text">D(H):</span>
-  <span id="dis-value" class="dis-home-value text">95.1</span>
+  <span id="dis-home-value" class="dis-value text">95.1</span>
   <span class="dis-unit text">M</span>
 </div>
 <div class="vs-hs">
@@ -354,16 +346,12 @@
 </div>
  
 </body>
-<script type="text/javascript" src="js/echarts.min.js"></script>
 <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/tools/jquery.slideunlock.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YeAptwx5UPYqVxFHWWCETOfQm40RfcbD"></script>
-<script type="text/javascript" src="js/longpress.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/keyboard.js"></script>
-<script type="text/javascript" src="js/basr-demo.js"></script>
 <script type="text/javascript">
-
+require("./js/app.js");
+require("./js/basr-demo.js");
 // var wjs = require("wcjs-player");
 
 // var player = new wjs("#player").addPlayer({
@@ -394,8 +382,5 @@
 
     // swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
 </script>  
-<!-- <script type="text/javascript" src="js/jquery.mobile.min.js"></script> -->
-<script type="text/javascript" src="js/desktop.js"></script>
-<script type="text/javascript" src="js/jquery.slideunlock.min.js"></script>
  
 </html>
