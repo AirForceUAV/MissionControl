@@ -6,12 +6,11 @@
     "start": "electron ."
   },
   "devDependencies": {
-    "electron-prebuilt": "^1.4.7",
+    "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.4.0"
   },
   "dependencies": {
     "echarts": "^3.3.2",
-    "wcjs-player": "^6.0.1",
-    "wcjs-prebuilt": "^3.0.0"
+    "google-protobuf":"^3.1.1"
   }
 }
