@@ -43,7 +43,7 @@
   <div class="header" id="header">
     <div class="header-top">
       <div class="header-right">
-        <span class="glyphicon glyphicon-th-list small_g" data-toggle="modal" data-target="#win"></span> 
+        <span class="glyphicon glyphicon-th-list small_g" data-toggle="modal" data-target="#Sensors"></span> 
       </div>
 
       <div class="header-left">
@@ -82,6 +82,9 @@
         <div class="battery"> 
           <span id="gps_text" class="gps_text">GPS:</span> 
           <span id="gps_level" class="gps_level">NA</span>
+        </div>
+        <div class="battery"> 
+          <span id="sensors_warning" class="glyphicon glyphicon-warning-sign" data-toggle="modal" data-target="#Sensors"></span> 
         </div>
         <div class="battery gear_battery"> 
           <span id="gear_text" class="gear_text">Gear:</span> 
@@ -269,7 +272,7 @@
   <video id="test_desktop" controls autoplay></video>
 </div>
 
-<div id="win" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!-- <div id="win" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="test-function-group">
@@ -284,7 +287,7 @@
         <span class="win_text">DE</span>
         <input class="win_input de_text" id="de_text" type="text" value=""/>
     <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
-     -->    <button class="submit_button dn_de_submit" type="button" value="Submit">Submit</button>
+        <button class="submit_button dn_de_submit" type="button" value="Submit">Submit</button>
       </div>
 
       <div class="heading-forward-group">
@@ -293,11 +296,11 @@
         <span class="win_text">FW</span>
         <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
     <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
-     -->    <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
+        <button class="submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
       </div>
     </div>
   </div>
-</div>
+</div> --> --> -->
 
 <!-- Modal -->
 <div class="modal fade" id="longPressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -341,6 +344,81 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="Sensors" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#home" data-toggle="tab">
+            设置
+        </a>
+    </li>
+    <li><a href="#sensor" data-toggle="tab">传感器</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="home">
+
+      <div class="test-function-group">
+        <span class="win_text">Test</span>
+        <input class="win_input test_text" id="test_text" type="text" value="" x-webkit-speech x-webkit-grammar="builtin:translate"/>
+        <button class="btn-primary submit_button test_function_submit" type="button" value="Submit">Submit</button>
+      </div>
+
+      <div class="dn-de-group">
+        <span class="win_text">DN</span>
+        <input class="win_input dn_text" id="dn_text" type="text" value=""/>
+        <span class="win_text">DE</span>
+        <input class="win_input de_text" id="de_text" type="text" value=""/>
+    <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
+     -->    <button class="btn-primary submit_button dn_de_submit" type="button" value="Submit">Submit</button>
+      </div>
+
+      <div class="heading-forward-group">
+        <span class="win_text">HD</span>
+        <input class="win_input heading_text" id ="heading_text" type="text" value=""/>
+        <span class="win_text">FW</span>
+        <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
+    <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
+     -->    <button class="btn-primary submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
+      </div>
+
+      
+    </div>
+    <div class="tab-pane fade" id="sensor">
+      <div class="state_group">
+        <div class="sensor_name">GPS</div>
+        <div class="sensor_state" id="gps_state">NA</div>
+      </div>
+      <div class="state_group">
+        <div class="sensor_name">罗盘</div>
+        <div class="sensor_state" id="compass_state">NA</div>
+      </div>
+      <div class="state_group">
+        <div class="sensor_name">气压计</div>
+        <div class="sensor_state" id="baro_state">NA</div>
+      </div>
+      <div class="state_group_small">
+        <div class="state_line">
+          <div class="sensor_name">气压</div>
+          <div class="sensor_state" id="baro_pressure">NA</div>
+        </div>
+        <div class="state_line">
+          <div class="sensor_name">温度</div>
+          <div class="sensor_state" id="baro_temper">NA</div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="jmeter">
+        <p>jMeter。</p>
+    </div>
+    <div class="tab-pane fade" id="ejb">
+        <p>Enterprise 
+        </p>
+    </div>
+</div>  
+</div>
+
+
 <div id="myAlert" class="alert alert-success">
     <span class="tip_mes">Success!</span>
 </div>
@@ -352,35 +430,5 @@
 <script type="text/javascript">
 require("./js/app.js");
 require("./js/basr-demo.js");
-// var wjs = require("wcjs-player");
-
-// var player = new wjs("#player").addPlayer({
-//   autoplay: true,
-//   wcjs: require('wcjs-prebuilt'),
-//   vlcArgs: ["-vvv"]
-//   // OR
-//   // wcjs: require('webchimera.js')
-//   // OR
-//   // wcjs: require([path-to-Webchimera.js.node-file])
-// });
-
-// player.addPlaylist("rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp");
-// player.addPlaylist("rtsp://192.168.1.28:8554/test");
-
-    // var flashvars = {
-    //     src: "rtmp://video.airforceuav.com:1935/live/livestream"
-    // };
-    // var params = {
-    //     allowFullScreen: true
-    //     , allowScriptAccess: "always"
-    //     , bgcolor: "#000000"
-    //     ,controlBarAutoHide: true
-    // };
-    // var attrs = {
-    //     name: "player"
-    // };
-
-    // swfobject.embedSWF("GrindPlayer.swf", "player", "270", "170", "10.2", null, flashvars, params, attrs); 
 </script>  
- 
 </html>

@@ -1,5 +1,7 @@
+// 路径线路
+global.path_lines = [];
 
-if(locationCurrent.length == 0){
+// map.addControl(new BMap.NavigationControl());
     // google 的
     // if (!navigator.geolocation){
     //     console.log("您的浏览器不支持地理位置");
@@ -16,7 +18,7 @@ if(locationCurrent.length == 0){
     //     locationCurrent[1] = longitude;
     // };
     // function error(err) {
-    //     console.log(err);
+    //     console.log("!!!!!!!!!");
     // };
 
     // 初始定位使用浏览器位置
@@ -32,23 +34,27 @@ if(locationCurrent.length == 0){
     // }        
     // },{enableHighAccuracy: true})
 
-    // 定位对象
-    var geoc = new BMap.Geocoder();
-    var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            markPlane(r.point.lng, r.point.lat, 0);
-            console.log(r.point);
-            locationCurrent[0] = r.point.lat;
-            locationCurrent[1] = r.point.lng;
-            // setLocation(r.point);
-        }else {
-        }
-    },{enableHighAccuracy: true});
 
-}
+// 定位对象
+var geoc = new BMap.Geocoder();
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        geoc.getLocation(new BMap.Point(r.point.lng, r.point.lat), function(result){    
+             if (result){    
+               console.log(result.address);    
+             }    
+            });
+        markGCS(r.point.lng, r.point.lat);
+        console.log(r.point);
+        // setLocation(r.point);
+    }else {
+    }
+},{enableHighAccuracy: true});
+
 map.enableScrollWheelZoom();//滚轮放大缩小 
 add_control();
+
 
 //添加地图类型和缩略图
 function add_control(){
@@ -83,6 +89,7 @@ function addLine(points, flag){
         polyline = new BMap.Polyline(linePoints, {strokeColor:"red", strokeWeight:5, strokeOpacity:1});   //创建折线  
     }else if(flag == 3){
         polyline = new BMap.Polyline(linePoints, {strokeColor:"green", strokeWeight:5, strokeOpacity:0.6});   //创建折线  
+        path_lines.push(polyline);
     }
     map.addOverlay(polyline);   //增加折线  
 }
@@ -152,6 +159,7 @@ function markLocation(new_point){
     // var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif");
     path_marker = new BMap.Marker(new_point);  // 创建标注
     // marker = new BMap.Marker(new_point,{icon:myIcon});  // 创建标注
+    path_lines.push(path_marker);
     map.addOverlay(path_marker);              // 将标注添加到地图中
     // map.panTo(new_point);     //让地图平滑移动至新中心点
 }
@@ -178,6 +186,7 @@ function markPath(new_point, num, dis){
              'border-radius' : "3px",
              background : "rgba(255,255,255,0.8)"
          });
+    path_lines.push(label);
     map.addOverlay(label);              // 将标注添加到地图中
 }
 
@@ -227,6 +236,30 @@ function markHome(lng, lat){
     });
 
     map.addOverlay(home_marker);
+    map.panTo(new_point);     //让地图平滑移动至新中心点
+}
+
+/*
+* mark the GCS
+* lng: 经度
+* lat: 纬度
+*/ 
+function markGCS(lng, lat){
+    if(typeof(gcs_marker) != "undefined"){
+        map.removeOverlay(gcs_marker);
+    }
+    var new_point = new BMap.Point(lng,lat);
+    //设置marker图标为人字形
+    gcs_marker = new BMap.Marker(new_point, {
+      // 设置自定义path路径25325l99
+      icon: new BMap.Symbol(BMap_Symbol_SHAPE_STAR, {
+        scale: 2,
+        fillColor: "red",
+        fillOpacity: 0.8
+      })
+    });
+
+    map.addOverlay(gcs_marker);
     map.panTo(new_point);     //让地图平滑移动至新中心点
 }
 

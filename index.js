@@ -12,7 +12,7 @@ let win
 let terminal
 
 function createWindow () {
-  // process.env.GOOGLE_API_KEY = 'AIzaSyCQtW87ztHqA2ecB3h9os-nvt480gbz2Wg';
+  process.env.GOOGLE_API_KEY = 'AIzaSyCQtW87ztHqA2ecB3h9os-nvt480gbz2Wg';
 
   // Create the browser window.
   win = new BrowserWindow({

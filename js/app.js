@@ -13,8 +13,11 @@ global.plane_marker;
 // 路径标注
 global.path_marker;
 
+// 地面站位置
+global.gcs_marker;
+
 // home 标注
-global.home_marker
+global.home_marker;
 
 // 地图数据
 // 原始点信息数组  
@@ -27,8 +30,12 @@ global.bPoints = [];
 // 路径num
 global.path_num = 1;
 
+// 是否开启下载路径模式
+global.openDowload = false;
+
+
 var dynamicLine = require("./map/dynamicLine.js");
-var client = require("./net/connect.js");
+global.client = require("./net/connect.js");
 
 require("./tools/bootstrap.min.js");
 require("./tools/longpress.js");
@@ -71,7 +78,7 @@ $(".back-home").on("click", function () {
 });
 $(".download_path").on("click", function () {
     hideWin();
-    clearPath();
+    openDowload = true;
     client.write("vehicle.download()");
     showTips("Download!");
 });
@@ -108,7 +115,7 @@ $(".dn_de_submit").on("click", function () {
     hideWin();
 });
 $(".test_function_submit").on("click", function () {
-    var test_text= $(".test_text").val();
+    var test_text= $("#test_text").val();
     var mes = test_text;
     client.write(mes);
     showTips(test_text);
@@ -270,7 +277,7 @@ function generate_message(e){
 // hide the modal
 function hideWin(){
     $('#win').modal('hide');
-    
+    $('#Sensors').modal('hide');
 }
 // modal hide 时触发
 $('.modal').on('hide.bs.modal', function (e) {
@@ -287,7 +294,7 @@ $('.modal').on('hidden.bs.modal', function (e) {
 * show alert
 * mes : String
 */
-function showTips(mes){
+global.showTips = function(mes){
     $(".tip_mes").text(mes);
     $("#myAlert").show();
     $("#myAlert").fadeOut(1500);
@@ -305,9 +312,14 @@ function setZoom(bPoints){
 }
 
 // clear the path
-function clearPath(){
+global.clearPath = function(){
+    var len = path_lines.length;
+    while (len--) {
+        map.removeOverlay(path_lines[len]);
+    }
     path_points = [];
-    map.clearOverlays(); 
+    path_lines = [];
+    // map.clearOverlays(); 
 }
 
 
