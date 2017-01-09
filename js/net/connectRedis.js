@@ -1,34 +1,44 @@
-const net = require('net');
-const path = process.env.HOME + "/.UDS"+"_mc";
+var redis = require("redis");
+var client = redis.createClient();
 
-var client = net.connect({ path: path});
 require("../tools/echarts_tool.js");
 var dynamicLine, markPlane, markHome = require("../map/dynamicLine.js");
 
 // listener
 client.on('end', () => {
-    console.log('disconnected from server');
+    $(".cloud_status").css("color","#4A4A4A");
+    $(".f_status").css("color","#4A4A4A");
+  console.log('disconnected from server');
+});
+client.on('ready', () => {
+  $(".cloud_status").css("color","red");
+  console.log('ready');
 });
 client.on('connect', () => {
   $(".cloud_status").css("color","red");
   console.log('connect');
 });
-client.on('drain', () => {
-  console.log('drain');
-});
-client.on('close', () => {
-    $(".cloud_status").css("color","#4A4A4A");
-    $(".f_status").css("color","#4A4A4A");
-  console.log('close');
-});
-client.on('timeout', () => { 
-    $(".cloud_status").css("color","#4A4A4A");
-    $(".f_status").css("color","#4A4A4A");
-  console.log('timeout');
-});
+// client.on('close', () => {
+//     $(".cloud_status").css("color","#4A4A4A");
+//     $(".f_status").css("color","#4A4A4A");
+//   console.log('close');
+// });
+// client.on('timeout', () => { 
+//     $(".cloud_status").css("color","#4A4A4A");
+//     $(".f_status").css("color","#4A4A4A");
+//   console.log('timeout');
+// });
 client.on('error', (error) => {
+    console.log("redis error");
     console.log(error.toString());
 });
+
+// client.get("SelfGUID", function(err, reply){
+//     console.log("!!!!");
+//     console.log(err.toString());
+//     console.log(reply.toString());
+// });
+
 
 // test protobuf senors必须完整  只能用get 方法 构造方法不能写在括号里  只能set
 var messages = require('./FlightLog_pb');

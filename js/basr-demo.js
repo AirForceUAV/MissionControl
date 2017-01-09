@@ -31,9 +31,9 @@ function ready() {
 
   var ele = document.getElementById('btn');
   var voice;
-  var TEXT_N = 'Push Me';
-  var TEXT_S = 'Listening';
-  var TEXT_X = 'Recognizing';
+  var TEXT_N = '按住说话';
+  var TEXT_S = '请说话';
+  var TEXT_X = '识别';
   var status = false;
   ele.innerHTML = TEXT_N;
   ele.addEventListener(

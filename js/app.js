@@ -35,7 +35,7 @@ global.openDowload = false;
 
 
 var dynamicLine = require("./map/dynamicLine.js");
-global.client = require("./net/connect.js");
+global.client = require("./net/connectRedis.js");
 
 require("./tools/bootstrap.min.js");
 require("./tools/longpress.js");
@@ -49,38 +49,38 @@ $(".location").on("click", function () {
 $(".guide_fly").on("click", function () {
     hideWin();
     client.write("vehicle.Guided()");
-    showTips("Guided!");
+    showTips("Guided模式!");
 });
 $(".avoid_fly").on("click", function () {
     hideWin();
     client.write("lidar.Guided_Avoid()");
-    showTips("Guided Avoid!");
+    showTips("避障模式!");
 });
 $(".radio_d").on("click", function () {
     hideWin();
     client.write("vehicle.radio()");
-    showTips("Radio!");
+    showTips("遥控器模式!");
 });
 $(".gcs").on("click", function () {
     hideWin();
     client.write("vehicle.GCS()");
-    showTips("Mission Control!");
+    showTips("地面站模式!");
 });
 $(".hovering").on("click", function () {
     hideWin();
     client.write("vehicle.set_channels_mid()");
-    showTips("Set Channels Mid!");
+    showTips("悬停设置!");
 });
 $(".back-home").on("click", function () {
     hideWin();
     client.write("vehicle.RTL()");
-    showTips("Back Home!");
+    showTips("返航!");
 });
 $(".download_path").on("click", function () {
     hideWin();
     openDowload = true;
     client.write("vehicle.download()");
-    showTips("Download!");
+    showTips("下载路径!");
 });
 $(".auto_path").on("click", function () {
     hideWin();
@@ -96,7 +96,7 @@ $(".route_path").on("click", function () {
     route_mes = "Route(\"";
     map.addEventListener("click", generate_message);
     $(".take-off").css("display", "block"); 
-    showTips("Route!");
+    showTips("路径规划!");
 });
 $(".take-off").on("click", function (){
     route_mes= route_mes.substring(0,route_mes.length-1)
@@ -105,13 +105,14 @@ $(".take-off").on("click", function (){
     client.write(route_mes);
     $(".take-off").css("display", "none");
     map.removeEventListener("click", generate_message);
+    showTips("路径规划结束!");
 })
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
     var de_text = $(".de_text").val();
     var mes = "vehicle.set_target("+ dn_text + "," + de_text + ")";
     client.write(mes);
-    showTips("DN:" + dn_text + " " + "DE:" + de_text);
+    showTips("向北:" + dn_text + " " + "向东:" + de_text);
     hideWin();
 });
 $(".test_function_submit").on("click", function () {
@@ -129,14 +130,14 @@ $(".hd_fw_submit").on("click", function () {
     if(hd_text){
         var mes = 'vehicle.condition_yaw('+ hd_text +')';
         client.write(mes);
-        hd_fw_tip += "heading:" + hd_text + "°" 
-        showTips("heading:" + hd_text + "°");
+        hd_fw_tip += "转向:" + hd_text + "°" 
+        showTips("转向:" + hd_text + "°");
         hideWin();
     }
     if(fw_text){
         var mes = 'vehicle.forward('+ fw_text +')';
         client.write(mes);
-        hd_fw_tip += "forword:" + fw_text + "s"
+        hd_fw_tip += "向前:" + fw_text + "s"
         hideWin();
     }
     showTips(hd_fw_tip);
@@ -145,37 +146,37 @@ $(".hd_fw_submit").on("click", function () {
 $(".l-button").on("click", function () {
     hideWin();
     client.write("vehicle.set_gear(1)");
-    showTips("Set gear low!");
+    showTips("低挡位!");
 });
 $(".m-button").on("click", function () {
     hideWin();
     client.write("vehicle.set_gear(2)");
-    showTips("Set gear mid!");
+    showTips("中档位!");
 });
 $(".h-button").on("click", function () {
     hideWin();
     client.write("vehicle.set_gear(3)");
-    showTips("Set gear high!");
+    showTips("高档位!");
 });
 $(".brake").on("click", function () {
     client.write("vehicle.brake()");
-    showTips("Brake!");
+    showTips("刹车!");
 });
 $(".turn-up").on("click", function () {
     client.write("vehicle.up_brake()");
-    showTips("Turn up");
+    showTips("向上！");
 });
 $(".turn-down").on("click", function () {
     client.write("vehicle.down_brake()");
-    showTips("Turn down");
+    showTips("向下！");
 });
 $(".turn-left").on("click", function () {
     client.write("vehicle.yaw_left_brake()");
-    showTips("Turn left");
+    showTips("向左！");
 });
 $(".turn-right").on("click", function () {
     client.write("vehicle.yaw_right_brake()");
-    showTips("Turn right");
+    showTips("向右！");
 }); 
 
 $(".roll-up").on("click", function () {
@@ -198,13 +199,13 @@ $(".cancel").on("click", function () {
     $('#ConfirmModal').modal('show');
     // slide 初始化
     var slider = new SliderUnlock(".slideunlock-slider", {
-        labelTip: "Confirm To Cancel",
-        successLabelTip: "Cancel",
+        labelTip: "确认取消？",
+        successLabelTip: "取消",
         duration: 200   // 动画效果执行时间，默认200ms
     }, function(){
         $('#ConfirmModal').modal('hide');
         client.write("Cancel");
-        showTips("Cancel");
+        showTips("取消！");
         slider.reset();
     }, function(){
     });

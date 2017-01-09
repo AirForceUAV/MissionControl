@@ -47,4 +47,25 @@ try {
 }
 catch (ex) {
     ReadFile(ex.message);
-}        
+}
+
+
+// var redis = require("redis");
+// var client = redis.createClient();
+
+// client.get("SelfGUID",function(err, replay){
+
+// });     
+
+$.ajax({
+    type: "POST",
+    url: "http://airforceuav.com:8080/pair",
+    data: {
+        mc_guid:"11",
+        fc_guid:"11"
+    },
+    success: function(data){
+        console.log(data);
+      }
+});
+

@@ -46,7 +46,6 @@ geolocation.getCurrentPosition(function(r){
              }    
             });
         markGCS(r.point.lng, r.point.lat);
-        console.log(r.point);
         // setLocation(r.point);
     }else {
     }
@@ -100,7 +99,7 @@ function addLine(points, flag){
 * lat: 纬度
 * flag: 2 for plane, 3 for path
 */  
-function dynamicLine(lng, lat, flag){  
+global.dynamicLine = function(lng, lat, flag){  
     var lng = lng;
     var lat = lat;
     var id = getRandom(1000);  

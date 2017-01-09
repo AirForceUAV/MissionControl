@@ -55,15 +55,15 @@
             <ul class="dropdown-menu" role="menu">
               <li class="gcs">
                 <span class="glyphicon glyphicon-phone group_button"></span> 
-                <span class="down_group_text">GCS</span>
+                <span class="down_group_text">地面站</span>
               </li>
               <li class="radio_d">
                 <span class="glyphicon glyphicon-registration-mark group_button"></span> 
-                <span class="down_group_text">ARC</span>
+                <span class="down_group_text">遥控</span>
               </li>
               <li class="hovering">
                 <span class="glyphicon glyphicon-plane group_button"></span> 
-                <span class="down_group_text">Loiter</span>
+                <span class="down_group_text">悬停</span>
               </li>
             </ul>
           </div>
@@ -71,8 +71,8 @@
         </div>
         
         <div class="connect_status">
-          <div class="connect_to_cloud">Cloud&nbsp;&nbsp;&nbsp;<span class="status_flag cloud_status glyphicon glyphicon-signal"></span></div>
-          <div class="connect_to_f">Flight&nbsp;&nbsp;&nbsp;<span class="status_flag f_status glyphicon glyphicon-signal"></span></div>
+          <div class="connect_to_cloud">云服&nbsp;&nbsp;&nbsp;<span class="status_flag cloud_status glyphicon glyphicon-signal"></span></div>
+          <div class="connect_to_f">飞机&nbsp;&nbsp;&nbsp;<span class="status_flag f_status glyphicon glyphicon-signal"></span></div>
         </div>
         <div class="battery"> 
           <span id="battery-number" class="battery-number">100%</span> 
@@ -87,21 +87,21 @@
           <span id="sensors_warning" class="glyphicon glyphicon-warning-sign" data-toggle="modal" data-target="#Sensors"></span> 
         </div>
         <div class="battery gear_battery"> 
-          <span id="gear_text" class="gear_text">Gear:</span> 
+          <span id="gear_text" class="gear_text">档位:</span> 
           <!-- Single button -->
           <div class="btn-group gear_group">
             <button type="button" class="btn btn-default dropdown-toggle gear_button" data-toggle="dropdown">
               <span id="gear_level" class="gear_level">NA</span><span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li class="l-button"><a href="#">Low</a></li>
-              <li class="m-button"><a href="#">Middle</a></li>
-              <li class="h-button"><a href="#">High</a></li>
+              <li class="l-button"><a href="#">低</a></li>
+              <li class="m-button"><a href="#">中</a></li>
+              <li class="h-button"><a href="#">高</a></li>
             </ul>
           </div>
         </div>
         <div class="battery mode_battery"> 
-          <span id="mode_text" class="mode_text">Mode:</span>
+          <span id="mode_text" class="mode_text">模式:</span>
           <!-- Single button -->
           <div class="btn-group mode_group">
             <button type="button" class="btn btn-default dropdown-toggle mode_button" data-toggle="dropdown">
@@ -114,11 +114,11 @@
               </li>
               <li class="avoid_fly">
                 <span class="glyphicon glyphicon-indent-left group_button"></span> 
-                <span class="down_group_text">Avoid</span>
+                <span class="down_group_text">避障模式</span>
               </li>
               <li class="download_path">
                 <span class="glyphicon glyphicon-cloud-download group_button"></span> 
-                <span class="down_group_text">Download</span>
+                <span class="down_group_text">下载路径</span>
               </li>
               <li class="auto_path">
                 <span class="glyphicon glyphicon-eye-open group_button"></span> 
@@ -126,11 +126,11 @@
               </li>
               <li class="route_path">
                 <span class="glyphicon glyphicon-upload group_button"></span> 
-                <span class="down_group_text">Route</span>
+                <span class="down_group_text">路径规划</span>
               </li>
               <li class="back-home">
                 <span class="glyphicon glyphicon-home group_button"></span> 
-                <span class="down_group_text">Home</span>
+                <span class="down_group_text">返航</span>
               </li>
             </ul>
           </div>
@@ -164,7 +164,7 @@
     <span class="glyphicon glyphicon-send small_g"></span> 
 </div>
 
-<div id="btn">Init...</div>
+<div id="btn">初始化...</div>
 
 <div class="nav-list" id="nav-list">
   <div class="nav-title">Title</div>
@@ -197,15 +197,7 @@
 </div>
 
 <div class="footer-left-bar">
-<div class="height-distance">
-  <span class="height-title text">H:</span>
-  <span id ="height-value" class="height-value text">95.1</span>
-  <span class="dis-title text">D:</span>
-  <span id="dis-target-value" class="dis-value text">95.1</span>
-  <span class="dis-title text">D(H):</span>
-  <span id="dis-home-value" class="dis-value text">95.1</span>
-  <span class="dis-unit text">M</span>
-</div>
+
 <div class="vs-hs">
   <span class="x-title text">X:</span>
   <span id="x-value" class="vs-value text">00.00</span>
@@ -216,6 +208,15 @@
   <span class="z-title text">Z:</span>
   <span id="z-value" class="vs-value text">00.00</span>
   <span class="z-unit text">(M/S)</span>
+</div>
+<div class="height-distance">
+  <span class="height-title text">高度:</span>
+  <span id ="height-value" class="height-value text">95.1</span>
+  <span class="dis-title text">距目的:</span>
+  <span id="dis-target-value" class="dis-value text">95.1</span>
+  <span class="dis-title text">距家:</span>
+  <span id="dis-home-value" class="dis-value text">95.1</span>
+  <span class="dis-unit text">M</span>
 </div>
 </div>
 <div class="footer-left" id="e-attr"></div>
@@ -307,22 +308,22 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Set Data</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title" id="myModalLabel">设置</h4>
       </div>
       <div class="modal-body">
         <div class="dis-vs-group">
-          <span class="win_text">DIS</span>
+          <span class="win_text">距离</span>
           <input class="win_input dis_text" id="dis_text" type="text" value=""/>
           <span class="win_unit win_text">m</span>
-          <span class="win_text">V/S</span>
+          <span class="win_text">速度</span>
           <input class="win_input vs_text" id="vs_text" type="text" value=""/>
           <span class="win_unit win_text">v/s</span>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary dis_vs_submit">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary dis_vs_submit">提交</button>
       </div>
     </div>
   </div>
@@ -359,27 +360,27 @@
     <div class="tab-pane fade in active" id="home">
 
       <div class="test-function-group">
-        <span class="win_text">Test</span>
+        <span class="win_text">测试</span>
         <input class="win_input test_text" id="test_text" type="text" value="" x-webkit-speech x-webkit-grammar="builtin:translate"/>
-        <button class="btn-primary submit_button test_function_submit" type="button" value="Submit">Submit</button>
+        <button class="btn-primary submit_button test_function_submit" type="button" value="Submit">提交</button>
       </div>
 
       <div class="dn-de-group">
-        <span class="win_text">DN</span>
+        <span class="win_text">向北</span>
         <input class="win_input dn_text" id="dn_text" type="text" value=""/>
-        <span class="win_text">DE</span>
+        <span class="win_text">向东</span>
         <input class="win_input de_text" id="de_text" type="text" value=""/>
     <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
-     -->    <button class="btn-primary submit_button dn_de_submit" type="button" value="Submit">Submit</button>
+     -->    <button class="btn-primary submit_button dn_de_submit" type="button" value="Submit">提交</button>
       </div>
 
       <div class="heading-forward-group">
-        <span class="win_text">HD</span>
+        <span class="win_text">转向</span>
         <input class="win_input heading_text" id ="heading_text" type="text" value=""/>
-        <span class="win_text">FW</span>
+        <span class="win_text">前进</span>
         <input class="win_input forward_text" id ="forward_text" type="text" value=""/>
     <!--     <button class="cancel_button" type="button" value="Submit">Cancel</button>
-     -->    <button class="btn-primary submit_button hd_fw_submit" type="button" value="Submit">Submit</button>
+     -->    <button class="btn-primary submit_button hd_fw_submit" type="button" value="Submit">提交</button>
       </div>
 
       
@@ -420,7 +421,7 @@
 
 
 <div id="myAlert" class="alert alert-success">
-    <span class="tip_mes">Success!</span>
+    <span class="tip_mes">成功!</span>
 </div>
  
 </body>

@@ -9,7 +9,7 @@ $.fn.longPress = function(fn) {
                     $('#longPressModal').modal('show');
                     $('#longPressModal .dis_vs_submit').on("click", function(){
                         client.write(className + " dis:" + "vs:");
-                        showTips(className + " dis: " + " vs:");
+                        showTips(className + " 距离: " + " 速度:");
                         $('#longPressModal').modal('hide');
                     });
                 }

@@ -101,17 +101,15 @@
 	left: 95px;
 	bottom: 10px;
 	height: 100px;
-	width: 310px;
+	width: 320px;
 	background-color: rgba(0,0,0,0.8);
 	border-radius:5px;
 }
 .height-distance{
-	width: 200px;
-	height: 40px;
-	margin-left: 90px;
-	border-bottom: solid 1px;
-	border-color: #666;
-	padding-top: 10px;
+	width: 250px;
+	height: 50px;
+	margin-left: 70px;
+	padding-top: 15px;
 }
 .text{
 	color: #fff;
@@ -120,10 +118,12 @@
 	margin-left: 10px;
 }
 .vs-hs{
-	width: 240px;
-	height: 50px;
-	margin-left: 75px;
-	padding-top: 15px;
+	width: 230px;
+	height: 40px;
+	margin-left: 85px;
+	padding-top: 10px;
+	border-bottom: solid 1px;
+	border-color: #666;
 }
 .y-title, .z-title{
 	margin-left: 3px;
