@@ -1532,7 +1532,8 @@ proto.buffers.Waypoint.toObject = function(includeInstance, msg) {
   var f, obj = {
     index: jspb.Message.getFieldWithDefault(msg, 1, 0),
     pointList: jspb.Message.toObjectList(msg.getPointList(),
-    proto.buffers.Point.toObject, includeInstance)
+    proto.buffers.Point.toObject, includeInstance),
+    type: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1577,6 +1578,10 @@ proto.buffers.Waypoint.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.buffers.Point;
       reader.readMessage(value,proto.buffers.Point.deserializeBinaryFromReader);
       msg.addPoint(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setType(value);
       break;
     default:
       reader.skipField();
@@ -1631,6 +1636,13 @@ proto.buffers.Waypoint.prototype.serializeBinaryToWriter = function (writer) {
       proto.buffers.Point.serializeBinaryToWriter
     );
   }
+  f = this.getType();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -1679,6 +1691,21 @@ proto.buffers.Waypoint.prototype.addPoint = function(opt_value, opt_index) {
 
 proto.buffers.Waypoint.prototype.clearPointList = function() {
   this.setPointList([]);
+};
+
+
+/**
+ * optional string type = 3;
+ * @return {string}
+ */
+proto.buffers.Waypoint.prototype.getType = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.buffers.Waypoint.prototype.setType = function(value) {
+  jspb.Message.setField(this, 3, value);
 };
 
 
@@ -2080,7 +2107,9 @@ proto.buffers.sensors.toObject = function(includeInstance, msg) {
     channelsinput: (f = msg.getChannelsinput()) && proto.buffers.Channels.toObject(includeInstance, f),
     channelsoutput: (f = msg.getChannelsoutput()) && proto.buffers.Channels.toObject(includeInstance, f),
     loiterpwm: (f = msg.getLoiterpwm()) && proto.buffers.Channels.toObject(includeInstance, f),
-    altitude: +jspb.Message.getFieldWithDefault(msg, 14, 0.0)
+    altitude: +jspb.Message.getFieldWithDefault(msg, 14, 0.0),
+    mode: jspb.Message.getFieldWithDefault(msg, 15, ""),
+    gear: jspb.Message.getFieldWithDefault(msg, 16, 0)
   };
 
   if (includeInstance) {
@@ -2181,6 +2210,14 @@ proto.buffers.sensors.deserializeBinaryFromReader = function(msg, reader) {
     case 14:
       var value = /** @type {number} */ (reader.readFloat());
       msg.setAltitude(value);
+      break;
+    case 15:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setMode(value);
+      break;
+    case 16:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setGear(value);
       break;
     default:
       reader.skipField();
@@ -2324,6 +2361,20 @@ proto.buffers.sensors.prototype.serializeBinaryToWriter = function (writer) {
   if (f !== 0.0) {
     writer.writeFloat(
       14,
+      f
+    );
+  }
+  f = this.getMode();
+  if (f.length > 0) {
+    writer.writeString(
+      15,
+      f
+    );
+  }
+  f = this.getGear();
+  if (f !== 0) {
+    writer.writeInt32(
+      16,
       f
     );
   }
@@ -2672,6 +2723,36 @@ proto.buffers.sensors.prototype.getAltitude = function() {
 /** @param {number} value */
 proto.buffers.sensors.prototype.setAltitude = function(value) {
   jspb.Message.setField(this, 14, value);
+};
+
+
+/**
+ * optional string Mode = 15;
+ * @return {string}
+ */
+proto.buffers.sensors.prototype.getMode = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
+};
+
+
+/** @param {string} value */
+proto.buffers.sensors.prototype.setMode = function(value) {
+  jspb.Message.setField(this, 15, value);
+};
+
+
+/**
+ * optional int32 Gear = 16;
+ * @return {number}
+ */
+proto.buffers.sensors.prototype.getGear = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
+};
+
+
+/** @param {number} value */
+proto.buffers.sensors.prototype.setGear = function(value) {
+  jspb.Message.setField(this, 16, value);
 };
 
 

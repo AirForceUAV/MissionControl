@@ -168,7 +168,7 @@ function markLocation(new_point){
 * lng: 经度
 * lat: 纬度
 */  
-function markPath(new_point, num, dis){
+global.markPath = function(new_point, num, dis){
     var title = "NO." + String(num) + " : " + String(dis) + "m";
     var opts = {
         position : new_point,
@@ -195,7 +195,7 @@ function markPath(new_point, num, dis){
 * lat: 纬度
 * head: 顺时针旋转角度（eg:90）
 */ 
-function markPlane(lng, lat, head){
+global.markPlane = function(lng, lat, head){
 	if(typeof(plane_marker) != "undefined"){
 		map.removeOverlay(plane_marker);
 	}
@@ -219,7 +219,7 @@ function markPlane(lng, lat, head){
 * lng: 经度
 * lat: 纬度
 */ 
-function markHome(lng, lat){
+global.markHome = function(lng, lat){
     if(typeof(home_marker) != "undefined"){
         map.removeOverlay(home_marker);
     }
@@ -235,7 +235,6 @@ function markHome(lng, lat){
     });
 
     map.addOverlay(home_marker);
-    map.panTo(new_point);     //让地图平滑移动至新中心点
 }
 
 /*

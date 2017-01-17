@@ -48,6 +48,7 @@ message Barometre {
 message Waypoint {
   sint32 index = 1 ;
   repeated Point point = 2 ;
+  string type = 3 ;
 }
 
 message Channels{
@@ -75,6 +76,8 @@ message sensors {
   Channels ChannelsOutput = 12 ;
   Channels LoiterPWM = 13 ;
   float Altitude = 14 ;
+  string Mode = 15;
+  int32 Gear = 16;
 }
 
 // [END messages]

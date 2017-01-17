@@ -35,7 +35,7 @@ global.openDowload = false;
 
 
 var dynamicLine = require("./map/dynamicLine.js");
-global.client = require("./net/connectRedis.js");
+global.client = require("./net/connect.js");
 
 require("./tools/bootstrap.min.js");
 require("./tools/longpress.js");
@@ -93,7 +93,7 @@ $(".route_path").on("click", function () {
     clearPath();
     dynamicLine(locationCurrent[1], locationCurrent[0], 3);
     map.removeEventListener("click", generate_message);
-    route_mes = "Route(\"";
+    route_mes = "vehicle.Route(\"";
     map.addEventListener("click", generate_message);
     $(".take-off").css("display", "block"); 
     showTips("路径规划!");
@@ -314,6 +314,7 @@ function setZoom(bPoints){
 
 // clear the path
 global.clearPath = function(){
+    path_num = 1;
     var len = path_lines.length;
     while (len--) {
         map.removeOverlay(path_lines[len]);

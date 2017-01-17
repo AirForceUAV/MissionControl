@@ -3,7 +3,6 @@ const path = process.env.HOME + "/.UDS"+"_mc";
 
 var client = net.connect({ path: path});
 require("../tools/echarts_tool.js");
-var dynamicLine, markPlane, markHome = require("../map/dynamicLine.js");
 
 // listener
 client.on('end', () => {
@@ -76,46 +75,27 @@ function handle_data_protobuf(data){
     var message = messages.sensors.deserializeBinary(new Uint8Array(data));
     // var message = data;
     console.log(message);
-    console.log(message.getTarget());
-    console.log(message.getTarget().getLatitude());
+    console.log(message.getWaypoint());
+    console.log(message.getWaypoint().getPointList());
 
     // GPS 信息
-    var gps = message.getGPS();
+    var gps = message.getGps();
     var gps_state = gps.getState();
-    var gps_stars = gps.getNumStars();
-    var location = gps.getLocation();
-
-    var latitude = location.getLatitude();
-    var longitude = location.getLongitude();
-    // 高度
-    var altitude = location.getAltitude();
 
     // 罗盘信息
     var compass = message.getCompass();
-    // 罗盘健康信息 -1不健康 1健康
-    var compass_state = compass.getState();
-    var compass_attitude = compass.getAttitude();
-    // 升降
-    var pitch = attitude.getPitch();
-    // 横滚
-    var roll = attitude.getRoll();
-    // 偏航
-    var yaw = attitude.getYaw();
+    // 罗盘健康信息 false不健康 true健康
+    var compass_state = compass.getState();   
 
     // 气压计
     var barometre = message.getBaro();
     var barometre_state = barometre.getState();
-    // 气压
-    var pressure = barometre.getPressure();
-    // 气温
-    var temperature = barometre.getTemperature();
-    // 海拔高度（绝对高度）
-    var barometre_altitude = barometre.getAltitude();
 
     // 巡航线路
-    var waypoint = message.getWayPoint();
+    var waypoint = message.getWaypoint();
     var waypoint_index = waypoint.getIndex();
     var waypoint_points = waypoint.getPointList(); 
+    var waypoint_type = waypoint.getType();
 
     // 目标点
     var target = message.getTarget();
@@ -126,65 +106,105 @@ function handle_data_protobuf(data){
     var home_longitude = home.getLongitude();
 
 
-    var distanceToTarget = message.getDistanceToTarget();
-    var distanceFromHome = message.getDistanceFromHome();
+    var distanceToTarget = message.getDistancetotarget();
+    var distanceFromHome = message.getDistancefromhome();
 
     //  相对高度
     var altitude = message.getAltitude();
 
-    locationCurrent = location;
+    // 模式
+    var mode = message.getMode();
 
-    var rpm = (Number(data.RPM)/100).toFixed(1);
+    // gear
+    var gear = message.getGear();
+
+    // var rpm = (Number(data.RPM)/100).toFixed(1);
 
     // data set
     $("#dis-target-value")[0].innerText = Number(distanceToTarget).toFixed(0);
     $("#dis-home-value")[0].innerText = Number(distanceFromHome).toFixed(0);
     $("#height-value")[0].innerText = Number(altitude).toFixed(0);
-    $("#gps_level")[0].innerText = gps_stars;
-    if(compass_state == -1 || gps_state == -1 || barometre_state == -1){
+    
+    $("#mode_value")[0].innerText = mode;
+    if(gear == 1){
+        $("#gear_level")[0].innerText = "低";
+    }else if(gear == 2){
+        $("#gear_level")[0].innerText = "中";
+    }else if(gear == 3){
+        $("#gear_level")[0].innerText = "高";
+    }
+
+    if(compass_state == false || gps_state == false || barometre_state == false){
         $("#sensors_warning").show();
     }else{
-        $("#sensors_warning").hide();
+        $("#sensors_warning").hide(); 
     }
-    if(gps_state == -1){
+    if(gps_state == false){
         $("#gps_state")[0].innerText = "不健康";
     }else{
         $("#gps_state")[0].innerText = "健康";
+        var gps_stars = gps.getNumStars();
+        var location = gps.getLocation();
+
+        var latitude = location.getLatitude();
+        var longitude = location.getLongitude();
+        // 高度
+        var altitude = location.getAltitude();
+
+        $("#gps_level")[0].innerText = gps_stars;
+        locationCurrent = [latitude, longitude, altitude];
+
+        // mark当前位置
+        markPlane(longitude, latitude, yaw);
+        // 飞行路线
+        dynamicLine(longitude, latitude, 2);
+        bPoints.push(new BMap.Point(longitude,latitude)); 
     }
-    if(compass_state == -1){
+    if(compass_state == false){
         $("#compass_state")[0].innerText = "不健康";
     }else{
         $("#compass_state")[0].innerText = "健康";
+        var compass_attitude = compass.getAttitude();
+        // 升降
+        var pitch = compass_attitude.getPitch();
+        // 横滚
+        var roll = compass_attitude.getRoll();
+        // 偏航
+        var yaw = compass_attitude.getYaw();
     }
-    if(barometre_state == -1){
+    if(barometre_state == false){
         $("#baro_state")[0].innerText = "不健康";
     }else{
         $("#baro_state")[0].innerText = "健康";
+        // 气压
+        var pressure = barometre.getPressure();
+        // 气温
+        var temperature = barometre.getTemperature();
+        // 海拔高度（绝对高度）
+        var barometre_altitude = barometre.getAltitude();
         $("#baro_pressure")[0].innerText = pressure;
         $("#baro_temper")[0].innerText = temperature;
     }
-
-    // mark当前位置
-    markPlane(longtitude, latitude, yaw);
-    // 飞行路线
-    dynamicLine(longtitude, latitude, 2);
-    bPoints.push(new BMap.Point(longtitude,latitude)); 
 
     // home
     markHome(home_longitude,home_latitude);
 
     // download the path 
-    if (openDowload && waypoint_points) {
-        clearPath();
-        var len = waypoint_points.length;
-        dynamicLine(longtitude, latitude, 3);
-        for (var i =0 ; i<len; i++){
-            var lng = waypoint_points[i].getLocation().getLongitude();
-            var lat = waypoint_points[i].getLocation().getLatitude();
-            // 3 for path
-            dynamicLine(lng, lat, 3);
+    if (openDowload && waypoint_type == "Download"){
+        try{ 
+            clearPath();
+            var len = waypoint_points.length;
+            dynamicLine(longitude, latitude, 3);
+            for (var i =0 ; i<len; i++){
+                var lng = waypoint_points[i].getLocation().getLongitude();
+                var lat = waypoint_points[i].getLocation().getLatitude();
+                // 3 for path
+                dynamicLine(lng, lat, 3);
+            }
+            openDowload = false;
+        }catch(err){
+            console.log("error");
         }
-        openDowload = false;
     }
 }
 
