@@ -57,19 +57,45 @@ function receiveFlightLog() {
 }
 
 var sub = redis.createClient(), pub = redis.createClient();
-var msg_count = 0;
-
 sub.on("subscribe", function (channel, count) {
     setInterval(function(){
-      pub.publish("a nice channel", "I am sending a message.");
+      pub.publish("Network", "Remote:Transit:true:1100");
     }, 1000)
 });
 
 sub.on("message", function (channel, message) {
-    console.log("sub channel " + channel + ": " + message);
+  console.log("sub channel " + channel + ": " + message);
+    var type_arr = message.split(":");
+    if(type_arr[0] == "Local"){
+        if(type_arr[1] == "true"){
+            console.log("Local true");
+        }else{
+            console.log("Local false");
+        }
+    }else{
+        if(type_arr[1] == "Direct"){
+            console.log("Remote:Direct" + type_arr[3]);
+        }else if(type_arr[1] == "Transit"){
+            console.log("Remote:Transit" + type_arr[3]);
+        }else{
+            console.log("Remote:false");
+        }
+    }
 });
 
-sub.subscribe("a nice channel");
+sub.subscribe("Network");
+
+// sub.on("subscribe", function (channel, count) {
+//     setInterval(function(){
+//       pub.publish("Network", "I am sending a message.");
+//     }, 1000)
+// });
+
+// sub.on("message", function (channel, message) {
+//     console.log("sub channel " + channel + ": " + message);
+// });
+
+// sub.subscribe("Network");
 
 // getClientSendChan()
 // getClientRecvChan();

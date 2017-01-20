@@ -71,6 +71,10 @@ var messages = require('./FlightLog_pb');
 // console.log(message.getTarget().getLongitude());
 // console.log(message.getTarget().getAltitude());
 function handle_data_protobuf(data){
+    console.log("!!!!");
+    console.log(data);
+    console.log(typeof data);
+    console.log(new Uint8Array(data));
     // for protobuf
     var message = messages.sensors.deserializeBinary(new Uint8Array(data));
     // var message = data;

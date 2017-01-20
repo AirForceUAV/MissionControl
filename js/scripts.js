@@ -1,5 +1,21 @@
 const {ipcRenderer} = require('electron')
 
+var mc_guid,fc_guid;
+
+var redis = require("redis");
+var client = redis.createClient();
+
+client.get("SelfGUID",function(err, replay){
+    $("#form-username").attr("value",replay);
+    mc_guid = replay;
+});
+
+client.get("PairKey",function(err, replay){
+    if(replay){
+        ipcRenderer.send('index_view', 'ping');
+    }
+});
+
 jQuery(document).ready(function() {
 	
     /*
@@ -22,11 +38,28 @@ jQuery(document).ready(function() {
     		}
     		else {
     			$(this).removeClass('input-error');
+                fc_guid = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "http://airforceuav.com:8080/pair",
+                    data: {
+                        mc_guid : mc_guid,
+                        fc_guid : fc_guid
+                    },
+                    success: function(data){
+                        ipcRenderer.send('index_view', 'ping');
+                        console.log(data);
+                    },
+                    error: function(data){
+                        alert("error");
+                        console.log(data);
+                    }
+                });
     		}
     	});
         console.log($(this).find('.input-error').length);
     	if($(this).find('.input-error').length == 0){
-            ipcRenderer.send('index_view', 'ping');
+            // ipcRenderer.send('index_view', 'ping');
         }
     });
     
@@ -34,38 +67,21 @@ jQuery(document).ready(function() {
 });
 
 
-function ReadFile(data) {
-    $("#form-username").attr("value",data);
-}        
-var xhr = new XMLHttpRequest();
-xhr.onload = function () {            
-    ReadFile(xhr.responseText);
-};
-try {
-    xhr.open("get", "../js/.UserCredential", true);
-    xhr.send();
-}
-catch (ex) {
-    ReadFile(ex.message);
-}
+// function ReadFile(data) {
+//     $("#form-username").attr("value",data);
+// }        
+// var xhr = new XMLHttpRequest();
+// xhr.onload = function () {            
+//     ReadFile(xhr.responseText);
+// };
+// try {
+//     xhr.open("get", "../js/.UserCredential", true);
+//     xhr.send();
+// }
+// catch (ex) {
+//     ReadFile(ex.message);
+// }
 
 
-// var redis = require("redis");
-// var client = redis.createClient();
 
-// client.get("SelfGUID",function(err, replay){
-
-// });     
-
-$.ajax({
-    type: "POST",
-    url: "http://airforceuav.com:8080/pair",
-    data: {
-        mc_guid:"11",
-        fc_guid:"11"
-    },
-    success: function(data){
-        console.log(data);
-      }
-});
 

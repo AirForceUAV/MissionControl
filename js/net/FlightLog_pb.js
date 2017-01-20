@@ -9,6 +9,34 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+// var encoder = new jspb.BinaryEncoder();
+
+// var ascii = "ASCII should work in 3, 2, 1..."
+// var utf8_two_bytes = "©";
+// var utf8_three_bytes = "❄";
+// var utf8_four_bytes = "😁";
+
+// encoder.writeString(ascii);
+// encoder.writeString(utf8_two_bytes);
+// encoder.writeString(utf8_three_bytes);
+// encoder.writeString(utf8_four_bytes);
+// console.log(encoder);
+// console.log(encoder.end());
+
+// var decoder = jspb.BinaryDecoder.alloc(encoder.end());
+// console.log(ascii);
+// console.log(decoder);
+// console.log(decoder.readString(ascii.length));
+// console.log(decoder.readString(utf8_two_bytes.length));
+// console.log(decoder.readString(utf8_three_bytes.length));
+// console.log(decoder.readString(utf8_four_bytes.length));
+
+
+// assertEquals(ascii, decoder.readString(ascii.length));
+// assertEquals(utf8_two_bytes, decoder.readString(utf8_two_bytes.length));
+// assertEquals(utf8_three_bytes, decoder.readString(utf8_three_bytes.length));
+// assertEquals(utf8_four_bytes, decoder.readString(utf8_four_bytes.length));
+
 goog.exportSymbol('proto.buffers.Attitude', null, global);
 goog.exportSymbol('proto.buffers.Barometre', null, global);
 goog.exportSymbol('proto.buffers.Channels', null, global);
