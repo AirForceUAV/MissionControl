@@ -39,26 +39,26 @@ jQuery(document).ready(function() {
     		else {
     			$(this).removeClass('input-error');
                 fc_guid = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "http://airforceuav.com:8080/pair",
-                    data: {
-                        mc_guid : mc_guid,
-                        fc_guid : fc_guid
-                    },
-                    success: function(data){
-                        ipcRenderer.send('index_view', 'ping');
-                        console.log(data);
-                    },
-                    error: function(data){
-                        alert("error");
-                        console.log(data);
-                    }
-                });
     		}
     	});
         console.log($(this).find('.input-error').length);
     	if($(this).find('.input-error').length == 0){
+            $.ajax({
+                type: "POST",
+                url: "http://airforceuav.com:8080/pair",
+                data: {
+                    mc_guid : mc_guid,
+                    fc_guid : fc_guid
+                },
+                success: function(data){
+                    ipcRenderer.send('index_view', 'ping');
+                    console.log(data);
+                },
+                error: function(data){
+                    alert("error");
+                    console.log(data);
+                }
+            });
             // ipcRenderer.send('index_view', 'ping');
         }
     });

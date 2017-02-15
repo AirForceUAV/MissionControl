@@ -14,7 +14,7 @@ function parse_type(data){
         $("#connect_to_cloud")[0].innerText = "本地";
         if(type_arr[1] == "true"){
             console.log("Local true");
-            $("#delay_value")[0].innerText = type_arr[2];
+            $("#delay_value")[0].innerText = type_arr[2].toString() + "ms";
             $(".cloud_status").css("color","red");
         }else{
             $(".cloud_status").css("color","#4A4A4A");
@@ -27,11 +27,11 @@ function parse_type(data){
             console.log("Remote:false");
         }else if(type_arr[2] == "Direct"){
             $(".cloud_status").css("color","red");
-            $("#delay_value")[0].innerText = type_arr[3];
+            $("#delay_value")[0].innerText = type_arr[3].toString() + "ms";
             console.log("Remote:Direct" + type_arr[3]);
         }else if(type_arr[2] == "Transit"){
             $(".cloud_status").css("color","red");
-            $("#delay_value")[0].innerText = type_arr[3];
+            $("#delay_value")[0].innerText = type_arr[3].toString() + "ms";
             console.log("Remote:Transit" + type_arr[3]);
         }
     }
