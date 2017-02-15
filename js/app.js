@@ -53,7 +53,7 @@ $(".guide_fly").on("click", function () {
 });
 $(".avoid_fly").on("click", function () {
     hideWin();
-    client.write("lidar.Guided_Avoid()");
+    client.write("lidar.Guided()");
     showTips("避障模式!");
 });
 $(".radio_d").on("click", function () {
@@ -84,7 +84,7 @@ $(".download_path").on("click", function () {
 });
 $(".auto_path").on("click", function () {
     hideWin();
-    client.write("vehicle.AUTO()");
+    client.write("vehicle.Auto()");
     showTips("AUTO!");
 });
 var route_mes;

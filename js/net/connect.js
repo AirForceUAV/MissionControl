@@ -3,6 +3,7 @@ const path = process.env.HOME + "/.UDS"+"_mc";
 
 var client = net.connect({ path: path});
 require("../tools/echarts_tool.js");
+require("./delay.js");
 
 // listener
 client.on('end', () => {
