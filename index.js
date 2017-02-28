@@ -11,7 +11,27 @@ const ipc = require('electron').ipcMain;
 let win
 let terminal
 
+// add for rtmp
+let pluginName
+
+switch (process.platform) {
+  case 'win32':
+    pluginName = 'pepflashplayer.dll'
+    break
+  case 'darwin':
+    pluginName = 'PepperFlashPlayer.plugin'
+    break
+  case 'linux':
+    pluginName = 'libpepflashplayer.so'
+    break
+}
+
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
+// add for rtmp
+
+
 function createWindow () {
+  // for location
   process.env.GOOGLE_API_KEY = 'AIzaSyCQtW87ztHqA2ecB3h9os-nvt480gbz2Wg';
 
   // Create the browser window.
@@ -87,7 +107,10 @@ ipcMain.on('index_view', function(event, arg) {
     port: 5000,
     quiet: false
   });
-  win.loadURL(`file://${__dirname}/index.html`)
+
+  // change for rtmp
+  // win.loadURL(`file://${__dirname}/index.html`)
+  win.loadURL(`http://localhost:8000/index.html`)
 });
 
 ipcMain.on('full-screen', function(event, arg) {

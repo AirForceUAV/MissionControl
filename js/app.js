@@ -33,14 +33,14 @@ global.path_num = 1;
 // 是否开启下载路径模式
 global.openDowload = false;
 
+// delete for rtmp
+// var dynamicLine = require("./map/dynamicLine.js");
+// global.client = require("./net/connect.js");
 
-var dynamicLine = require("./map/dynamicLine.js");
-global.client = require("./net/connect.js");
-
-require("./tools/bootstrap.min.js");
-require("./tools/longpress.js");
-require("./tools/keyboard.js");
-require("./desktop.js");
+// require("./tools/bootstrap.min.js");
+// require("./tools/longpress.js");
+// require("./tools/keyboard.js");
+// require("./desktop.js");
          
 // order
 $(".location").on("click", function () {  
@@ -211,45 +211,35 @@ $(".cancel").on("click", function () {
     });
     slider.init();  
 });
-
+// for rtmp
 $(".change").on("click", function () {
-      var height = $(window).height();
+      var height = $(window).height() - 60;
       var width = $(window).width();
-      if(width >= height*1.7251){
-        height = width/1.7251;
-      }else{
-        width= height*1.7251;
-      }
-      console.log(height);
-      console.log(width);
+
         if(!$(this).hasClass("video_mode")){
+          swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
           $('#allmap').css({
-              "width":"285px",
-              "height":"165px",
+              "width":"250px",
+              "height":"150px",
               "position":"absolute",
               "right":"10px",
               "bottom":"10px"
             });
           $(this).addClass("video_mode");
-          $("#test_desktop").css({
-            "width":width,
-            "height":height,
-            "bottom":"0",
+          $("#player").css({
             "right": "0",
+            "bottom": "0",
             "z-index": "-1"
           });
         }else{
+            swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs);           
             $('#allmap').css({
               "width":"100%",
               "height":"100%",
               "position":"relative",
-              "right":"0",
               "margin-top":"60px"
             });
-          $("#test_desktop").css({
-            "position":"absolute",
-            "width":"285px",
-            "height":"165px",
+          $("#player").css({
             "right": "10px",
             "bottom": "10px",
             "z-index": "0"
@@ -257,6 +247,53 @@ $(".change").on("click", function () {
           $(this).removeClass("video_mode");
         }
 });
+
+// for rtsp
+// $(".change").on("click", function () {
+//       var height = $(window).height();
+//       var width = $(window).width();
+//       if(width >= height*1.7251){
+//         height = width/1.7251;
+//       }else{
+//         width= height*1.7251;
+//       }
+//       console.log(height);
+//       console.log(width);
+//         if(!$(this).hasClass("video_mode")){
+//           $('#allmap').css({
+//               "width":"285px",
+//               "height":"165px",
+//               "position":"absolute",
+//               "right":"10px",
+//               "bottom":"10px"
+//             });
+//           $(this).addClass("video_mode");
+//           $("#test_desktop").css({
+//             "width":width,
+//             "height":height,
+//             "bottom":"0",
+//             "right": "0",
+//             "z-index": "-1"
+//           });
+//         }else{
+//             $('#allmap').css({
+//               "width":"100%",
+//               "height":"100%",
+//               "position":"relative",
+//               "right":"0",
+//               "margin-top":"60px"
+//             });
+//           $("#test_desktop").css({
+//             "position":"absolute",
+//             "width":"285px",
+//             "height":"165px",
+//             "right": "10px",
+//             "bottom": "10px",
+//             "z-index": "0"
+//           });
+//           $(this).removeClass("video_mode");
+//         }
+// });
 
 // long press
 $('.turn-up, .turn-left, .turn-right, .turn-down').longPress(function(){
