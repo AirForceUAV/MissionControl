@@ -84,7 +84,7 @@ ipcMain.on('index_view', function(event, arg) {
 
   // gstreamer
   gstreamer.start({
-    port: 5000,
+    port: 6000,
     quiet: false
   });
   win.loadURL(`file://${__dirname}/index.html`)

@@ -46,6 +46,8 @@ geolocation.getCurrentPosition(function(r){
              }    
             });
         markGCS(r.point.lng, r.point.lat);
+        locationCurrent[0] = r.point.lat;
+        locationCurrent[1] = r.point.lng;
         // setLocation(r.point);
     }else {
     }
