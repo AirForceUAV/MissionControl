@@ -81,7 +81,7 @@ function handle_data_protobuf(data){
     // var message = data;
     console.log(message);
     console.log(message.getWaypoint());
-    console.log(message.getWaypoint().getPointList());
+    // console.log(message.getWaypoint().getPointList());
 
     // GPS 信息
     var gps = message.getGps();
@@ -98,9 +98,10 @@ function handle_data_protobuf(data){
 
     // 巡航线路
     var waypoint = message.getWaypoint();
-    var waypoint_index = waypoint.getIndex();
-    var waypoint_points = waypoint.getPointList(); 
-    var waypoint_type = waypoint.getType();
+    // var waypoint_index = waypoint.getIndex();
+    // var waypoint_type = waypoint.getType();
+    var waypoint_type = "buyaole";
+
 
     // 目标点
     var target = message.getTarget();
@@ -197,6 +198,7 @@ function handle_data_protobuf(data){
     // download the path 
     if (openDowload && waypoint_type == "Download"){
         try{ 
+            var waypoint_points = waypoint.getPointList(); 
             clearPath();
             var len = waypoint_points.length;
             dynamicLine(longitude, latitude, 3);
