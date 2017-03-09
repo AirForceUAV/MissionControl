@@ -33,7 +33,7 @@ global.path_num = 1;
 // 是否开启下载路径模式
 global.openDowload = false;
 
-
+// delete for rtmp
 var dynamicLine = require("./map/dynamicLine.js");
 global.client = require("./net/connect.js");
 
@@ -211,7 +211,46 @@ $(".cancel").on("click", function () {
     });
     slider.init();  
 });
+// for rtmp
+// $(".change").on("click", function () {
+//       var height = $(window).height() - 60;
+//       var width = $(window).width();
 
+//         if(!$(this).hasClass("video_mode")){
+//           swfobject.embedSWF("GrindPlayer.swf", "player", width, height, "10.2", null, flashvars, params, attrs); 
+//           $('#allmap').css({
+//               "width":"250px",
+//               "height":"150px",
+//               "position":"absolute",
+//               "right":"10px",
+//               "bottom":"10px"
+//             });
+//           $(this).addClass("video_mode");
+//           $("#player").css({
+//             "right": "0",
+//             "bottom": "0",
+//             "z-index": "-1"
+//           });
+//         }else{
+//             swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs);           
+//             $('#allmap').css({
+//               "width":"100%",
+//               "height":"100%",
+//               "position":"relative",
+//               "margin-top":"60px"
+//             });
+//           $("#player").css({
+//             "right": "10px",
+//             "bottom": "10px",
+//             "z-index": "0"
+//           });
+//           $(this).removeClass("video_mode");
+//         }
+// });
+
+
+
+// for rtsp
 $(".change").on("click", function () {
       var height = $(window).height();
       var width = $(window).width();

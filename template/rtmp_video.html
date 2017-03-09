@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UAV-RTMP</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style>
+#player{
+  position: absolute;
+  top : 0;
+  left: 0;
+}
+</style>
+</head>
+<body>
+<!-- add for rtmp -->
+<div class="video_wrapper">
+  <div id="player" class="video_container"></div>  
+</div>
+<!-- add for rtmp -->
+
+ 
+</body>
+
+<!-- add for rtmp -->
+<script type="text/javascript" src="js/swfobject.min.js"></script>
+    <script type="text/javascript">
+      var flashvars = {
+        src: "rtmp://live.hkstv.hk.lxdns.com/live/hks"
+      };
+      var params = {
+          allowFullScreen: true
+          , allowScriptAccess: "always"
+          , bgcolor: "#000000"
+          ,controlBarAutoHide: true
+      };
+      var attrs = {
+          name: "player"
+      };
+
+      swfobject.embedSWF("GrindPlayer.swf", "player", "1280", "800", "10.2", null, flashvars, params, attrs); 
+    </script>
+
+<!-- add for rtmp -->
+
+</html>

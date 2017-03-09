@@ -131,6 +131,10 @@
                 <span class="glyphicon glyphicon-upload group_button"></span> 
                 <span class="down_group_text">路径规划</span>
               </li>
+              <li class="change-proto">
+                <span class="glyphicon glyphicon-random group_button"></span> 
+                <span class="down_group_text">视频切换</span>
+              </li>
               <li class="back-home">
                 <span class="glyphicon glyphicon-home group_button"></span> 
                 <span class="down_group_text">返航</span>
@@ -426,13 +430,57 @@
 <div id="myAlert" class="alert alert-success">
     <span class="tip_mes">成功!</span>
 </div>
+
+<!-- add for rtmp -->
+<!-- <div class="video_wrapper">
+  <div id="player" class="video_container"></div>  
+</div> -->
+<!-- add for rtmp -->
+
  
 </body>
+
+<!-- add for rtmp -->
+<script type="text/javascript" src="js/swfobject.min.js"></script>
+    <script type="text/javascript">
+      // var flashvars = {
+      //   src: "rtmp://live.hkstv.hk.lxdns.com/live/hks"
+      // };
+      // var params = {
+      //     allowFullScreen: true
+      //     , allowScriptAccess: "always"
+      //     , bgcolor: "#000000"
+      //     ,controlBarAutoHide: true
+      // };
+      // var attrs = {
+      //     name: "player"
+      // };
+
+      // swfobject.embedSWF("GrindPlayer.swf", "player", "250", "150", "10.2", null, flashvars, params, attrs); 
+    </script>
+
+<!-- add for rtmp -->
+
 <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="js/tools/jquery.slideunlock.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YeAptwx5UPYqVxFHWWCETOfQm40RfcbD"></script>
 <script type="text/javascript">
-require("./js/app.js");
-require("./js/basr-demo.js");
+  // delete for rtmp
+  require("./js/app.js");
+  require("./js/basr-demo.js");
 </script>  
+
+<!-- add for rtmp -->
+<!-- <script type="text/javascript" src="js/tools/longpress.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/basr-demo.js"></script>
+<script type="text/javascript" src="js/map/dynamicLine.js"></script>
+<script type="text/javascript" src="js/net/connect.js"></script>
+<script type="text/javascript" src="js/tools/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/tools/keyboard.js"></script>
+<script type="text/javascript" src="js/desktop.js"></script>
+<script type="text/javascript" src="js/tools/echarts_tool.js"></script>
+<script type="text/javascript" src="js/net/delay.js"></script>
+<script type="text/javascript" src="js/net/FlightLog_pb.js"></script> -->
+
 </html>

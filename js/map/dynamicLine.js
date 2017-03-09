@@ -264,4 +264,4 @@ function markGCS(lng, lat){
 }
 
 
-module.exports = dynamicLine, markPlane, markHome;
+// module.exports = dynamicLine, markPlane, markHome;

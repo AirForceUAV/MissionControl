@@ -17,7 +17,7 @@ client.get("PairKey",function(err, replay){
 });
 
 // 避开配对
-// ipcRenderer.send('index_view', 'ping');
+ipcRenderer.send('index_view', 'ping');
 
 jQuery(document).ready(function() {
     

@@ -10,20 +10,48 @@ const ipc = require('electron').ipcMain;
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 let terminal
+let win_rtmp
+
+// add for rtmp
+let pluginName
+
+switch (process.platform) {
+  case 'win32':
+    pluginName = 'pepflashplayer.dll'
+    break
+  case 'darwin':
+    pluginName = 'PepperFlashPlayer.plugin'
+    break
+  case 'linux':
+    pluginName = 'libpepflashplayer.so'
+    break
+}
+
+app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
+// add for rtmp
+
 
 function createWindow () {
+  // for location
   process.env.GOOGLE_API_KEY = 'AIzaSyCQtW87ztHqA2ecB3h9os-nvt480gbz2Wg';
 
   // Create the browser window.
-  win = new BrowserWindow({
+
+  win_rtmp = new BrowserWindow({
     width: 1280, 
     height: 800,
     webPreferences: {
       plugins: true
     },
-    // fullscreen: true,
+    autoHideMenuBar: true
+  })
+
+  win = new BrowserWindow({
+    width: 1280, 
+    height: 800,
     autoHideMenuBar: true,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    parent: win_rtmp
   })
 
   // and load the index.html of the app.
@@ -87,10 +115,19 @@ ipcMain.on('index_view', function(event, arg) {
     port: 6000,
     quiet: false
   });
+
+  // change for rtmp
   win.loadURL(`file://${__dirname}/index.html`)
+  // win.loadURL(`http://localhost:8000/index.html`)
+  // win.loadURL(`http://localhost:8000/rtmp_video.html`)
 });
 
 ipcMain.on('full-screen', function(event, arg) {
   console.log(arg);  // prints "ping"
   win.setFullScreen(true);
+});
+
+ipcMain.on('change-video', function(event, arg) {
+    win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
+    win_rtmp.show();
 });

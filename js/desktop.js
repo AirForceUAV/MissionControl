@@ -42,40 +42,56 @@
 //   }
 // }
 
+global.videoType = "GStreamer Video Output"
 
 // In the renderer process.
 const {ipcRenderer, desktopCapturer} = require('electron')
+findVideo(videoType);
 
-desktopCapturer.getSources({types: ['window','screen']}, (error, sources) => {
-  if (error) throw error
-  for (let i = 0; i < sources.length; ++i) {
-    console.log(sources[i].name);
-    if (sources[i].name === 'GStreamer Video Output') {
-     // navigator.mediaDevices.getUserMedia()
-      navigator.webkitGetUserMedia({
-        audio: false,
-        video: {
-          mandatory: {
-            chromeMediaSource: 'desktop',
-            chromeMediaSourceId: sources[i].id,
-            minWidth: 1280,
-            maxWidth: 1280,
-            minHeight: 742,
-            maxHeight: 742
-          }
-        }
-      }, handleStream, handleError)
-      return
-    }
+$(".change-proto").on("click", function () {
+  if(videoType == 'GStreamer Video Output'){
+      videoType = 'UAV-RTMP';
+      ipcRenderer.send('change-video', 'ping');
+      findVideo(videoType);
+  }else{
+    videoType = 'GStreamer Video Output';
+    findVideo(videoType);
   }
-})
+
+});
 
 function handleStream (stream) {
   document.querySelector('video').src = URL.createObjectURL(stream)
   console.log("handle stream");
-  ipcRenderer.send('full-screen', 'ping');
+  // ipcRenderer.send('full-screen', 'ping');
 }
 
 function handleError (e) {
   console.log(e)
+}
+
+function findVideo(type){
+  desktopCapturer.getSources({types: ['window','screen']}, (error, sources) => {
+    if (error) throw error
+    for (let i = 0; i < sources.length; ++i) {
+      console.log(sources[i].name);
+      if (sources[i].name === type) {
+       // navigator.mediaDevices.getUserMedia()
+        navigator.webkitGetUserMedia({
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: sources[i].id,
+              minWidth: 1280,
+              maxWidth: 1280,
+              minHeight: 742,
+              maxHeight: 742
+            }
+          }
+        }, handleStream, handleError)
+        return
+      }
+    }
+  })
 }

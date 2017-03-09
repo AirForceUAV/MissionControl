@@ -2,6 +2,7 @@ const net = require('net');
 const path = process.env.HOME + "/.UDS"+"_mc";
 
 var client = net.connect({ path: path});
+// delete for rtmp
 require("../tools/echarts_tool.js");
 require("./delay.js");
 
