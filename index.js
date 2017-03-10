@@ -57,7 +57,11 @@ function createWindow () {
   // and load the index.html of the app.
   // win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
+
   win.loadURL(`file://${__dirname}/template/pairing.html`)
+  win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
+
+
   // win.loadURL(`http://127.0.0.1:8848/demo/index.html`)
 
   // Open the DevTools.
@@ -99,6 +103,7 @@ app.on('activate', () => {
 // code. You can also put them in separate files and require them here.
 
 const ipcMain = require('electron').ipcMain;
+var gstreamer = require('gstreamer');
 
 ipcMain.on('pairing_view', function(event, arg) {
   console.log(arg);  // prints "ping"
@@ -108,12 +113,10 @@ ipcMain.on('pairing_view', function(event, arg) {
 ipcMain.on('index_view', function(event, arg) {
   console.log(arg);  // prints "ping"
   event.sender.send('index-reply', 'pong');
-  var gstreamer = require('gstreamer');
 
   // gstreamer
   gstreamer.start({
-    port: 6000,
-    quiet: false
+    port: 9000
   });
 
   // change for rtmp
@@ -127,7 +130,14 @@ ipcMain.on('full-screen', function(event, arg) {
   win.setFullScreen(true);
 });
 
-ipcMain.on('change-video', function(event, arg) {
-    win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
-    win_rtmp.show();
+ipcMain.on('change-rtmp', function(event, arg) {
+  // gstreamer.close();
+  // win_rtmp.reload();
+  win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
 });
+
+ipcMain.on('change-gst', function(event, arg) {
+  // gstreamer
+  // gstreamer.start({port: 9000});
+});
+

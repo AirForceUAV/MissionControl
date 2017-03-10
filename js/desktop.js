@@ -48,13 +48,82 @@ global.videoType = "GStreamer Video Output"
 const {ipcRenderer, desktopCapturer} = require('electron')
 findVideo(videoType);
 
+var mqtt = require('mqtt');
+var mqttClient  = mqtt.connect('tcp://queue.airforceuav.com:1883',{
+  username: 'AirForceUAV',
+  password: 'AirForceUAV123'
+});
+
+  mqttClient.on('connect', function () {
+    console.log('mqttClient connect');
+    mqttClient.subscribe('Video');
+  })
+  mqttClient.on('error',function(){
+    console.log('mqttClient error');
+  })
+  mqttClient.on('close',function(){
+    console.log('mqttClient close');
+  })
+  mqttClient.on('offline',function(){
+    console.log('mqttClient offline');
+  })
+  mqttClient.on('error',function(){
+    console.log('mqttClient error');
+  })
+
+  mqttClient.on('message', function (topic, message) {
+    // message is Buffer
+    console.log(message.toString());
+  })
+
 $(".change-proto").on("click", function () {
+//   clien = new Paho.MQTT.Client("test.mosquitto.org", 8080, "myClientId");
+
+//   // set callback handlers
+// clien.onConnectionLost = onConnectionLost;
+// clien.onMessageArrived = onMessageArrived;
+
+// // connect the client
+// clien.connect({onSuccess:onConnect});
+
+// // called when the client connects
+// function onConnect() {
+//   // Once a connection has been made, make a subscription and send a message.
+//   console.log("onConnect");
+//   clien.subscribe("FlightLog", 1);
+// }
+
+// // called when the client loses its connection
+// function onConnectionLost(responseObject) {
+//   if (responseObject.errorCode !== 0) {
+//     console.log("onConnectionLost:"+responseObject.errorMessage);
+//   }
+// }
+
+// // called when a message arrives
+// function onMessageArrived(message) {
+//     console.log(message.payloadString);
+// }
+
+//   clien.send("FlightLog", "heelp");
+//     clien.send("FlightLog", "heelp");
+
+//   clien.send("FlightLog", "heelp");
+
+//   clien.send("FlightLog", "heelp");
+
+//   clien.send("FlightLog", "heelp");
+
+
   if(videoType == 'GStreamer Video Output'){
+      mqttClient.publish('Video', 'WAN',{qos: 2});
       videoType = 'UAV-RTMP';
-      ipcRenderer.send('change-video', 'ping');
+      ipcRenderer.send('change-rtmp', 'ping');
       findVideo(videoType);
   }else{
+    mqttClient.publish('Video', 'LAN',{qos: 2});
     videoType = 'GStreamer Video Output';
+    ipcRenderer.send('change-gst', 'ping');
     findVideo(videoType);
   }
 
