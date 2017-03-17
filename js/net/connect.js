@@ -81,8 +81,6 @@ function handle_data_protobuf(data){
     var message = messages.sensors.deserializeBinary(new Uint8Array(data));
     // var message = data;
     console.log(message);
-    console.log(message.getWaypoint());
-    console.log(message.getWaypoint().getPointList());
 
     // GPS 信息
     var gps = message.getGps();
@@ -99,18 +97,12 @@ function handle_data_protobuf(data){
 
     // 巡航线路
     var waypoint = message.getWaypoint();
-    var waypoint_index = waypoint.getIndex();
-    var waypoint_points = waypoint.getPointList(); 
-    var waypoint_type = waypoint.getType();
+    // var waypoint_index = waypoint.getIndex();
+    // var waypoint_points = waypoint.getPointList(); 
+    // var waypoint_type = waypoint.getType();
 
     // 目标点
     var target = message.getTarget();
-
-    // home
-    var home = message.getHome();
-    var home_latitude = home.getLatitude();
-    var home_longitude = home.getLongitude();
-
 
     var distanceToTarget = message.getDistancetotarget();
     var distanceFromHome = message.getDistancefromhome();
@@ -165,6 +157,14 @@ function handle_data_protobuf(data){
         // 飞行路线
         dynamicLine(longitude, latitude, 2);
         bPoints.push(new BMap.Point(longitude,latitude)); 
+
+        // home
+        var home = message.getHome();
+        var home_latitude = home.getLatitude();
+        var home_longitude = home.getLongitude();
+
+        // home
+        markHome(home_longitude,home_latitude);
     }
     if(compass_state == false){
         $("#compass_state")[0].innerText = "不健康";
@@ -192,11 +192,8 @@ function handle_data_protobuf(data){
         $("#baro_temper")[0].innerText = temperature;
     }
 
-    // home
-    markHome(home_longitude,home_latitude);
-
     // download the path 
-    if (openDowload && waypoint_type == "Download"){
+    if (openDowload && waypoint_type == "buyongle"){
         try{ 
             clearPath();
             var len = waypoint_points.length;

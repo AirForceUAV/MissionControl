@@ -34,7 +34,7 @@ global.path_num = 1;
 global.openDowload = false;
 
 // delete for rtmp
-var dynamicLine = require("./map/dynamicLine.js");
+require("./map/dynamicLine.js");
 global.client = require("./net/connect.js");
 
 require("./tools/bootstrap.min.js");
