@@ -57,7 +57,7 @@ function createWindow () {
   // and load the index.html of the app.
   // win.loadURL(`file://${__dirname}/index.html`)
   // win.loadURL(`http://localhost:8000/index.html`)
-
+  
   win.loadURL(`file://${__dirname}/template/pairing.html`)
   win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
 

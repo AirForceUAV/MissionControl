@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
                         console.log(data);
                     },
                     error: function(data){
-                        alert("error");
+                        // alert("error");
                         console.log(data);
                     }
                 });

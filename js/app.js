@@ -33,6 +33,9 @@ global.path_num = 1;
 // 是否开启下载路径模式
 global.openDowload = false;
 
+// 是否开启半避障系统
+global.openSemiAuto = false;
+
 // delete for rtmp
 require("./map/dynamicLine.js");
 global.client = require("./net/connect.js");
@@ -51,20 +54,44 @@ $(".guide_fly").on("click", function () {
     client.write("vehicle.Guided()");
     showTips("Guided模式!");
 });
-$(".avoid_fly").on("click", function () {
+$(".zhidian_avoid_fly").on("click", function () {
     hideWin();
     client.write("lidar.Guided()");
-    showTips("避障模式!");
+    showTips("指点避障模式!");
+});
+$(".rtl_avoid_fly").on("click", function () {
+    hideWin();
+    client.write("lidar.RTL()");
+    showTips("返航避障模式!");
+});
+$(".semi_avoid_fly").on("click", function () {
+    hideWin();
+    // client.write("lidar.Guided()");
+    if(openSemiAuto == false){
+        openSemiAuto = true;
+        $(".semi_avoid_fly .down_group_text").text("关闭半自动");
+        showTips("半自动避障模式!");
+
+    }else{
+        openSemiAuto = false;
+        $(".semi_avoid_fly .down_group_text").text("半自动");
+        showTips("关闭半自动避障!");
+    }
+});
+$(".xunhang_avoid_fly").on("click", function () {
+    hideWin();
+    client.write("lidar.Auto()");
+    showTips("巡航避障模式!");
 });
 $(".radio_d").on("click", function () {
-    hideWin();
-    client.write("vehicle.radio()");
-    showTips("遥控器模式!");
+    // hideWin();
+    // client.write("vehicle.radio()");
+    // showTips("遥控器模式!");
 });
 $(".gcs").on("click", function () {
-    hideWin();
-    client.write("vehicle.GCS()");
-    showTips("地面站模式!");
+    // hideWin();
+    // client.write("vehicle.GCS()");
+    // showTips("地面站模式!");
 });
 $(".hovering").on("click", function () {
     hideWin();
@@ -180,36 +207,55 @@ $(".turn-right").on("click", function () {
 }); 
 
 $(".roll-up").on("click", function () {
-    client.write("vehicle.forward_brake()");
-    showTips("Roll up");
+    var message = "vehicle.forward_brake()";
+    if(openSemiAuto == true){
+        message = "lidar.semi_auto(1)";
+    }
+    client.write(message);
+    showTips("前进");
 });
 $(".roll-down").on("click", function () {
-    client.write("vehicle.backward_brake()");
-    showTips("Roll down");
+    var message = "vehicle.backward_brake()";
+    if(openSemiAuto == true){
+        message = "lidar.semi_auto(2)";
+    }
+    client.write(message);
+    showTips("后退");
 });
 $(".roll-left").on("click", function () {
-    client.write("vehicle.roll_left_brake()");
+    var message = "vehicle.roll_left_brake()";
+    if(openSemiAuto == true){
+        message = "lidar.semi_auto(16)";
+    }
+    client.write(message);
     showTips("Roll left");
 });
 $(".roll-right").on("click", function () {
-    client.write("vehicle.roll_right_brake()");
+    var message = "vehicle.roll_right_brake()";
+    if(openSemiAuto == true){
+        message = "lidar.semi_auto(32)";
+    }
+    client.write(message);
     showTips("Roll right");
 }); 
 $(".cancel").on("click", function () {
-    $('#ConfirmModal').modal('show');
+    // $('#ConfirmModal').modal('show');
     // slide 初始化
-    var slider = new SliderUnlock(".slideunlock-slider", {
-        labelTip: "确认取消？",
-        successLabelTip: "取消",
-        duration: 200   // 动画效果执行时间，默认200ms
-    }, function(){
-        $('#ConfirmModal').modal('hide');
-        client.write("Cancel");
-        showTips("取消！");
-        slider.reset();
-    }, function(){
-    });
-    slider.init();  
+    // var slider = new SliderUnlock(".slideunlock-slider", {
+    //     labelTip: "确认取消？",
+    //     successLabelTip: "取消",
+    //     duration: 200   // 动画效果执行时间，默认200ms
+    // }, function(){
+    //     $('#ConfirmModal').modal('hide');
+    //     client.write("Cancel");
+    //     showTips("取消！");
+    //     slider.reset();
+    // }, function(){
+    // });
+    // slider.init(); 
+
+    client.write("Cancel");
+    showTips("取消！");
 });
 // for rtmp
 // $(".change").on("click", function () {
