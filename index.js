@@ -37,20 +37,20 @@ function createWindow () {
 
   // Create the browser window.
 
-  win_rtmp = new BrowserWindow({
-    width: 1280, 
-    height: 800,
-    webPreferences: {
-      plugins: true
-    },
-    autoHideMenuBar: true
-  })
+  // win_rtmp = new BrowserWindow({
+  //   width: 1280, 
+  //   height: 800,
+  //   webPreferences: {
+  //     plugins: true
+  //   },
+  //   autoHideMenuBar: true
+  // })
 
   win = new BrowserWindow({
     width: 1280, 
     height: 800,
     autoHideMenuBar: true,
-    alwaysOnTop: true,
+    // alwaysOnTop: true,
     parent: win_rtmp
   })
 
@@ -59,7 +59,7 @@ function createWindow () {
   // win.loadURL(`http://localhost:8000/index.html`)
   
   win.loadURL(`file://${__dirname}/template/pairing.html`)
-  win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
+  // win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
 
 
   // win.loadURL(`http://127.0.0.1:8848/demo/index.html`)
@@ -133,7 +133,7 @@ ipcMain.on('full-screen', function(event, arg) {
 ipcMain.on('change-rtmp', function(event, arg) {
   // gstreamer.close();
   // win_rtmp.reload();
-  win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
+  // win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
 });
 
 ipcMain.on('change-gst', function(event, arg) {

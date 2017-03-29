@@ -44,6 +44,7 @@ require("./tools/bootstrap.min.js");
 require("./tools/longpress.js");
 require("./tools/keyboard.js");
 require("./desktop.js");
+
          
 // order
 $(".location").on("click", function () {  
