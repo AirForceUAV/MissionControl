@@ -36,6 +36,12 @@ global.openDowload = false;
 // 是否开启半避障系统
 global.openSemiAuto = false;
 
+// brake 线程
+global.intBrake;
+
+// roll 线程
+global.intRoll;
+
 // delete for rtmp
 require("./map/dynamicLine.js");
 global.client = require("./net/connect.js");
@@ -72,9 +78,15 @@ $(".semi_avoid_fly").on("click", function () {
         openSemiAuto = true;
         $(".semi_avoid_fly .down_group_text").text("关闭半自动");
         showTips("半自动避障模式!");
-
+        intBrake =setInterval(function() {
+        　　 console.log("brake");
+            client.write("vehicle.brake()");
+        }, 100);
     }else{
         openSemiAuto = false;
+        if(intBrake){
+            clearInterval(intBrake);
+        }
         $(".semi_avoid_fly .down_group_text").text("半自动");
         showTips("关闭半自动避障!");
     }
@@ -209,35 +221,36 @@ $(".turn-right").on("click", function () {
 
 $(".roll-up").on("click", function () {
     var message = "vehicle.forward_brake()";
-    if(openSemiAuto == true){
-        message = "lidar.semi_auto(1)";
+    if(openSemiAuto == false){
+        client.write(message);
+        showTips("前进");
+        // message = "lidar.semi_auto(1)";
     }
-    client.write(message);
-    showTips("前进");
 });
 $(".roll-down").on("click", function () {
     var message = "vehicle.backward_brake()";
-    if(openSemiAuto == true){
-        message = "lidar.semi_auto(2)";
+    if(openSemiAuto == false){
+        client.write(message);
+        showTips("后退");
+        // message = "lidar.semi_auto(2)";
     }
-    client.write(message);
-    showTips("后退");
+
 });
 $(".roll-left").on("click", function () {
     var message = "vehicle.roll_left_brake()";
-    if(openSemiAuto == true){
-        message = "lidar.semi_auto(16)";
+    if(openSemiAuto == false){
+        // message = "lidar.semi_auto(16)";
+        client.write(message);
+        showTips("Roll left");
     }
-    client.write(message);
-    showTips("Roll left");
 });
 $(".roll-right").on("click", function () {
     var message = "vehicle.roll_right_brake()";
-    if(openSemiAuto == true){
-        message = "lidar.semi_auto(32)";
+    if(openSemiAuto == false){
+        // message = "lidar.semi_auto(32)";
+        client.write(message);
+        showTips("Roll right");
     }
-    client.write(message);
-    showTips("Roll right");
 }); 
 $(".cancel").on("click", function () {
     // $('#ConfirmModal').modal('show');
