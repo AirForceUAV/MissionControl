@@ -37,14 +37,14 @@ function createWindow () {
 
   // Create the browser window.
 
-  // win_rtmp = new BrowserWindow({
-  //   width: 1280, 
-  //   height: 800,
-  //   webPreferences: {
-  //     plugins: true
-  //   },
-  //   autoHideMenuBar: true
-  // })
+  win_rtmp = new BrowserWindow({
+    width: 1280, 
+    height: 800,
+    webPreferences: {
+      plugins: true
+    },
+    autoHideMenuBar: true
+  })
 
   win = new BrowserWindow({
     width: 1280, 
@@ -59,7 +59,7 @@ function createWindow () {
   // win.loadURL(`http://localhost:8000/index.html`)
   
   win.loadURL(`file://${__dirname}/template/pairing.html`)
-  // win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
+  win_rtmp.loadURL(`http://localhost:8000/rtmp_video.html`);
 
 
   // win.loadURL(`http://127.0.0.1:8848/demo/index.html`)

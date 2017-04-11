@@ -128,16 +128,26 @@
 .y-title, .z-title{
 	margin-left: 3px;
 }
-.take-off{
+.take-off, .take-cancel{
 	position: absolute;
-	padding: 8px;
-	top: 150px;
-	left: 60px;
+	
 	width: 50px;
 	height: 50px;
 	border-radius: 25px;
 	background: rgba(0,0,0,0.6);
 	display: none;
+}
+.take-off{
+	top: 120px;
+	left: 60px;
+	padding: 8px;
+	background: rgba(0,0,0,0.6);
+}
+.take-cancel{
+	top: 180px;
+	left: 60px;	
+	padding: 10px;
+	background: rgba(255,0,0,0.6);
 }
 /*.cancel{
 	position: absolute;

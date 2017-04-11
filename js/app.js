@@ -78,15 +78,17 @@ $(".semi_avoid_fly").on("click", function () {
         openSemiAuto = true;
         $(".semi_avoid_fly .down_group_text").text("关闭半自动");
         showTips("半自动避障模式!");
-        intBrake =setInterval(function() {
-        　　 console.log("brake");
-            client.write("vehicle.brake()");
-        }, 100);
+        // intBrake =setInterval(function() {
+        // 　　 console.log("brake");
+        //     client.write("vehicle.brake()");
+        // }, 100);
+        client.write("vehicle._armed()");
     }else{
         openSemiAuto = false;
-        if(intBrake){
-            clearInterval(intBrake);
-        }
+        // if(intRoll){
+        //     clearInterval(intRoll);
+        // }
+        client.write("vehicle._disarmed()");
         $(".semi_avoid_fly .down_group_text").text("半自动");
         showTips("关闭半自动避障!");
     }
@@ -136,6 +138,7 @@ $(".route_path").on("click", function () {
     route_mes = "vehicle.Route(\"";
     map.addEventListener("click", generate_message);
     $(".take-off").css("display", "block"); 
+    $(".take-cancel").css("display", "block"); 
     showTips("路径规划!");
 });
 $(".take-off").on("click", function (){
@@ -144,8 +147,15 @@ $(".take-off").on("click", function (){
     console.log(route_mes);
     client.write(route_mes);
     $(".take-off").css("display", "none");
+    $(".take-cancel").css("display", "none"); 
     map.removeEventListener("click", generate_message);
     showTips("路径规划结束!");
+})
+$(".take-cancel").on("click", function (){
+    $(".take-off").css("display", "none");
+    $(".take-cancel").css("display", "none"); 
+    map.removeEventListener("click", generate_message);
+    clearPath();
 })
 $(".dn_de_submit").on("click", function () {
     var dn_text = $(".dn_text").val();
