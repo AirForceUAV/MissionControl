@@ -104,7 +104,6 @@ app.on('activate', () => {
 
 const ipcMain = require('electron').ipcMain;
 var gstreamer = require('gstreamer');
-var httpServer = require('http-server');
 
 ipcMain.on('pairing_view', function(event, arg) {
   console.log(arg);  // prints "ping"

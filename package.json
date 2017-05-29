@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "start": "electron . ",
-    "hello": "python -m SimpleHTTPServer"
+    "test": "electron . ",
+    "hello": "python -m SimpleHTTPServer",
+    "start": "redis-server & ./DataProxy_darwin_amd64 debug & npm run test & npm run hello"
   },
   "devDependencies": {
     "electron-prebuilt": "^1.4.13",
