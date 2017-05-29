@@ -5,7 +5,7 @@
   "scripts": {
     "test": "electron . ",
     "hello": "python -m SimpleHTTPServer",
-    "start": "redis-server & ./DataProxy_darwin_amd64 debug & npm run test & npm run hello"
+    "start": "redis-server & ./DataProxy_darwin_amd64 debug & npm run test"
   },
   "devDependencies": {
     "electron-prebuilt": "^1.4.13",
@@ -16,6 +16,7 @@
     "google-protobuf": "^3.1.1",
     "gstreamer": "^1.0.3",
     "redis": "^2.6.3",
-    "mqtt" : "^2.4.0"
+    "mqtt" : "^2.4.0",
+    "http-server":"^0.9.0"
   }
 }
